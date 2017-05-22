@@ -51,12 +51,6 @@
       <DependentUpon>AddPerson.cs</DependentUpon>
     </Compile>
     <Compile Include="DataBase.cs" />
-    <Compile Include="EditPerson.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditPerson.Designer.cs">
-      <DependentUpon>EditPerson.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,9 +62,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddPerson.resx">
       <DependentUpon>AddPerson.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditPerson.resx">
-      <DependentUpon>EditPerson.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainPage.resx">
       <DependentUpon>MainPage.cs</DependentUpon>
@@ -103,6 +94,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\delete_min1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\man.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\man2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\woman.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\woman2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

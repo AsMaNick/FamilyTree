@@ -1,13 +1,28 @@
 2
-Matvey
-Aslandukov
-Nikolaevich
-Kharkiv, Ukraine
+Матвей
+Асландуков
+Николаевич
+
+True
+True
+aslandukov-matvej@yandex.ua
+г. Харьков, Украина
+
 23 9 1999
-23 9 3333
-Andrey
-Aslandukov
-Nikolaevich
-Kharkiv, Ukraine
+22 5 2017
+2
+Начальное образование: ХГ №47.
+Студент ХНУРЭ.
+Андрей
+Асландуков
+Николаевич
+
+True
+True
+aslandukov-andrew@mail.ru
+г. Харьков, Украина
+
 5 1 1998
-5 1 3333
+22 5 2017
+1
+Студент МГУ.

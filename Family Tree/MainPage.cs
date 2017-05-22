@@ -12,6 +12,19 @@ using System.IO;
 
 namespace Family_Tree
 {
+    public class ID
+    {
+        public int id;
+        public ID(int Id)
+        {
+            id = Id;
+        }
+        public override string ToString()
+        {
+            return Convert.ToString(id);
+        }
+    }
+
     public partial class MainPage : Form
     {
         public DataBase data;
@@ -48,6 +61,7 @@ namespace Family_Tree
                 dataGridView.Rows.Add(new DataGridViewRow());
                 dataGridView.Rows[i].Cells[0].Value = data.allPeople[i].FullName;
                 dataGridView.Rows[i].Cells[1].Value = data.allPeople[i].birthPlace;
+                dataGridView.Rows[i].Cells[0].Tag = new ID(i);
                 dataGridView.Rows[i].ReadOnly = true;
             }
         }
@@ -62,7 +76,7 @@ namespace Family_Tree
             Debug.WriteLine(string.Format("Double Click {0} {1}", e.RowIndex, e.ColumnIndex));
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.ColumnIndex < 2)
             {
-                EditPerson myForm = new EditPerson(this, e.RowIndex);
+                AddPerson myForm = new AddPerson(this, e.RowIndex);
                 DialogResult res = myForm.ShowDialog();
                 if (res == DialogResult.OK)
                 {
@@ -81,10 +95,11 @@ namespace Family_Tree
             Debug.WriteLine(string.Format("Click {0} {1}", e.RowIndex, e.ColumnIndex));
             if (e.RowIndex >= 0 && e.ColumnIndex == 2)
             {
+                int id = Int32.Parse(dataGridView.Rows[e.RowIndex].Cells[0].Tag.ToString());
                 DialogResult res = MessageBox.Show("Вы уверены, что хотите удалить информацию о данном человеке?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
-                    data.DeletePerson(e.RowIndex);
+                    data.DeletePerson(id);
                     DrawGridView();
                 }
             }
