@@ -73,11 +73,23 @@ namespace Family_Tree
                 Debug.WriteLine(string.Format("{0} {1}", i, this.additionalInfoRichTextBox.Lines[i]));
             }
             this.addButton.Text = "OK";
+            if (p.fileAvatar != "")
+            {
+                int h = this.avatarPictureBox.Image.Height;
+                int w = this.avatarPictureBox.Image.Width;
+                this.avatarPictureBox.Image = (Image) (new Bitmap(Image.FromFile(DataBase.pathToAvatars + p.fileAvatar), new Size(w, h)));
+                this.avatarPictureBox.Tag = new ID(p.fileAvatar);
+            }
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, birthdayDate.Value, deathDate.Value, additionalInfoRichTextBox.Lines);
+            string fileAvatar = "";
+            if (avatarPictureBox.Tag != null)
+            {
+                fileAvatar = avatarPictureBox.Tag.ToString();
+            }
+            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, birthdayDate.Value, deathDate.Value, additionalInfoRichTextBox.Lines, fileAvatar);
             Debug.WriteLine(p.BasicInfo());
             for (int i = 0; i < additionalInfoRichTextBox.Lines.Length; ++i)
             {
@@ -96,13 +108,19 @@ namespace Family_Tree
 
         private void womanRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            this.avatarPictureBox.Image = Family_Tree.Properties.Resources.woman2;
+            if (this.avatarPictureBox.Tag != null)
+            {
+                this.avatarPictureBox.Image = Family_Tree.Properties.Resources.woman2;
+            }
             this.maidenNameLabel.Text = "Девичья фамилия";
         }
 
         private void manRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            this.avatarPictureBox.Image = Family_Tree.Properties.Resources.man2;
+            if (this.avatarPictureBox.Tag != null)
+            {
+                this.avatarPictureBox.Image = Family_Tree.Properties.Resources.man2;
+            }
             this.maidenNameLabel.Text = "Фамилия до брака";
         }
 
@@ -130,6 +148,22 @@ namespace Family_Tree
         {
             fillDeadMenu(false);
             fillAliveMenu(true);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png";
+            DialogResult res = fileDialog.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                Debug.WriteLine(fileDialog.FileName);
+                int h = this.avatarPictureBox.Image.Height;
+                int w = this.avatarPictureBox.Image.Width;
+                this.avatarPictureBox.Image = (Image) (new Bitmap(Image.FromFile(fileDialog.FileName), new Size(w, h)));
+                this.avatarPictureBox.Tag = new ID(parent.data.AddAvatar(this.avatarPictureBox.Image));
+                Debug.WriteLine(this.avatarPictureBox.Tag.ToString());
+            }
         }
     }
 }

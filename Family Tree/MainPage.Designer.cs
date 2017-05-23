@@ -39,8 +39,10 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnExtraInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.DeleteColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.деревоПредковToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.treePanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -104,8 +106,10 @@
             // 
             // построитьToolStripMenuItem
             // 
+            this.построитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.деревоПредковToolStripMenuItem});
             this.построитьToolStripMenuItem.Name = "построитьToolStripMenuItem";
-            this.построитьToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.построитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.построитьToolStripMenuItem.Text = "Построить";
             // 
             // dataGridView
@@ -133,15 +137,6 @@
             this.ColumnExtraInfo.HeaderText = "Доп. инфо";
             this.ColumnExtraInfo.Name = "ColumnExtraInfo";
             // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Image = global::Family_Tree.Properties.Resources.delete_min1;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.ReadOnly = true;
-            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn1.Width = 23;
-            // 
             // DeleteColumn
             // 
             this.DeleteColumn.HeaderText = "";
@@ -151,11 +146,36 @@
             this.DeleteColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.DeleteColumn.Width = 23;
             // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::Family_Tree.Properties.Resources.delete_min1;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn1.Width = 23;
+            // 
+            // деревоПредковToolStripMenuItem
+            // 
+            this.деревоПредковToolStripMenuItem.Name = "деревоПредковToolStripMenuItem";
+            this.деревоПредковToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.деревоПредковToolStripMenuItem.Text = "Дерево предков";
+            this.деревоПредковToolStripMenuItem.Click += new System.EventHandler(this.деревоПредковToolStripMenuItem_Click);
+            // 
+            // treePanel
+            // 
+            this.treePanel.Location = new System.Drawing.Point(12, 28);
+            this.treePanel.Name = "treePanel";
+            this.treePanel.Size = new System.Drawing.Size(497, 330);
+            this.treePanel.TabIndex = 2;
+            this.treePanel.Visible = false;
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(521, 370);
+            this.Controls.Add(this.treePanel);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -185,6 +205,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
         private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.ToolStripMenuItem деревоПредковToolStripMenuItem;
+        private System.Windows.Forms.Panel treePanel;
 
     }
 }

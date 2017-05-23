@@ -51,6 +51,7 @@
       <DependentUpon>AddPerson.cs</DependentUpon>
     </Compile>
     <Compile Include="DataBase.cs" />
+    <Compile Include="ID.cs" />
     <Compile Include="MainPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\woman2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\camera_40.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

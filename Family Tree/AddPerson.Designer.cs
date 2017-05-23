@@ -55,14 +55,15 @@
             this.burialPlaceTextBox = new System.Windows.Forms.TextBox();
             this.burialPlaceLabel = new System.Windows.Forms.Label();
             this.avaterGroupBox = new System.Windows.Forms.GroupBox();
-            this.avatarPictureBox = new System.Windows.Forms.PictureBox();
             this.additionalInfoGroupBox = new System.Windows.Forms.GroupBox();
             this.additionalInfoRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.addPhotoButton = new System.Windows.Forms.Button();
+            this.avatarPictureBox = new System.Windows.Forms.PictureBox();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).BeginInit();
             this.additionalInfoGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // mainInfoLabel
@@ -301,9 +302,9 @@
             // 
             // contactsTextBox
             // 
-            this.contactsTextBox.Location = new System.Drawing.Point(10, 64);
+            this.contactsTextBox.Location = new System.Drawing.Point(7, 64);
             this.contactsTextBox.Name = "contactsTextBox";
-            this.contactsTextBox.Size = new System.Drawing.Size(163, 20);
+            this.contactsTextBox.Size = new System.Drawing.Size(182, 20);
             this.contactsTextBox.TabIndex = 10;
             // 
             // contactsLabel
@@ -338,21 +339,13 @@
             // avaterGroupBox
             // 
             this.avaterGroupBox.BackColor = System.Drawing.Color.Snow;
+            this.avaterGroupBox.Controls.Add(this.addPhotoButton);
             this.avaterGroupBox.Controls.Add(this.avatarPictureBox);
             this.avaterGroupBox.Location = new System.Drawing.Point(14, 47);
             this.avaterGroupBox.Name = "avaterGroupBox";
             this.avaterGroupBox.Size = new System.Drawing.Size(124, 339);
             this.avaterGroupBox.TabIndex = 22;
             this.avaterGroupBox.TabStop = false;
-            // 
-            // avatarPictureBox
-            // 
-            this.avatarPictureBox.Image = global::Family_Tree.Properties.Resources.man2;
-            this.avatarPictureBox.Location = new System.Drawing.Point(22, 19);
-            this.avatarPictureBox.Name = "avatarPictureBox";
-            this.avatarPictureBox.Size = new System.Drawing.Size(79, 103);
-            this.avatarPictureBox.TabIndex = 0;
-            this.avatarPictureBox.TabStop = false;
             // 
             // additionalInfoGroupBox
             // 
@@ -373,6 +366,27 @@
             this.additionalInfoRichTextBox.TabIndex = 13;
             this.additionalInfoRichTextBox.Text = "";
             // 
+            // addPhotoButton
+            // 
+            this.addPhotoButton.BackColor = System.Drawing.Color.Transparent;
+            this.addPhotoButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.addPhotoButton.Image = global::Family_Tree.Properties.Resources.camera_40;
+            this.addPhotoButton.Location = new System.Drawing.Point(44, 106);
+            this.addPhotoButton.Name = "addPhotoButton";
+            this.addPhotoButton.Size = new System.Drawing.Size(33, 23);
+            this.addPhotoButton.TabIndex = 1;
+            this.addPhotoButton.UseVisualStyleBackColor = false;
+            this.addPhotoButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // avatarPictureBox
+            // 
+            this.avatarPictureBox.Image = global::Family_Tree.Properties.Resources.man2;
+            this.avatarPictureBox.Location = new System.Drawing.Point(22, 19);
+            this.avatarPictureBox.Name = "avatarPictureBox";
+            this.avatarPictureBox.Size = new System.Drawing.Size(79, 103);
+            this.avatarPictureBox.TabIndex = 0;
+            this.avatarPictureBox.TabStop = false;
+            // 
             // AddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -392,8 +406,8 @@
             this.aliveInfo.ResumeLayout(false);
             this.aliveInfo.PerformLayout();
             this.avaterGroupBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).EndInit();
             this.additionalInfoGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,6 +445,7 @@
         private System.Windows.Forms.TextBox maidenNameTextBox;
         private System.Windows.Forms.Label maidenNameLabel;
         private System.Windows.Forms.TextBox contactsTextBox;
+        private System.Windows.Forms.Button addPhotoButton;
 
 
     }

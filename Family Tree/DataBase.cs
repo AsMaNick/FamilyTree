@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
@@ -10,7 +12,9 @@ namespace Family_Tree
 {
     public class DataBase
     {
+        public const string pathToAvatars = "../../images/avatars/";
         public List<Person> allPeople;
+        public List<string> allAvatars;
         public DataBase()
         {
             allPeople = new List<Person>();
@@ -32,6 +36,13 @@ namespace Family_Tree
                 Debug.WriteLine(string.Format("Cann't delete unexisting Person, id = {}", id));
             }
         }
+        public string AddAvatar(Image im)
+        {
+            string fileName = Convert.ToString(allAvatars.Count) + ".jpg";
+            im.Save(pathToAvatars + fileName);
+            allAvatars.Add(fileName);
+            return fileName;
+        }
         public void readFromFile(string file)
         {
             StreamReader input = new StreamReader(file);
@@ -43,6 +54,12 @@ namespace Family_Tree
                 allPeople.Add(p);
                 Debug.WriteLine(p.BasicInfo());
             }
+            n = Convert.ToInt32(input.ReadLine());
+            allAvatars = new List<string>();
+            for (int i = 0; i < n; ++i)
+            {
+                allAvatars.Add(input.ReadLine());
+            }
             input.Close();
         }
         public void writeToFile(string file)
@@ -53,6 +70,11 @@ namespace Family_Tree
             for (int i = 0; i < allPeople.Count; ++i)
             {
                 allPeople[i].writeToFile(ref output);
+            }
+            output.WriteLine(allAvatars.Count);
+            for (int i = 0; i < allAvatars.Count; ++i)
+            {
+                output.WriteLine(allAvatars[i]);
             }
             output.Close();
         }

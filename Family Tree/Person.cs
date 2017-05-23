@@ -10,14 +10,18 @@ namespace Family_Tree
 {
     public class Person
     {
+        public int mother, father;
         public bool man, alive;
         public string name, surname, patronymic, maidenName, birthPlace, contacts, burialPlace;
+        public string fileAvatar;
         public string[] additionalInfo;
         public DateTime birthDate, deathDate;
         public Person()
         {
+            mother = -1;
+            father = -1;
         }
-        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, DateTime BirthDate, DateTime DeathDate, string[] AdditionalInfo)
+        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, DateTime BirthDate, DateTime DeathDate, string[] AdditionalInfo, string FileAvatar)
         {
             name = Name;
             surname = Surname;
@@ -35,6 +39,7 @@ namespace Family_Tree
             {
                 additionalInfo[i] = AdditionalInfo[i];
             }
+            fileAvatar = FileAvatar;
         }
         public string FullName
         {
@@ -46,6 +51,21 @@ namespace Family_Tree
         public string BasicInfo()
         {
             return string.Format("{0} {1} {2}, {3} - {4}, {5}", surname, name, patronymic, birthDate, deathDate, birthPlace);
+        }
+        public string getPathToAvatar()
+        {
+            if (fileAvatar == "")
+            {
+                if (this.man)
+                {
+                    return DataBase.pathToAvatars + "man2.png";
+                }
+                else
+                {
+                    return DataBase.pathToAvatars + "woman2.png";
+                }
+            }
+            return DataBase.pathToAvatars + this.fileAvatar;
         }
         private DateTime readDate(ref StreamReader input)
         {
@@ -74,6 +94,7 @@ namespace Family_Tree
             {
                 output.WriteLine(additionalInfo[i]);
             }
+            output.WriteLine(fileAvatar);
         }
         public void readFromFile(ref StreamReader input) 
         {
@@ -94,6 +115,7 @@ namespace Family_Tree
             {
                 additionalInfo[i] = input.ReadLine();
             }
+            fileAvatar = input.ReadLine();
         }
     }
 }

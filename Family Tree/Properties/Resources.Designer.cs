@@ -63,6 +63,16 @@ namespace Family_Tree.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap camera_40 {
+            get {
+                object obj = ResourceManager.GetObject("camera_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap delete_min {
             get {
                 object obj = ResourceManager.GetObject("delete_min", resourceCulture);
