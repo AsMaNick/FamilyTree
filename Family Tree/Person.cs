@@ -10,7 +10,8 @@ namespace Family_Tree
 {
     public class Person
     {
-        public int mother, father;
+        public int mother, father, partner, id;
+        public int[] siblings;
         public bool man, alive;
         public string name, surname, patronymic, maidenName, birthPlace, contacts, burialPlace;
         public string fileAvatar;
@@ -20,8 +21,10 @@ namespace Family_Tree
         {
             mother = -1;
             father = -1;
+            partner = -1;
+            siblings = new int[0];
         }
-        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, DateTime BirthDate, DateTime DeathDate, string[] AdditionalInfo, string FileAvatar)
+        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, DateTime BirthDate, DateTime DeathDate, string[] AdditionalInfo, string FileAvatar, int Id)
         {
             name = Name;
             surname = Surname;
@@ -40,6 +43,11 @@ namespace Family_Tree
                 additionalInfo[i] = AdditionalInfo[i];
             }
             fileAvatar = FileAvatar;
+            id = Id;
+            mother = -1;
+            father = -1;
+            partner = -1;
+            siblings = new int[0];
         }
         public string FullName
         {
@@ -95,6 +103,14 @@ namespace Family_Tree
                 output.WriteLine(additionalInfo[i]);
             }
             output.WriteLine(fileAvatar);
+            output.WriteLine(mother);
+            output.WriteLine(father);
+            output.WriteLine(partner);
+            output.WriteLine(siblings.Length);
+            for (int i = 0; i < siblings.Length; ++i)
+            {
+                output.WriteLine(siblings[i]);
+            }
         }
         public void readFromFile(ref StreamReader input) 
         {
@@ -116,6 +132,15 @@ namespace Family_Tree
                 additionalInfo[i] = input.ReadLine();
             }
             fileAvatar = input.ReadLine();
+            mother = Int32.Parse(input.ReadLine());
+            father = Int32.Parse(input.ReadLine());
+            partner = Int32.Parse(input.ReadLine());
+            n = Int32.Parse(input.ReadLine());
+            siblings = new int[n];
+            for (int i = 0; i < n; ++i)
+            {
+                siblings[i] = Int32.Parse(input.ReadLine());
+            }
         }
     }
 }

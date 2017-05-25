@@ -25,11 +25,31 @@ namespace Family_Tree
             allPeople.Add(p);
             Debug.WriteLine(p.BasicInfo());
         }
+        private void updateLink(ref int cur, int id) 
+        {
+            if (cur == id) 
+            {
+                cur = -1;
+            } else if (cur > id) 
+            {
+                cur -= 1;
+            }
+        }
         public void DeletePerson(int id)
         {
             if (0 <= id && id < allPeople.Count)
             {
                 allPeople.RemoveAt(id);
+                for (int i = 0; i < allPeople.Count; ++i)
+                {
+                    updateLink(ref allPeople[i].mother, id);
+                    updateLink(ref allPeople[i].father, id);
+                    updateLink(ref allPeople[i].partner, id);
+                    for (int j = 0; j < allPeople[i].siblings.Length; ++i)
+                    {
+                        updateLink(ref allPeople[i].siblings[j], id);
+                    }
+                }
             }
             else
             {
@@ -51,6 +71,7 @@ namespace Family_Tree
             {
                 Person p = new Person();
                 p.readFromFile(ref input);
+                p.id = i;
                 allPeople.Add(p);
                 Debug.WriteLine(p.BasicInfo());
             }
@@ -69,6 +90,7 @@ namespace Family_Tree
             output.WriteLine(allPeople.Count);
             for (int i = 0; i < allPeople.Count; ++i)
             {
+                Debug.WriteLine(string.Format("writing person #{0}", i));
                 allPeople[i].writeToFile(ref output);
             }
             output.WriteLine(allAvatars.Count);

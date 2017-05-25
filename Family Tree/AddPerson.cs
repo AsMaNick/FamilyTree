@@ -15,6 +15,7 @@ namespace Family_Tree
     {
         private int id;
         private MainPage parent;
+        public Person addedPerson;
 
         public AddPerson(MainPage mainPage, int Id = -1)
         {
@@ -78,7 +79,17 @@ namespace Family_Tree
                 int h = this.avatarPictureBox.Image.Height;
                 int w = this.avatarPictureBox.Image.Width;
                 this.avatarPictureBox.Image = (Image) (new Bitmap(Image.FromFile(DataBase.pathToAvatars + p.fileAvatar), new Size(w, h)));
+                this.avatarPictureBox.Image = MainPage.drawBorder(this.avatarPictureBox.Image);
                 this.avatarPictureBox.Tag = new ID(p.fileAvatar);
+            }
+            addedPerson = new Person();
+            addedPerson.mother = p.mother;
+            addedPerson.father = p.father;
+            addedPerson.partner = p.partner;
+            addedPerson.siblings = new int[p.siblings.Length];
+            for (int i = 0; i < p.siblings.Length; ++i)
+            {
+                addedPerson.siblings[i] = p.siblings[i];
             }
         }
 
@@ -89,7 +100,24 @@ namespace Family_Tree
             {
                 fileAvatar = avatarPictureBox.Tag.ToString();
             }
-            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, birthdayDate.Value, deathDate.Value, additionalInfoRichTextBox.Lines, fileAvatar);
+            int nid = id;
+            if (id == -1)
+            {
+                nid = parent.data.allPeople.Count;
+            }
+            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, birthdayDate.Value, deathDate.Value, additionalInfoRichTextBox.Lines, fileAvatar, nid);
+            if (addedPerson != null)
+            {
+                p.mother = addedPerson.mother;
+                p.father = addedPerson.father;
+                p.partner = addedPerson.partner;
+                p.siblings = new int[addedPerson.siblings.Length];
+                for (int i = 0; i < addedPerson.siblings.Length; ++i)
+                {
+                    p.siblings[i] = addedPerson.siblings[i];
+                }
+            }
+            addedPerson = p;
             Debug.WriteLine(p.BasicInfo());
             for (int i = 0; i < additionalInfoRichTextBox.Lines.Length; ++i)
             {
@@ -106,22 +134,52 @@ namespace Family_Tree
             this.DialogResult = DialogResult.OK;
         }
 
-        private void womanRadioButton_CheckedChanged(object sender, EventArgs e)
+        public void enableWoman()
         {
-            if (this.avatarPictureBox.Tag != null)
+            if (!this.womanRadioButton.Checked)
+            {
+                this.womanRadioButton.Checked = true;
+                return;
+            }
+            if (this.avatarPictureBox.Tag == null)
             {
                 this.avatarPictureBox.Image = Family_Tree.Properties.Resources.woman2;
             }
             this.maidenNameLabel.Text = "Девичья фамилия";
+            this.aliveRadioButton.Text = "Жива";
+            this.deadRadioButton.Text = "Умерла";
         }
 
-        private void manRadioButton_CheckedChanged(object sender, EventArgs e)
+        public void enableMan()
         {
-            if (this.avatarPictureBox.Tag != null)
+            if (!this.manRadioButton.Checked)
+            {
+                this.manRadioButton.Checked = true;
+                return;
+            }
+            if (this.avatarPictureBox.Tag == null)
             {
                 this.avatarPictureBox.Image = Family_Tree.Properties.Resources.man2;
             }
             this.maidenNameLabel.Text = "Фамилия до брака";
+            this.aliveRadioButton.Text = "Жив";
+            this.deadRadioButton.Text = "Умер";
+        }
+
+        private void womanRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.womanRadioButton.Checked)
+            {
+                enableWoman();
+            }
+        }
+
+        private void manRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.manRadioButton.Checked)
+            {
+                enableMan();
+            }
         }
 
         private void fillAliveMenu(bool value) 

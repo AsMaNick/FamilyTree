@@ -18,3 +18,4 @@ d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой 
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.Properties.Resources.resources
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family Tree.csproj.GenerateResource.Cache
 D:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.MainPage.resources
+d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.SearchPerson.resources

@@ -15,6 +15,7 @@ namespace Family_Tree
     public partial class MainPage : Form
     {
         public DataBase data;
+        private Person chosenPerson;
         public MainPage()
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace Family_Tree
                 Debug.WriteLine("OK");
             }
             DrawGridView();
+            buildTree();
         }
 
         private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
@@ -42,6 +44,7 @@ namespace Family_Tree
         }
         private void DrawGridView()
         {
+            treePanel.Controls.Clear();
             dataGridView.Rows.Clear();
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
@@ -63,22 +66,34 @@ namespace Family_Tree
         {
             return Int32.Parse(dataGridView.Rows[rowIndex].Cells[0].Tag.ToString());
         }
+
+        private Pair<bool, Person> tryAddPerson(int id = -1, bool man = true)
+        {
+            AddPerson myForm = new AddPerson(this, id);
+            if (!man)
+            {
+                myForm.enableWoman();
+            }
+            DialogResult res = myForm.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                Debug.WriteLine("OK");
+                return new Pair<bool, Person> (true, myForm.addedPerson);
+            }
+            else
+            {
+                Debug.WriteLine(res);
+            }
+            return new Pair<bool, Person>(false, myForm.addedPerson);
+        }
+
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             Debug.WriteLine(string.Format("Double Click {0} {1}", e.RowIndex, e.ColumnIndex));
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.ColumnIndex < 2)
             {
-                AddPerson myForm = new AddPerson(this, getId(e.RowIndex));
-                DialogResult res = myForm.ShowDialog();
-                if (res == DialogResult.OK)
-                {
-                    Debug.WriteLine("OK");
-                    DrawGridView();
-                }
-                else
-                {
-                    Debug.WriteLine(res);
-                }
+                Pair<bool, Person> p = tryAddPerson(getId(e.RowIndex));
+                DrawGridView();
             }
         }
 
@@ -97,38 +112,54 @@ namespace Family_Tree
             }
         }
 
-        private void nothing1(object sender, EventArgs e)
+        private void showMenu(object sender, EventArgs ee)
         {
-            Debug.WriteLine("QQQ");
+            MouseEventArgs e = (MouseEventArgs) ee;
+            if (e.Button == MouseButtons.Right) {
+                PictureBox pb = (PictureBox) sender;
+                chosenPerson = (Person) pb.Tag;
+                addConneсtionStrip.Show(MousePosition, ToolStripDropDownDirection.Right);
+            }
+        }
+
+        public static Image drawBorder(Image im)
+        {
+            Bitmap bitmap = new Bitmap(im);
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.DrawRectangle(new Pen(Brushes.Gray, 5), new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+            }
+            return bitmap;
         }
 
         private void showPerson(Person p, int x, int y)
         {
             PictureBox pb = new PictureBox();
-            ContextMenu cm = new ContextMenu();
-            cm.MenuItems.Add("Item 1", new System.EventHandler(nothing1));
-            //cm.MenuItems.Add("Item 2", new EventHandler(pb)); 
-            pb.ContextMenu = cm;
+            pb.Click += new System.EventHandler(showMenu);
             pb.Image = Image.FromFile(p.getPathToAvatar());
+            pb.Image = drawBorder(pb.Image);
             pb.Height = pb.Image.Height;
             pb.Width = pb.Image.Width;
             pb.Left = x;
             pb.Top = y;
+            pb.Tag = p;
             Label l = new Label();
             l.Text = p.FullName;
-            l.Size = new Size(200, 15);
             l.Left = x - 10;
             l.Top = y + pb.Height + 5;
+            l.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            l.Size = TextRenderer.MeasureText(l.Text, l.Font);
+            l.Left = x + (pb.Width - l.Size.Width) / 2;
             this.treePanel.Controls.Add(pb);
             this.treePanel.Controls.Add(l);
         }
         
-        const int dWidth = 100, dHeight = 200;
+        const int dWidth = 200, dHeight = 150;
 
-        private Pair<int, int> buildTree(Person p, int level, int x) 
+        private Pair<int, int> buildTree(Person p, int level = 0, int x = 40) 
         {
-            Pair<int, int> res1 = new Pair<int, int> (0, x);
-            Pair<int, int> res2 = new Pair<int, int>(0, x);
+            Pair<int, int> res1 = new Pair<int, int> (0, x - dWidth);
+            Pair<int, int> res2 = new Pair<int, int>(0, x - dWidth);
             if (p.father != -1)
             {
                 res1 = buildTree(data.allPeople[p.father], level + 1, x);
@@ -149,13 +180,82 @@ namespace Family_Tree
                 x = (res1.First + res2.First) / 2;
             }
             showPerson(p, x, 10 + level * dHeight);
+            Debug.WriteLine(string.Format("lev = {0}, x = {1}", level, x));
             return new Pair<int, int> (x, Math.Max(res1.Second, Math.Max(res2.Second, x)));
         }
+
+        private void buildTree()
+        {
+            treePanel.Controls.Clear();
+            buildTree(data.allPeople[0]);
+        }
+
         private void деревоПредковToolStripMenuItem_Click(object sender, EventArgs e)
         {
             treePanel.Visible = true;
             dataGridView.Visible = false;
-            buildTree(data.allPeople[0], 0, 20);
+            buildTree(data.allPeople[0]);
+        }
+
+        private void отцаToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            Pair<bool, Person> p = tryAddPerson();
+            if (p.First == true)
+            {
+                Debug.WriteLine(p.Second.BasicInfo());
+                chosenPerson.father = p.Second.id;
+            }
+            buildTree();
+        }
+
+        private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pair<bool, Person> p = tryAddPerson(chosenPerson.id);
+            buildTree();
+        }
+
+        private void матьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Pair<bool, Person> p = tryAddPerson(-1, false);
+            if (p.First == true)
+            {
+                Debug.WriteLine(p.Second.BasicInfo());
+                chosenPerson.mother = p.Second.id;
+            }
+            buildTree();
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int id = chosenPerson.id;
+            DialogResult res = MessageBox.Show("Вы уверены, что хотите удалить информацию о данном человеке?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                data.DeletePerson(id);
+                buildTree();
+            }
+        }
+
+        private void отцаToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SearchPerson myForm = new SearchPerson(this);
+            DialogResult res = myForm.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                chosenPerson.father = myForm.resId;
+                buildTree();
+            }
+        }
+
+        private void матьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SearchPerson myForm = new SearchPerson(this);
+            DialogResult res = myForm.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                chosenPerson.mother = myForm.resId;
+                buildTree();
+            }
         }
     }
 
