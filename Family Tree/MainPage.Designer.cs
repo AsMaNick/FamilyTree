@@ -60,23 +60,28 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.treeSettingsPanel = new System.Windows.Forms.Panel();
             this.buildButton = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.numberOfGenerationsGroupBox = new System.Windows.Forms.GroupBox();
             this.allGenerationsRadioButton = new System.Windows.Forms.RadioButton();
             this.limitToRadioButton = new System.Windows.Forms.RadioButton();
             this.generationsComboBox = new System.Windows.Forms.ComboBox();
             this.startPersonGroupBox = new System.Windows.Forms.GroupBox();
             this.startPersonComboBox = new System.Windows.Forms.ComboBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.typeOfTreeGroupBox = new System.Windows.Forms.GroupBox();
             this.ancestorsRadioButton = new System.Windows.Forms.RadioButton();
             this.descendantsRadioButton = new System.Windows.Forms.RadioButton();
             this.hourglassRadioButton = new System.Windows.Forms.RadioButton();
+            this.сынаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.дочьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сынаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.дочьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.addConneсtionStrip.SuspendLayout();
             this.treeSettingsPanel.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.numberOfGenerationsGroupBox.SuspendLayout();
             this.startPersonGroupBox.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.typeOfTreeGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -87,14 +92,15 @@
             this.деревоToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(806, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(705, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
@@ -103,8 +109,9 @@
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // базаToolStripMenuItem
             // 
@@ -144,9 +151,9 @@
             this.ColumnName,
             this.ColumnExtraInfo,
             this.DeleteColumn});
-            this.dataGridView.Location = new System.Drawing.Point(16, 33);
+            this.dataGridView.Location = new System.Drawing.Point(14, 29);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(775, 446);
+            this.dataGridView.Size = new System.Drawing.Size(678, 390);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
@@ -178,9 +185,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treePanel.AutoScroll = true;
-            this.treePanel.Location = new System.Drawing.Point(16, 34);
+            this.treePanel.Location = new System.Drawing.Point(14, 30);
             this.treePanel.Name = "treePanel";
-            this.treePanel.Size = new System.Drawing.Size(774, 445);
+            this.treePanel.Size = new System.Drawing.Size(677, 389);
             this.treePanel.TabIndex = 2;
             this.treePanel.Visible = false;
             // 
@@ -207,6 +214,8 @@
             this.отцаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.отцаToolStripMenuItem1,
             this.матьToolStripMenuItem,
+            this.сынаToolStripMenuItem,
+            this.дочьToolStripMenuItem,
             this.братаToolStripMenuItem,
             this.сеструToolStripMenuItem,
             this.партнераToolStripMenuItem});
@@ -217,40 +226,45 @@
             // отцаToolStripMenuItem1
             // 
             this.отцаToolStripMenuItem1.Name = "отцаToolStripMenuItem1";
-            this.отцаToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.отцаToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.отцаToolStripMenuItem1.Text = "Отца";
             this.отцаToolStripMenuItem1.Click += new System.EventHandler(this.отцаToolStripMenuItem1_Click);
             // 
             // матьToolStripMenuItem
             // 
             this.матьToolStripMenuItem.Name = "матьToolStripMenuItem";
-            this.матьToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.матьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.матьToolStripMenuItem.Text = "Мать";
             this.матьToolStripMenuItem.Click += new System.EventHandler(this.матьToolStripMenuItem_Click);
             // 
             // братаToolStripMenuItem
             // 
             this.братаToolStripMenuItem.Name = "братаToolStripMenuItem";
-            this.братаToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.братаToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.братаToolStripMenuItem.Text = "Брата";
+            this.братаToolStripMenuItem.Click += new System.EventHandler(this.братаToolStripMenuItem_Click);
             // 
             // сеструToolStripMenuItem
             // 
             this.сеструToolStripMenuItem.Name = "сеструToolStripMenuItem";
-            this.сеструToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.сеструToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.сеструToolStripMenuItem.Text = "Сестру";
+            this.сеструToolStripMenuItem.Click += new System.EventHandler(this.сеструToolStripMenuItem_Click);
             // 
             // партнераToolStripMenuItem
             // 
             this.партнераToolStripMenuItem.Name = "партнераToolStripMenuItem";
-            this.партнераToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.партнераToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.партнераToolStripMenuItem.Text = "Партнера";
+            this.партнераToolStripMenuItem.Click += new System.EventHandler(this.партнераToolStripMenuItem_Click);
             // 
             // новогоЧеловекаToolStripMenuItem
             // 
             this.новогоЧеловекаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.отцаToolStripMenuItem2,
             this.матьToolStripMenuItem1,
+            this.сынаToolStripMenuItem1,
+            this.дочьToolStripMenuItem1,
             this.братаToolStripMenuItem1,
             this.сеструToolStripMenuItem1,
             this.партнераToolStripMenuItem1});
@@ -261,34 +275,37 @@
             // отцаToolStripMenuItem2
             // 
             this.отцаToolStripMenuItem2.Name = "отцаToolStripMenuItem2";
-            this.отцаToolStripMenuItem2.Size = new System.Drawing.Size(127, 22);
+            this.отцаToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.отцаToolStripMenuItem2.Text = "Отца";
             this.отцаToolStripMenuItem2.Click += new System.EventHandler(this.отцаToolStripMenuItem2_Click);
             // 
             // матьToolStripMenuItem1
             // 
             this.матьToolStripMenuItem1.Name = "матьToolStripMenuItem1";
-            this.матьToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.матьToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.матьToolStripMenuItem1.Text = "Мать";
             this.матьToolStripMenuItem1.Click += new System.EventHandler(this.матьToolStripMenuItem1_Click);
             // 
             // братаToolStripMenuItem1
             // 
             this.братаToolStripMenuItem1.Name = "братаToolStripMenuItem1";
-            this.братаToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.братаToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.братаToolStripMenuItem1.Text = "Брата";
+            this.братаToolStripMenuItem1.Click += new System.EventHandler(this.братаToolStripMenuItem1_Click);
             // 
             // сеструToolStripMenuItem1
             // 
             this.сеструToolStripMenuItem1.Name = "сеструToolStripMenuItem1";
-            this.сеструToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.сеструToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.сеструToolStripMenuItem1.Text = "Сестру";
+            this.сеструToolStripMenuItem1.Click += new System.EventHandler(this.сеструToolStripMenuItem1_Click);
             // 
             // партнераToolStripMenuItem1
             // 
             this.партнераToolStripMenuItem1.Name = "партнераToolStripMenuItem1";
-            this.партнераToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.партнераToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.партнераToolStripMenuItem1.Text = "Партнера";
+            this.партнераToolStripMenuItem1.Click += new System.EventHandler(this.партнераToolStripMenuItem1_Click);
             // 
             // редактироватьToolStripMenuItem
             // 
@@ -315,47 +332,48 @@
             // 
             // treeSettingsPanel
             // 
-            this.treeSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.treeSettingsPanel.Controls.Add(this.buildButton);
-            this.treeSettingsPanel.Controls.Add(this.groupBox3);
+            this.treeSettingsPanel.Controls.Add(this.numberOfGenerationsGroupBox);
             this.treeSettingsPanel.Controls.Add(this.startPersonGroupBox);
-            this.treeSettingsPanel.Controls.Add(this.groupBox1);
+            this.treeSettingsPanel.Controls.Add(this.typeOfTreeGroupBox);
             this.treeSettingsPanel.Font = new System.Drawing.Font("Georgia", 9.75F);
-            this.treeSettingsPanel.Location = new System.Drawing.Point(16, 33);
+            this.treeSettingsPanel.Location = new System.Drawing.Point(14, 29);
             this.treeSettingsPanel.Name = "treeSettingsPanel";
-            this.treeSettingsPanel.Size = new System.Drawing.Size(269, 392);
+            this.treeSettingsPanel.Size = new System.Drawing.Size(255, 343);
             this.treeSettingsPanel.TabIndex = 3;
             this.treeSettingsPanel.Visible = false;
             // 
             // buildButton
             // 
-            this.buildButton.Location = new System.Drawing.Point(83, 271);
+            this.buildButton.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.buildButton.Location = new System.Drawing.Point(73, 237);
             this.buildButton.Name = "buildButton";
-            this.buildButton.Size = new System.Drawing.Size(92, 23);
+            this.buildButton.Size = new System.Drawing.Size(80, 21);
             this.buildButton.TabIndex = 13;
             this.buildButton.Text = "Построить";
             this.buildButton.UseVisualStyleBackColor = true;
             this.buildButton.Click += new System.EventHandler(this.buildButton_Click);
             // 
-            // groupBox3
+            // numberOfGenerationsGroupBox
             // 
-            this.groupBox3.Controls.Add(this.allGenerationsRadioButton);
-            this.groupBox3.Controls.Add(this.limitToRadioButton);
-            this.groupBox3.Controls.Add(this.generationsComboBox);
-            this.groupBox3.Location = new System.Drawing.Point(3, 184);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(260, 81);
-            this.groupBox3.TabIndex = 12;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Количество поколений";
+            this.numberOfGenerationsGroupBox.Controls.Add(this.allGenerationsRadioButton);
+            this.numberOfGenerationsGroupBox.Controls.Add(this.limitToRadioButton);
+            this.numberOfGenerationsGroupBox.Controls.Add(this.generationsComboBox);
+            this.numberOfGenerationsGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.numberOfGenerationsGroupBox.Location = new System.Drawing.Point(3, 161);
+            this.numberOfGenerationsGroupBox.Name = "numberOfGenerationsGroupBox";
+            this.numberOfGenerationsGroupBox.Size = new System.Drawing.Size(249, 71);
+            this.numberOfGenerationsGroupBox.TabIndex = 12;
+            this.numberOfGenerationsGroupBox.TabStop = false;
+            this.numberOfGenerationsGroupBox.Text = "Количество поколений";
             // 
             // allGenerationsRadioButton
             // 
             this.allGenerationsRadioButton.AutoSize = true;
             this.allGenerationsRadioButton.Checked = true;
-            this.allGenerationsRadioButton.Location = new System.Drawing.Point(34, 21);
+            this.allGenerationsRadioButton.Location = new System.Drawing.Point(30, 18);
             this.allGenerationsRadioButton.Name = "allGenerationsRadioButton";
-            this.allGenerationsRadioButton.Size = new System.Drawing.Size(123, 20);
+            this.allGenerationsRadioButton.Size = new System.Drawing.Size(111, 18);
             this.allGenerationsRadioButton.TabIndex = 7;
             this.allGenerationsRadioButton.TabStop = true;
             this.allGenerationsRadioButton.Text = "Все поколения";
@@ -364,9 +382,9 @@
             // limitToRadioButton
             // 
             this.limitToRadioButton.AutoSize = true;
-            this.limitToRadioButton.Location = new System.Drawing.Point(34, 47);
+            this.limitToRadioButton.Location = new System.Drawing.Point(30, 41);
             this.limitToRadioButton.Name = "limitToRadioButton";
-            this.limitToRadioButton.Size = new System.Drawing.Size(123, 20);
+            this.limitToRadioButton.Size = new System.Drawing.Size(114, 18);
             this.limitToRadioButton.TabIndex = 8;
             this.limitToRadioButton.Text = "Ограничить до";
             this.limitToRadioButton.UseVisualStyleBackColor = true;
@@ -391,18 +409,19 @@
             "13",
             "14",
             "15"});
-            this.generationsComboBox.Location = new System.Drawing.Point(163, 43);
+            this.generationsComboBox.Location = new System.Drawing.Point(143, 38);
             this.generationsComboBox.Name = "generationsComboBox";
-            this.generationsComboBox.Size = new System.Drawing.Size(53, 24);
+            this.generationsComboBox.Size = new System.Drawing.Size(47, 22);
             this.generationsComboBox.TabIndex = 9;
             this.generationsComboBox.Visible = false;
             // 
             // startPersonGroupBox
             // 
             this.startPersonGroupBox.Controls.Add(this.startPersonComboBox);
-            this.startPersonGroupBox.Location = new System.Drawing.Point(3, 119);
+            this.startPersonGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.startPersonGroupBox.Location = new System.Drawing.Point(3, 104);
             this.startPersonGroupBox.Name = "startPersonGroupBox";
-            this.startPersonGroupBox.Size = new System.Drawing.Size(260, 59);
+            this.startPersonGroupBox.Size = new System.Drawing.Size(249, 52);
             this.startPersonGroupBox.TabIndex = 11;
             this.startPersonGroupBox.TabStop = false;
             this.startPersonGroupBox.Text = "Исходное лицо";
@@ -413,31 +432,32 @@
             this.startPersonComboBox.DropDownWidth = 248;
             this.startPersonComboBox.FormattingEnabled = true;
             this.startPersonComboBox.IntegralHeight = false;
-            this.startPersonComboBox.Location = new System.Drawing.Point(6, 21);
+            this.startPersonComboBox.Location = new System.Drawing.Point(5, 18);
             this.startPersonComboBox.Name = "startPersonComboBox";
-            this.startPersonComboBox.Size = new System.Drawing.Size(248, 24);
+            this.startPersonComboBox.Size = new System.Drawing.Size(238, 22);
             this.startPersonComboBox.Sorted = true;
             this.startPersonComboBox.TabIndex = 5;
             // 
-            // groupBox1
+            // typeOfTreeGroupBox
             // 
-            this.groupBox1.Controls.Add(this.ancestorsRadioButton);
-            this.groupBox1.Controls.Add(this.descendantsRadioButton);
-            this.groupBox1.Controls.Add(this.hourglassRadioButton);
-            this.groupBox1.Location = new System.Drawing.Point(3, 4);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(260, 109);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Тип дерева";
+            this.typeOfTreeGroupBox.Controls.Add(this.ancestorsRadioButton);
+            this.typeOfTreeGroupBox.Controls.Add(this.descendantsRadioButton);
+            this.typeOfTreeGroupBox.Controls.Add(this.hourglassRadioButton);
+            this.typeOfTreeGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.typeOfTreeGroupBox.Location = new System.Drawing.Point(3, 4);
+            this.typeOfTreeGroupBox.Name = "typeOfTreeGroupBox";
+            this.typeOfTreeGroupBox.Size = new System.Drawing.Size(249, 95);
+            this.typeOfTreeGroupBox.TabIndex = 10;
+            this.typeOfTreeGroupBox.TabStop = false;
+            this.typeOfTreeGroupBox.Text = "Тип дерева";
             // 
             // ancestorsRadioButton
             // 
             this.ancestorsRadioButton.AutoSize = true;
             this.ancestorsRadioButton.Checked = true;
-            this.ancestorsRadioButton.Location = new System.Drawing.Point(34, 21);
+            this.ancestorsRadioButton.Location = new System.Drawing.Point(30, 18);
             this.ancestorsRadioButton.Name = "ancestorsRadioButton";
-            this.ancestorsRadioButton.Size = new System.Drawing.Size(75, 20);
+            this.ancestorsRadioButton.Size = new System.Drawing.Size(70, 18);
             this.ancestorsRadioButton.TabIndex = 1;
             this.ancestorsRadioButton.TabStop = true;
             this.ancestorsRadioButton.Text = "Предки";
@@ -446,9 +466,9 @@
             // descendantsRadioButton
             // 
             this.descendantsRadioButton.AutoSize = true;
-            this.descendantsRadioButton.Location = new System.Drawing.Point(34, 47);
+            this.descendantsRadioButton.Location = new System.Drawing.Point(30, 41);
             this.descendantsRadioButton.Name = "descendantsRadioButton";
-            this.descendantsRadioButton.Size = new System.Drawing.Size(86, 20);
+            this.descendantsRadioButton.Size = new System.Drawing.Size(78, 18);
             this.descendantsRadioButton.TabIndex = 2;
             this.descendantsRadioButton.Text = "Потомки";
             this.descendantsRadioButton.UseVisualStyleBackColor = true;
@@ -456,23 +476,59 @@
             // hourglassRadioButton
             // 
             this.hourglassRadioButton.AutoSize = true;
-            this.hourglassRadioButton.Location = new System.Drawing.Point(34, 73);
+            this.hourglassRadioButton.Enabled = false;
+            this.hourglassRadioButton.Location = new System.Drawing.Point(30, 64);
             this.hourglassRadioButton.Name = "hourglassRadioButton";
-            this.hourglassRadioButton.Size = new System.Drawing.Size(126, 20);
+            this.hourglassRadioButton.Size = new System.Drawing.Size(117, 18);
             this.hourglassRadioButton.TabIndex = 3;
             this.hourglassRadioButton.Text = "Песочные часы";
             this.hourglassRadioButton.UseVisualStyleBackColor = true;
             // 
+            // сынаToolStripMenuItem
+            // 
+            this.сынаToolStripMenuItem.Name = "сынаToolStripMenuItem";
+            this.сынаToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.сынаToolStripMenuItem.Text = "Сына";
+            this.сынаToolStripMenuItem.Click += new System.EventHandler(this.сынаToolStripMenuItem_Click);
+            // 
+            // дочьToolStripMenuItem
+            // 
+            this.дочьToolStripMenuItem.Name = "дочьToolStripMenuItem";
+            this.дочьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.дочьToolStripMenuItem.Text = "Дочь";
+            this.дочьToolStripMenuItem.Click += new System.EventHandler(this.дочьToolStripMenuItem_Click);
+            // 
+            // сынаToolStripMenuItem1
+            // 
+            this.сынаToolStripMenuItem1.Name = "сынаToolStripMenuItem1";
+            this.сынаToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.сынаToolStripMenuItem1.Text = "Сына";
+            this.сынаToolStripMenuItem1.Click += new System.EventHandler(this.сынаToolStripMenuItem1_Click);
+            // 
+            // дочьToolStripMenuItem1
+            // 
+            this.дочьToolStripMenuItem1.Name = "дочьToolStripMenuItem1";
+            this.дочьToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.дочьToolStripMenuItem1.Text = "Дочь";
+            this.дочьToolStripMenuItem1.Click += new System.EventHandler(this.дочьToolStripMenuItem1_Click);
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
+            // 
             // MainPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 494);
+            this.ClientSize = new System.Drawing.Size(705, 432);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.treeSettingsPanel);
-            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.treePanel);
-            this.Font = new System.Drawing.Font("Georgia", 9.75F);
+            this.Controls.Add(this.dataGridView);
+            this.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainPage";
             this.Text = "MainPage";
@@ -482,11 +538,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.addConneсtionStrip.ResumeLayout(false);
             this.treeSettingsPanel.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.numberOfGenerationsGroupBox.ResumeLayout(false);
+            this.numberOfGenerationsGroupBox.PerformLayout();
             this.startPersonGroupBox.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.typeOfTreeGroupBox.ResumeLayout(false);
+            this.typeOfTreeGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -530,11 +586,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
         private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox numberOfGenerationsGroupBox;
         private System.Windows.Forms.GroupBox startPersonGroupBox;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox typeOfTreeGroupBox;
         private System.Windows.Forms.Button buildButton;
         private System.Windows.Forms.ComboBox startPersonComboBox;
+        private System.Windows.Forms.ToolStripMenuItem сынаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem дочьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сынаToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem дочьToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
 
     }
 }

@@ -14,16 +14,18 @@ namespace Family_Tree
     public partial class SearchPerson : Form
     {
         private MainPage parent;
+        private bool man;
         public int resId;
 
         public SearchPerson()
         {
             InitializeComponent();
         }
-        public SearchPerson(MainPage Parent)
+        public SearchPerson(MainPage Parent, bool Man)
         {
             InitializeComponent();
             parent = Parent;
+            man = Man;
             DrawGridView();
         }
         private void DrawGridView()
@@ -31,11 +33,16 @@ namespace Family_Tree
             dataGridView.Rows.Clear();
             for (int i = 0; i < parent.data.allPeople.Count; ++i)
             {
+                if (parent.data.allPeople[i].man != man)
+                {
+                    continue;
+                }
                 dataGridView.Rows.Add(new DataGridViewRow());
-                dataGridView.Rows[i].Cells[0].Value = parent.data.allPeople[i].FullName;
-                dataGridView.Rows[i].Cells[1].Value = parent.data.allPeople[i].birthPlace;
-                dataGridView.Rows[i].Cells[0].Tag = new ID(i);
-                dataGridView.Rows[i].ReadOnly = true;
+                int num = dataGridView.Rows.Count - 1;
+                dataGridView.Rows[num].Cells[0].Value = parent.data.allPeople[i].FullName;
+                dataGridView.Rows[num].Cells[1].Value = parent.data.allPeople[i].birthPlace;
+                dataGridView.Rows[num].Cells[0].Tag = new ID(i);
+                dataGridView.Rows[num].ReadOnly = true;
             }
         }
 

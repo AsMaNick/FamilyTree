@@ -14,7 +14,7 @@ namespace Family_Tree
 {
     public partial class MainPage : Form
     {
-        const int dWidth = 200, dWidthCouple = 130, dHeight = 150, dText = 20, hLine = 10;
+        const int dWidth = 200, dWidthCouple = 150, dHeight = 150, dText = 20, hLine = 10;
         const int ANCESTORS = 1, DESCENDANTS = 2, HOURGLASS = 3;
         const bool ancestorsToUp = true;
         
@@ -27,8 +27,6 @@ namespace Family_Tree
             InitializeComponent();
             data = new DataBase();
             dataGridView.Visible = false;
-            //Paint += PaintEvent;
-            Resize += PaintEvent;
         }
 
         public void AddPerson(Person p)
@@ -56,23 +54,18 @@ namespace Family_Tree
             }
             else if (treeSettingsPanel.Visible)
             {
+                fillStartPersonComboBox();
             }
         }
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddPerson myForm = new AddPerson(this);
-            DialogResult res = myForm.ShowDialog();
-            if (res == DialogResult.OK)
-            {
-                Debug.WriteLine("OK");
-            }
+            tryAddPerson(-1);
             showActivePanel();
-            
         }
 
         private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
         {
-            data.writeToFile("data.txt");
+            data.save();
         }
         private void DrawGridView()
         {
@@ -99,17 +92,20 @@ namespace Family_Tree
             return Int32.Parse(dataGridView.Rows[rowIndex].Cells[0].Tag.ToString());
         }
 
-        private Pair<bool, Person> tryAddPerson(int id = -1, bool man = true)
+        private Pair<bool, Person> tryAddPerson(int id = -1, bool man = true, bool fixedGender = false)
         {
             AddPerson myForm = new AddPerson(this, id);
             if (!man)
             {
                 myForm.enableWoman();
             }
+            if (fixedGender)
+            {
+                myForm.fixGender();
+            }
             DialogResult res = myForm.ShowDialog();
             if (res == DialogResult.OK)
             {
-                Debug.WriteLine("OK");
                 return new Pair<bool, Person> (true, myForm.addedPerson);
             }
             else
@@ -154,6 +150,35 @@ namespace Family_Tree
             }
         }
 
+        private void drawLine(params Point[] p)
+        {
+            if (p.Length == 0)
+            {
+                Debug.WriteLine("FAIL, array is empty");
+                return;
+            }
+            Pen pen = new Pen(Color.Gray, 2);
+            for (int i = 0; i + 1 < p.Length; ++i)
+            {
+                int minX = Math.Min(p[i].X, p[i + 1].X);
+                int minY = Math.Min(p[i].Y, p[i + 1].Y);
+                /*Bitmap bitmap = new Bitmap(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    g.DrawLine(pen, new Point(p[i].X - minX + 1, p[i].Y - minY + 1), new Point(p[i + 1].X - minX + 1, p[i + 1].Y - minY + 1));
+                }*/
+                PictureBox pb = new PictureBox();
+                //pb.Image = bitmap;
+                pb.Left = minX;
+                pb.Top = minY;
+                pb.Size = new Size(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
+                pb.BackColor = Color.Gray;
+                Debug.WriteLine(pb.Size);
+                treePanel.Controls.Add(pb);
+                Debug.WriteLine("#####");
+            }
+        }
+
         public static Image drawBorder(Image im)
         {
             Bitmap bitmap = new Bitmap(im);
@@ -169,8 +194,10 @@ namespace Family_Tree
             Debug.WriteLine(string.Format("({0} {1})", x, y));
             PictureBox pb = new PictureBox();
             pb.Name = "Person" + Convert.ToString(p.id);
-            pb.Click += new System.EventHandler(showMenu);
-            Debug.WriteLine(string.Format("incognito: {0}, name: {1}", p.incognito, p.FullName));
+            if (!p.incognito)
+            {
+                pb.Click += new System.EventHandler(showMenu);
+            }
             pb.Image = Image.FromFile(p.getPathToAvatar());
             pb.Image = drawBorder(pb.Image);
             pb.Height = pb.Image.Height;
@@ -206,26 +233,36 @@ namespace Family_Tree
             return p;
         }
 
-        private void drawConnection(PictureBox p1, PictureBox p2, bool rev)
+        private void drawConnection(PictureBox p1, PictureBox p2, bool rev, bool isChildren = false)
         {
             Pen pen = new Pen(Color.Gray, 2);
             int x1 = (p1.Left + p1.Right) / 2;
             int x2 = (p2.Left + p2.Right) / 2;
             if (!rev)
             {
-                int y1 = p1.Bottom + dText;
+                int y1 = p1.Bottom + dText, f = 0;
                 int y2 = p2.Top - 5;
-                g.DrawLine(pen, new Point(x1, y1), new Point(x1, y1 + hLine));
-                g.DrawLine(pen, new Point(x1, y1 + hLine), new Point(x2, y1 + hLine));
-                g.DrawLine(pen, new Point(x2, y1 + hLine), new Point(x2, y2));
+                if (isChildren)
+                {
+                    x1 = (p1.Right + p1.Left + dWidthCouple) / 2;
+                    f = p1.Height / 2 + dText;
+                    y1 -= f;
+                    drawLine(new Point(p1.Right, y1), new Point(p1.Left + dWidthCouple, y1));
+                }
+                drawLine(new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));                
             }
             else
             {
-                int y1 = p1.Top - 5;
+                int y1 = p1.Top - 5, f = 0;
                 int y2 = p2.Bottom + dText;
-                g.DrawLine(pen, new Point(x1, y1), new Point(x1, y1 - hLine));
-                g.DrawLine(pen, new Point(x1, y1 - hLine), new Point(x2, y1 - hLine));
-                g.DrawLine(pen, new Point(x2, y1 - hLine), new Point(x2, y2));
+                if (isChildren)
+                {
+                    x1 = (p1.Right + p1.Left + dWidthCouple) / 2;
+                    f = p1.Height / 2 + 5;
+                    y1 += f;
+                    drawLine(new Point(p1.Right, y1), new Point(p1.Left + dWidthCouple, y1));
+                }
+                drawLine(new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));                
             }
         }
 
@@ -284,25 +321,16 @@ namespace Family_Tree
                 realLevel = height - level;
             }
             showPerson(p, x, 10 + realLevel * dHeight);
-            Debug.WriteLine(string.Format("lev = {0}, x = {1}", level, x));
-            return new Pair<int, int> (x, Math.Max(res1.Second, Math.Max(res2.Second, x + dWidth)));
-        }
-
-        private void buildLinesOfAncestors(Person p, int level, int maxLevel, bool rev)
-        {
-            bool isFather = (p.father != -1 && level + 1 < maxLevel);
-            bool isMother = (p.mother != -1 && level + 1 < maxLevel);
             PictureBox cur = getPbById(p.id);
             if (isFather)
             {
                 drawConnection(cur, getPbById(p.father), rev);
-                buildLinesOfAncestors(data.allPeople[p.father], level + 1, maxLevel + 1, rev);
             }
             if (isMother)
             {
                 drawConnection(cur, getPbById(p.mother), rev);
-                buildLinesOfAncestors(data.allPeople[p.mother], level + 1, maxLevel + 1, rev);
             }
+            return new Pair<int, int> (x, Math.Max(res1.Second, Math.Max(res2.Second, x + dWidth)));
         }
 
         private Pair<int, int> buildTreeOfDescendants(Person p, int level, int x, int maxLevel, int height, bool rev)
@@ -331,6 +359,7 @@ namespace Family_Tree
                 if (p.partner == -1)
                 {
                     mother = new Person(true, false);
+                    mother.id = int.MaxValue - father.id;
                 }
                 else
                 {
@@ -343,6 +372,7 @@ namespace Family_Tree
                 if (p.partner == -1)
                 {
                     father = new Person(true, true);
+                    father.id = int.MaxValue - mother.id;
                 }
                 else
                 {
@@ -359,16 +389,14 @@ namespace Family_Tree
             {
                 showPerson(p, x, 10 + realLevel * dHeight);
             }
-            /*PictureBox cur = getPbById(p.id);
-            if (p.father != -1 && level + 1 < maxLevel)
+            if (p.children.Count != 0)
             {
-                drawConnection(cur, getPbById(p.father));
+                PictureBox cur = getPbById(father.id);
+                for (int i = 0; i < p.children.Count; ++i)
+                {
+                    drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, true);
+                }
             }
-            if (p.mother != -1 && level + 1 < maxLevel)
-            {
-                drawConnection(cur, getPbById(p.mother));
-            }*/
-            Debug.WriteLine(string.Format("lev = {0}, x = {1}", level, x));
             return new Pair<int, int> (x, Math.Max(startX, x + pWidth));
         }
 
@@ -436,12 +464,12 @@ namespace Family_Tree
             int h;
             if (typeOfTree == ANCESTORS)
             {
-                h = getHeightOfAncestors(data.allPeople[startId], 0);
+                h = Math.Min(maxH - 1, getHeightOfAncestors(data.allPeople[startId], 0));
                 buildTreeOfAncestors(data.allPeople[startId], 0, 40, maxH, h, ancestorsToUp);
             }
             else if (typeOfTree == DESCENDANTS)
             {
-                h = getHeightOfDescendants(data.allPeople[startId], 0);
+                h = Math.Min(maxH - 1, getHeightOfDescendants(data.allPeople[startId], 0));
                 buildTreeOfDescendants(data.allPeople[startId], 0, 40, maxH, h, !ancestorsToUp);
             }
             else if (typeOfTree == HOURGLASS)
@@ -455,49 +483,13 @@ namespace Family_Tree
                 return;
             }
             treePanel.Visible = true;
-            g = treePanel.CreateGraphics();
-            buildLinesOfAncestors(data.allPeople[startId], 0, h, ancestorsToUp);
+            //g = treePanel.CreateGraphics();
+            //buildLinesOfAncestors(data.allPeople[startId], 0, h, ancestorsToUp);
         }
-
-        void PaintEvent(object sender, EventArgs e)
-        {
-            Debug.WriteLine("!!!");
-            if (treePanel.Visible)
-            {
-                int typeOfTree = 0, startId = 0, maxH = 0; 
-                string error = getParametersOfTree(ref typeOfTree, ref startId, ref maxH);
-                if (error == "")
-                {
-                    Debug.WriteLine("Painting#");
-                    if (g != null)
-                    {
-                        g.Dispose();
-                    }
-                    g = treePanel.CreateGraphics();
-                    int h = getHeightOfAncestors(data.allPeople[startId], 0);
-                    buildLinesOfAncestors(data.allPeople[startId], 0, h, ancestorsToUp);
-                }
-                else
-                {
-                    Debug.WriteLine(String.Format("Painting@{0}@", error));
-                }
-            }
-        }
-
+       
         private void деревоПредковToolStripMenuItem_Click(object sender, EventArgs e)
         {
             buildTree();
-        }
-
-        private void отцаToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            Pair<bool, Person> p = tryAddPerson();
-            if (p.First == true)
-            {
-                Debug.WriteLine(p.Second.BasicInfo());
-                chosenPerson.father = p.Second.id;
-                buildTree();
-            }
         }
 
         private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -505,17 +497,6 @@ namespace Family_Tree
             Pair<bool, Person> p = tryAddPerson(chosenPerson.id);
             if (p.First == true)
             {
-                buildTree();
-            }
-        }
-
-        private void матьToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            Pair<bool, Person> p = tryAddPerson(-1, false);
-            if (p.First == true)
-            {
-                Debug.WriteLine(p.Second.BasicInfo());
-                chosenPerson.mother = p.Second.id;
                 buildTree();
             }
         }
@@ -531,25 +512,17 @@ namespace Family_Tree
             }
         }
 
-        private void отцаToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void fillStartPersonComboBox()
         {
-            SearchPerson myForm = new SearchPerson(this);
-            DialogResult res = myForm.ShowDialog();
-            if (res == DialogResult.OK)
+            startPersonComboBox.Items.Clear();
+            for (int i = 0; i < data.allPeople.Count; ++i)
             {
-                chosenPerson.father = myForm.resId;
-                buildTree();
+                Debug.WriteLine(i);
+                startPersonComboBox.Items.Add(data.allPeople[i].FullName);
             }
-        }
-
-        private void матьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SearchPerson myForm = new SearchPerson(this);
-            DialogResult res = myForm.ShowDialog();
-            if (res == DialogResult.OK)
+            if (startPersonComboBox.Text == "")
             {
-                chosenPerson.mother = myForm.resId;
-                buildTree();
+                startPersonComboBox.Text = "Асландуков Матвей Николаевич";
             }
         }
 
@@ -557,13 +530,7 @@ namespace Family_Tree
         {
             turnOffPanels();
             treeSettingsPanel.Visible = true;
-            startPersonComboBox.Items.Clear();
-            for (int i = 0; i < data.allPeople.Count; ++i)
-            {
-                Debug.WriteLine(i);
-                startPersonComboBox.Items.Add(data.allPeople[i].FullName);
-            }
-            startPersonComboBox.Text = "Асландуков Матвей Николаевич";
+            fillStartPersonComboBox();
         }
 
         private void limitToRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -581,6 +548,215 @@ namespace Family_Tree
         private void buildButton_Click(object sender, EventArgs e)
         {
             buildTree();
+        }
+
+        private bool isMale(string s, bool male)
+        {
+            return s == "father" || s == "son" || s == "brother" || (s == "partner" && !male);
+        }
+
+        private bool dfs(int v1, int v2, bool[] used)
+        {
+            if (v1 == v2)
+            {
+                return true;
+            }
+            if (v1 == -1 || used[v1])
+            {
+                return false;
+            }
+            used[v1] = true;
+            Person p = data.allPeople[v1];
+            bool res = dfs(p.father, v2, used);
+            res |= dfs(p.mother, v2, used);
+            res |= dfs(p.partner, v2, used);
+            for (int i = 0; i < p.children.Count; ++i)
+            {
+                res |= dfs(p.children[i], v2, used);
+            }
+            for (int i = 0; i < p.siblings.Count; ++i)
+            {
+                res |= dfs(p.siblings[i], v2, used);
+            }
+            return res;
+        }
+
+        private bool pathExists(int v1, int v2)
+        {
+            bool[] used = new bool[data.allPeople.Count];
+            for (int i = 0; i < used.Length; ++i)
+            {
+                used[i] = false;
+            }
+            return dfs(v1, v2, used);
+        }
+
+        private void addConnection(Person chosenPerson, string typeOfConnection, bool fromDataBase)
+        {
+            if ((typeOfConnection == "father" && chosenPerson.father != -1) || (typeOfConnection == "mother" && chosenPerson.mother != -1) || (typeOfConnection == "partner" && chosenPerson.partner != -1))
+            {
+                string tp = "отец";
+                if (typeOfConnection == "mother")
+                {
+                    tp = "мать";
+                }
+                else if (typeOfConnection == "partner")
+                {
+                    tp = "муж";
+                    if (chosenPerson.man)
+                    {
+                        tp = "жена";
+                    }
+                }
+                DialogResult res = MessageBox.Show("У данной персноны уже есть " + tp + ". Хотите заменить?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            int addedId = -1;
+            if (fromDataBase) 
+            {
+                SearchPerson myForm = new SearchPerson(this, isMale(typeOfConnection, chosenPerson.man));
+                DialogResult res = myForm.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    addedId = myForm.resId;
+                }
+            }
+            else
+            {
+                Pair<bool, Person> p = tryAddPerson(-1, isMale(typeOfConnection, chosenPerson.man), true);
+                if (p.First)
+                {
+                    addedId = p.Second.id;
+                }
+            }
+            if (addedId == -1)
+            {
+                return;
+            }
+            if (pathExists(chosenPerson.id, addedId))
+            {
+                DialogResult res = MessageBox.Show("Невозможно добавить связь, т.к. данные персоны уже косвенно связаны между собой", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            switch (typeOfConnection)
+            {
+                case "father":
+                    chosenPerson.father = addedId;
+                    break;
+                case "mother":
+                    chosenPerson.mother = addedId;
+                    break;
+                case "partner":
+                    chosenPerson.partner = addedId;
+                    break;
+                case "son":
+                    chosenPerson.children.Add(addedId);
+                    break;
+                case "daughter":
+                    chosenPerson.children.Add(addedId);
+                    break;
+                case "brother":
+                    chosenPerson.siblings.Add(addedId);
+                    break;
+                case "sister":
+                    chosenPerson.siblings.Add(addedId);
+                    break;
+                default:
+                    Debug.WriteLine("FAIL, unknown type of connection: " + typeOfConnection);
+                    break;
+            }
+            Debug.WriteLine(string.Format("added id = {0}", addedId));
+            data.updateConnections();
+            buildTree();
+        }
+
+        private void отцаToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "father", true);
+        }
+
+        private void матьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "mother", true);
+        }
+
+        private void сынаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "son", true);
+        }
+
+        private void дочьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "daughter", true);
+        }
+
+        private void братаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "brother", true);
+        }
+
+        private void сеструToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "sister", true);
+        }
+
+        private void партнераToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "partner", true);
+        }
+
+        private void отцаToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "father", false);
+        }
+
+
+        private void матьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "mother", false);
+        }
+
+        private void сынаToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "son", false);
+        }
+
+        private void дочьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "daughter", false);
+        }
+
+        private void братаToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "brother", false);
+        }
+
+        private void сеструToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "sister", false);
+        }
+
+        private void партнераToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "partner", false);
+        }
+
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            data.save();
+            DialogResult res = MessageBox.Show("Изменения успешно сохранены.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("Вы уверены, что хотите выйти?\nВсе изменения будут сохранены.", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                Close();
+            }
         }
     }
 

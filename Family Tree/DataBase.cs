@@ -12,13 +12,15 @@ namespace Family_Tree
 {
     public class DataBase
     {
+        const string pathToDataBase = "data.txt";
+
         public const string pathToAvatars = "../../images/avatars/";
         public List<Person> allPeople;
         public List<string> allAvatars;
         public DataBase()
         {
             allPeople = new List<Person>();
-            readFromFile("data.txt");
+            readFromFile(pathToDataBase);
         }
         public void AddPerson(Person p)
         {
@@ -62,10 +64,20 @@ namespace Family_Tree
                     for (int j = 0; j < allPeople[i].siblings.Count; ++j)
                     {
                         allPeople[i].siblings[j] = updateLink(allPeople[i].siblings[j], id);
+                        if (allPeople[i].siblings[j] == -1) 
+                        {
+                            allPeople[i].siblings.RemoveAt(j);
+                            --j;
+                        }
                     }
                     for (int j = 0; j < allPeople[i].children.Count; ++j)
                     {
                         allPeople[i].children[j] = updateLink(allPeople[i].children[j], id);
+                        if (allPeople[i].children[j] == -1)
+                        {
+                            allPeople[i].children.RemoveAt(j);
+                            --j;
+                        }
                     }
                 }
             }
@@ -119,7 +131,13 @@ namespace Family_Tree
             }
             output.Close();
         }
-        List<int> distinct(List<int> a)
+
+        public void save()
+        {
+            writeToFile(pathToDataBase);
+        }
+
+        private List<int> distinct(List<int> a)
         {
             List<int> res = new List<int>();
             IEnumerable<int> b = a.Distinct();

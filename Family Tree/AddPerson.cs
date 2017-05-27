@@ -143,7 +143,6 @@ namespace Family_Tree
             {
                 parent.data.allPeople[id] = p;
             }
-            parent.data.updateConnections();
             this.DialogResult = DialogResult.OK;
         }
 
@@ -177,6 +176,12 @@ namespace Family_Tree
             this.maidenNameLabel.Text = "Фамилия до брака";
             this.aliveRadioButton.Text = "Жив";
             this.deadRadioButton.Text = "Умер";
+        }
+
+        public void fixGender()
+        {
+            this.manRadioButton.Enabled = false;
+            this.womanRadioButton.Enabled = false;
         }
 
         private void womanRadioButton_CheckedChanged(object sender, EventArgs e)

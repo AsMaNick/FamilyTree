@@ -56,7 +56,7 @@
             this.ColumnExtraInfo});
             this.dataGridView.Location = new System.Drawing.Point(14, 13);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(416, 354);
+            this.dataGridView.Size = new System.Drawing.Size(444, 354);
             this.dataGridView.TabIndex = 5;
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             // 
@@ -70,12 +70,13 @@
             // 
             this.ColumnExtraInfo.HeaderText = "Доп. инфо";
             this.ColumnExtraInfo.Name = "ColumnExtraInfo";
+            this.ColumnExtraInfo.Width = 200;
             // 
             // SearchPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 380);
+            this.ClientSize = new System.Drawing.Size(472, 380);
             this.Controls.Add(this.dataGridView);
             this.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "SearchPerson";

@@ -202,6 +202,7 @@
             this.manRadioButton.Name = "manRadioButton";
             this.manRadioButton.Size = new System.Drawing.Size(84, 18);
             this.manRadioButton.TabIndex = 110;
+            this.manRadioButton.TabStop = true;
             this.manRadioButton.Text = "Мужчина";
             this.manRadioButton.UseVisualStyleBackColor = true;
             this.manRadioButton.CheckedChanged += new System.EventHandler(this.manRadioButton_CheckedChanged);
