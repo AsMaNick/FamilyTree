@@ -55,15 +55,15 @@
             this.burialPlaceTextBox = new System.Windows.Forms.TextBox();
             this.burialPlaceLabel = new System.Windows.Forms.Label();
             this.avaterGroupBox = new System.Windows.Forms.GroupBox();
-            this.additionalInfoGroupBox = new System.Windows.Forms.GroupBox();
-            this.additionalInfoRichTextBox = new System.Windows.Forms.RichTextBox();
             this.addPhotoButton = new System.Windows.Forms.Button();
             this.avatarPictureBox = new System.Windows.Forms.PictureBox();
+            this.additionalInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.additionalInfoRichTextBox = new System.Windows.Forms.RichTextBox();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
-            this.additionalInfoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).BeginInit();
+            this.additionalInfoGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainInfoLabel
@@ -171,7 +171,7 @@
             this.addButton.Location = new System.Drawing.Point(199, 507);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(103, 25);
-            this.addButton.TabIndex = 13;
+            this.addButton.TabIndex = 4;
             this.addButton.Text = "Добавить";
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
@@ -190,7 +190,7 @@
             this.deathDate.Location = new System.Drawing.Point(7, 64);
             this.deathDate.Name = "deathDate";
             this.deathDate.Size = new System.Drawing.Size(182, 22);
-            this.deathDate.TabIndex = 11;
+            this.deathDate.TabIndex = 3;
             this.deathDate.Visible = false;
             // 
             // manRadioButton
@@ -201,8 +201,7 @@
             this.manRadioButton.Location = new System.Drawing.Point(7, 20);
             this.manRadioButton.Name = "manRadioButton";
             this.manRadioButton.Size = new System.Drawing.Size(84, 18);
-            this.manRadioButton.TabIndex = 0;
-            this.manRadioButton.TabStop = true;
+            this.manRadioButton.TabIndex = 110;
             this.manRadioButton.Text = "Мужчина";
             this.manRadioButton.UseVisualStyleBackColor = true;
             this.manRadioButton.CheckedChanged += new System.EventHandler(this.manRadioButton_CheckedChanged);
@@ -214,7 +213,7 @@
             this.womanRadioButton.Location = new System.Drawing.Point(198, 20);
             this.womanRadioButton.Name = "womanRadioButton";
             this.womanRadioButton.Size = new System.Drawing.Size(84, 18);
-            this.womanRadioButton.TabIndex = 1;
+            this.womanRadioButton.TabIndex = 122;
             this.womanRadioButton.Text = "Женщина";
             this.womanRadioButton.UseVisualStyleBackColor = true;
             this.womanRadioButton.CheckedChanged += new System.EventHandler(this.womanRadioButton_CheckedChanged);
@@ -227,7 +226,7 @@
             this.aliveRadioButton.Location = new System.Drawing.Point(7, 20);
             this.aliveRadioButton.Name = "aliveRadioButton";
             this.aliveRadioButton.Size = new System.Drawing.Size(52, 18);
-            this.aliveRadioButton.TabIndex = 8;
+            this.aliveRadioButton.TabIndex = 0;
             this.aliveRadioButton.TabStop = true;
             this.aliveRadioButton.Text = "Жив";
             this.aliveRadioButton.UseVisualStyleBackColor = true;
@@ -240,7 +239,7 @@
             this.deadRadioButton.Location = new System.Drawing.Point(198, 20);
             this.deadRadioButton.Name = "deadRadioButton";
             this.deadRadioButton.Size = new System.Drawing.Size(57, 18);
-            this.deadRadioButton.TabIndex = 9;
+            this.deadRadioButton.TabIndex = 1;
             this.deadRadioButton.Text = "Умер";
             this.deadRadioButton.UseVisualStyleBackColor = true;
             this.deadRadioButton.CheckedChanged += new System.EventHandler(this.deadRadioButton_CheckedChanged);
@@ -264,7 +263,7 @@
             this.mainInfoGroupBox.Location = new System.Drawing.Point(145, 47);
             this.mainInfoGroupBox.Name = "mainInfoGroupBox";
             this.mainInfoGroupBox.Size = new System.Drawing.Size(341, 225);
-            this.mainInfoGroupBox.TabIndex = 20;
+            this.mainInfoGroupBox.TabIndex = 0;
             this.mainInfoGroupBox.TabStop = false;
             // 
             // maidenNameTextBox
@@ -297,7 +296,7 @@
             this.aliveInfo.Location = new System.Drawing.Point(145, 279);
             this.aliveInfo.Name = "aliveInfo";
             this.aliveInfo.Size = new System.Drawing.Size(341, 108);
-            this.aliveInfo.TabIndex = 21;
+            this.aliveInfo.TabIndex = 1;
             this.aliveInfo.TabStop = false;
             // 
             // contactsTextBox
@@ -305,7 +304,7 @@
             this.contactsTextBox.Location = new System.Drawing.Point(7, 64);
             this.contactsTextBox.Name = "contactsTextBox";
             this.contactsTextBox.Size = new System.Drawing.Size(182, 20);
-            this.contactsTextBox.TabIndex = 10;
+            this.contactsTextBox.TabIndex = 2;
             // 
             // contactsLabel
             // 
@@ -322,7 +321,7 @@
             this.burialPlaceTextBox.Location = new System.Drawing.Point(198, 65);
             this.burialPlaceTextBox.Name = "burialPlaceTextBox";
             this.burialPlaceTextBox.Size = new System.Drawing.Size(135, 20);
-            this.burialPlaceTextBox.TabIndex = 12;
+            this.burialPlaceTextBox.TabIndex = 4;
             this.burialPlaceTextBox.Visible = false;
             // 
             // burialPlaceLabel
@@ -344,27 +343,8 @@
             this.avaterGroupBox.Location = new System.Drawing.Point(14, 47);
             this.avaterGroupBox.Name = "avaterGroupBox";
             this.avaterGroupBox.Size = new System.Drawing.Size(124, 339);
-            this.avaterGroupBox.TabIndex = 22;
+            this.avaterGroupBox.TabIndex = 3;
             this.avaterGroupBox.TabStop = false;
-            // 
-            // additionalInfoGroupBox
-            // 
-            this.additionalInfoGroupBox.Controls.Add(this.additionalInfoRichTextBox);
-            this.additionalInfoGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.additionalInfoGroupBox.Location = new System.Drawing.Point(14, 393);
-            this.additionalInfoGroupBox.Name = "additionalInfoGroupBox";
-            this.additionalInfoGroupBox.Size = new System.Drawing.Size(471, 108);
-            this.additionalInfoGroupBox.TabIndex = 23;
-            this.additionalInfoGroupBox.TabStop = false;
-            this.additionalInfoGroupBox.Text = "Дополнительная информация";
-            // 
-            // additionalInfoRichTextBox
-            // 
-            this.additionalInfoRichTextBox.Location = new System.Drawing.Point(7, 20);
-            this.additionalInfoRichTextBox.Name = "additionalInfoRichTextBox";
-            this.additionalInfoRichTextBox.Size = new System.Drawing.Size(457, 80);
-            this.additionalInfoRichTextBox.TabIndex = 13;
-            this.additionalInfoRichTextBox.Text = "";
             // 
             // addPhotoButton
             // 
@@ -375,6 +355,7 @@
             this.addPhotoButton.Name = "addPhotoButton";
             this.addPhotoButton.Size = new System.Drawing.Size(33, 23);
             this.addPhotoButton.TabIndex = 1;
+            this.addPhotoButton.TabStop = false;
             this.addPhotoButton.UseVisualStyleBackColor = false;
             this.addPhotoButton.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -386,6 +367,25 @@
             this.avatarPictureBox.Size = new System.Drawing.Size(79, 103);
             this.avatarPictureBox.TabIndex = 0;
             this.avatarPictureBox.TabStop = false;
+            // 
+            // additionalInfoGroupBox
+            // 
+            this.additionalInfoGroupBox.Controls.Add(this.additionalInfoRichTextBox);
+            this.additionalInfoGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.additionalInfoGroupBox.Location = new System.Drawing.Point(14, 393);
+            this.additionalInfoGroupBox.Name = "additionalInfoGroupBox";
+            this.additionalInfoGroupBox.Size = new System.Drawing.Size(471, 108);
+            this.additionalInfoGroupBox.TabIndex = 2;
+            this.additionalInfoGroupBox.TabStop = false;
+            this.additionalInfoGroupBox.Text = "Дополнительная информация";
+            // 
+            // additionalInfoRichTextBox
+            // 
+            this.additionalInfoRichTextBox.Location = new System.Drawing.Point(7, 20);
+            this.additionalInfoRichTextBox.Name = "additionalInfoRichTextBox";
+            this.additionalInfoRichTextBox.Size = new System.Drawing.Size(457, 80);
+            this.additionalInfoRichTextBox.TabIndex = 0;
+            this.additionalInfoRichTextBox.Text = "";
             // 
             // AddPerson
             // 
@@ -406,8 +406,8 @@
             this.aliveInfo.ResumeLayout(false);
             this.aliveInfo.PerformLayout();
             this.avaterGroupBox.ResumeLayout(false);
-            this.additionalInfoGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).EndInit();
+            this.additionalInfoGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

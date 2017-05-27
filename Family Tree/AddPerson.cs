@@ -26,6 +26,8 @@ namespace Family_Tree
             {
                 InitializeForm();
             }
+            manRadioButton.TabStop = false;
+            Debug.WriteLine(manRadioButton.TabStop);
         }
 
         public void InitializeForm()
@@ -86,10 +88,15 @@ namespace Family_Tree
             addedPerson.mother = p.mother;
             addedPerson.father = p.father;
             addedPerson.partner = p.partner;
-            addedPerson.siblings = new int[p.siblings.Length];
-            for (int i = 0; i < p.siblings.Length; ++i)
+            addedPerson.siblings = new List<int> ();
+            for (int i = 0; i < p.siblings.Count; ++i)
             {
-                addedPerson.siblings[i] = p.siblings[i];
+                addedPerson.siblings.Add(p.siblings[i]);
+            }
+            addedPerson.children = new List<int>();
+            for (int i = 0; i < p.children.Count; ++i)
+            {
+                addedPerson.children.Add(p.children[i]);
             }
         }
 
@@ -111,10 +118,15 @@ namespace Family_Tree
                 p.mother = addedPerson.mother;
                 p.father = addedPerson.father;
                 p.partner = addedPerson.partner;
-                p.siblings = new int[addedPerson.siblings.Length];
-                for (int i = 0; i < addedPerson.siblings.Length; ++i)
+                p.siblings = new List<int>();
+                for (int i = 0; i < addedPerson.siblings.Count; ++i)
                 {
-                    p.siblings[i] = addedPerson.siblings[i];
+                    p.siblings.Add(addedPerson.siblings[i]);
+                }
+                p.children = new List<int>();
+                for (int i = 0; i < addedPerson.children.Count; ++i)
+                {
+                    p.children.Add(addedPerson.children[i]);
                 }
             }
             addedPerson = p;
@@ -131,6 +143,7 @@ namespace Family_Tree
             {
                 parent.data.allPeople[id] = p;
             }
+            parent.data.updateConnections();
             this.DialogResult = DialogResult.OK;
         }
 

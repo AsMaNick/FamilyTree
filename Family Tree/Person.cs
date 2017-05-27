@@ -11,19 +11,27 @@ namespace Family_Tree
     public class Person
     {
         public int mother, father, partner, id;
-        public int[] siblings;
+        public List<int> children;
+        public List<int> siblings;
         public bool man, alive;
         public string name, surname, patronymic, maidenName, birthPlace, contacts, burialPlace;
         public string fileAvatar;
         public string[] additionalInfo;
         public DateTime birthDate, deathDate;
-        public Person()
+        public bool incognito;
+
+        public Person(bool Incognito = false, bool Male = true)
         {
             mother = -1;
             father = -1;
             partner = -1;
-            siblings = new int[0];
+            siblings = new List<int> ();
+            children = new List<int> ();
+            incognito = Incognito;
+            man = Male;
+            fileAvatar = "";
         }
+
         public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, DateTime BirthDate, DateTime DeathDate, string[] AdditionalInfo, string FileAvatar, int Id)
         {
             name = Name;
@@ -47,13 +55,35 @@ namespace Family_Tree
             mother = -1;
             father = -1;
             partner = -1;
-            siblings = new int[0];
+            siblings = new List<int>();
+            children = new List<int>();
+            incognito = false;
         }
         public string FullName
         {
             get 
             {
-                return name + " " + surname;
+                if (incognito)
+                {
+                    return "Неизвестно";
+                }
+                if (patronymic == "")
+                {
+                    return surname + " " + name;
+                }
+                return surname + " " + name + " " + patronymic;
+                //return name + " " + surname;
+            }
+        }
+        public string ShortName
+        {
+            get
+            {
+                if (incognito)
+                {
+                    return "Неизвестно";
+                }
+                return surname + " " + name;
             }
         }
         public string BasicInfo()
@@ -106,10 +136,15 @@ namespace Family_Tree
             output.WriteLine(mother);
             output.WriteLine(father);
             output.WriteLine(partner);
-            output.WriteLine(siblings.Length);
-            for (int i = 0; i < siblings.Length; ++i)
+            output.WriteLine(siblings.Count);
+            for (int i = 0; i < siblings.Count; ++i)
             {
                 output.WriteLine(siblings[i]);
+            }
+            output.WriteLine(children.Count);
+            for (int i = 0; i < children.Count; ++i)
+            {
+                output.WriteLine(children[i]);
             }
         }
         public void readFromFile(ref StreamReader input) 
@@ -136,10 +171,16 @@ namespace Family_Tree
             father = Int32.Parse(input.ReadLine());
             partner = Int32.Parse(input.ReadLine());
             n = Int32.Parse(input.ReadLine());
-            siblings = new int[n];
+            siblings = new List<int> ();
             for (int i = 0; i < n; ++i)
             {
-                siblings[i] = Int32.Parse(input.ReadLine());
+                siblings.Add(Int32.Parse(input.ReadLine()));
+            }
+            n = Int32.Parse(input.ReadLine());
+            children = new List<int>();
+            for (int i = 0; i < n; ++i)
+            {
+                children.Add(Int32.Parse(input.ReadLine()));
             }
         }
     }
