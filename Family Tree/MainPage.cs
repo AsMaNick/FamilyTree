@@ -37,6 +37,7 @@ namespace Family_Tree
         private void turnOffPanels()
         {
             dataGridView.Visible = false;
+            treePanel2.Visible = false;
             treePanel.Visible = false;
             treeSettingsPanel.Visible = false;
             treePanel.Controls.Clear();
@@ -146,6 +147,19 @@ namespace Family_Tree
             if (e.Button == MouseButtons.Right) {
                 PictureBox pb = (PictureBox) sender;
                 chosenPerson = (Person) pb.Tag;
+                ToolStripMenuItem tAdd = (ToolStripMenuItem) addConneсtionStrip.Items[0];
+                ToolStripMenuItem fromDataBase = (ToolStripMenuItem) tAdd.DropDownItems[0];
+                ToolStripMenuItem newPerson = (ToolStripMenuItem) tAdd.DropDownItems[1];
+                if (chosenPerson.man)
+                {
+                    fromDataBase.DropDownItems[6].Text = "Жену";
+                    newPerson.DropDownItems[6].Text = "Жену";
+                }
+                else
+                {
+                    fromDataBase.DropDownItems[6].Text = "Мужа";
+                    newPerson.DropDownItems[6].Text = "Мужа";
+                }
                 addConneсtionStrip.Show(MousePosition, ToolStripDropDownDirection.Right);
             }
         }
@@ -173,24 +187,27 @@ namespace Family_Tree
                 pb.Top = minY;
                 pb.Size = new Size(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
                 pb.BackColor = Color.Gray;
-                Debug.WriteLine(pb.Size);
                 treePanel.Controls.Add(pb);
-                Debug.WriteLine("#####");
             }
         }
 
-        public static Image drawBorder(Image im)
+        public static Image drawBorder(Image im, bool isDead = false)
         {
             Bitmap bitmap = new Bitmap(im);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 g.DrawRectangle(new Pen(Brushes.Gray, 5), new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+                if (isDead)
+                {
+                    g.DrawLine(new Pen(Brushes.Black, 4), new Point(0, 20), new Point(20, 0));
+                }
             }
             return bitmap;
         }
 
-        private void showPerson(Person p, int x, int y)
+        private int showPerson(Person p, int x, int y, int maxL = 50)
         {
+
             Debug.WriteLine(string.Format("({0} {1})", x, y));
             PictureBox pb = new PictureBox();
             pb.Name = "Person" + Convert.ToString(p.id);
@@ -199,7 +216,7 @@ namespace Family_Tree
                 pb.Click += new System.EventHandler(showMenu);
             }
             pb.Image = Image.FromFile(p.getPathToAvatar());
-            pb.Image = drawBorder(pb.Image);
+            pb.Image = drawBorder(pb.Image, !p.alive);
             pb.Height = pb.Image.Height;
             pb.Width = pb.Image.Width;
             pb.Left = x;
@@ -212,14 +229,31 @@ namespace Family_Tree
             l.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             l.Size = TextRenderer.MeasureText(l.Text, l.Font);
             l.Left = x + (pb.Width - l.Size.Width) / 2;
+            if (x <= 50)
+            {
+                maxL = x - 10;
+            }
+            if (l.Left + maxL < x)
+            {
+                int dX = x - maxL - l.Left;
+                l.Left += dX;
+                pb.Left += dX;
+            }
             this.treePanel.Controls.Add(pb);
             this.treePanel.Controls.Add(l);
+            return l.Left + l.Width;
         }
 
-        private void showCouple(Person father, Person mother, int x, int y)
+        private int showCouple(Person father, Person mother, int x, int y)
         {
-            showPerson(father, x, y);
-            showPerson(mother, x + dWidthCouple, y);
+            int pos = showPerson(father, x, y);
+            PictureBox p1 = getPbById(father.id);
+            int posX = Math.Max(x + dWidthCouple, p1.Right + 10 + 2 * (pos - p1.Right));
+            showPerson(mother, posX, y, (posX - p1.Right) / 2);
+            PictureBox p2 = getPbById(mother.id);
+            int y1 = (p1.Top + p2.Bottom) / 2;
+            drawLine(new Point(p1.Right, y1), new Point(p2.Left, y1));
+            return p2.Left - p1.Right;
         }
 
         private PictureBox getPbById(int id) {
@@ -233,7 +267,7 @@ namespace Family_Tree
             return p;
         }
 
-        private void drawConnection(PictureBox p1, PictureBox p2, bool rev, bool isChildren = false)
+        private void drawConnection(PictureBox p1, PictureBox p2, bool rev, int distToCouple = 0)
         {
             Pen pen = new Pen(Color.Gray, 2);
             int x1 = (p1.Left + p1.Right) / 2;
@@ -242,12 +276,11 @@ namespace Family_Tree
             {
                 int y1 = p1.Bottom + dText, f = 0;
                 int y2 = p2.Top - 5;
-                if (isChildren)
+                if (distToCouple != 0)
                 {
-                    x1 = (p1.Right + p1.Left + dWidthCouple) / 2;
+                    x1 = (p1.Right + p1.Right + distToCouple) / 2;
                     f = p1.Height / 2 + dText;
                     y1 -= f;
-                    drawLine(new Point(p1.Right, y1), new Point(p1.Left + dWidthCouple, y1));
                 }
                 drawLine(new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));                
             }
@@ -255,12 +288,11 @@ namespace Family_Tree
             {
                 int y1 = p1.Top - 5, f = 0;
                 int y2 = p2.Bottom + dText;
-                if (isChildren)
+                if (distToCouple != 0)
                 {
-                    x1 = (p1.Right + p1.Left + dWidthCouple) / 2;
+                    x1 = (p1.Right + p1.Right + distToCouple) / 2;
                     f = p1.Height / 2 + 5;
                     y1 += f;
-                    drawLine(new Point(p1.Right, y1), new Point(p1.Left + dWidthCouple, y1));
                 }
                 drawLine(new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));                
             }
@@ -320,7 +352,7 @@ namespace Family_Tree
             {
                 realLevel = height - level;
             }
-            showPerson(p, x, 10 + realLevel * dHeight);
+            int nX = Math.Max(x + dWidth, showPerson(p, x, 10 + realLevel * dHeight) + dWidth / 2);
             PictureBox cur = getPbById(p.id);
             if (isFather)
             {
@@ -330,19 +362,23 @@ namespace Family_Tree
             {
                 drawConnection(cur, getPbById(p.mother), rev);
             }
-            return new Pair<int, int> (x, Math.Max(res1.Second, Math.Max(res2.Second, x + dWidth)));
+            return new Pair<int, int> (x, Math.Max(res1.Second, Math.Max(res2.Second, nX)));
         }
 
         private Pair<int, int> buildTreeOfDescendants(Person p, int level, int x, int maxLevel, int height, bool rev)
         {
             List<Pair<int, int> > res = new List<Pair<int, int>>();
             int startX = x;
-            for (int i = 0; i < p.children.Count; ++i)
+            bool areChildren = (p.children.Count > 0 && level + 1 < maxLevel);
+            if (areChildren)
             {
-                res.Add(buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev));
-                startX = res[i].Second;
+                for (int i = 0; i < p.children.Count; ++i)
+                {
+                    res.Add(buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev));
+                    startX = res[i].Second;
+                }
             }
-            if (p.children.Count > 0)
+            if (areChildren)
             {
                 int last = p.children.Count - 1;
                 x = (res[0].First + res[last].First) / 2;
@@ -379,22 +415,25 @@ namespace Family_Tree
                     father = data.allPeople[p.partner];
                 }
             }
-            int pWidth = dWidth;
-            if (p.children.Count != 0)
+            int pWidth = dWidth, distToCouple = 0;
+            if (p.partner != -1 || areChildren)
             {
-                pWidth += dWidthCouple;
-                showCouple(father, mother, x, 10 + realLevel * dHeight);
+                distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight);
+                pWidth += distToCouple;
+                PictureBox cur = getPbById(father.id);
+                pWidth += cur.Width;
             }
             else
             {
                 showPerson(p, x, 10 + realLevel * dHeight);
             }
-            if (p.children.Count != 0)
+            if (areChildren)
             {
+                //Debug.WriteLine(father.FullName + " " + mother.FullName + " " + Convert.ToString(father.id) + " " + Convert.ToString(mother.id));
                 PictureBox cur = getPbById(father.id);
                 for (int i = 0; i < p.children.Count; ++i)
                 {
-                    drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, true);
+                    drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, distToCouple);
                 }
             }
             return new Pair<int, int> (x, Math.Max(startX, x + pWidth));
@@ -462,6 +501,16 @@ namespace Family_Tree
             turnOffPanels();
             treePanel.Controls.Clear();
             int h;
+            string tp = "Предки";
+            if (typeOfTree == DESCENDANTS)
+            {
+                tp = "Потомки";
+            }
+            else if (typeOfTree == HOURGLASS)
+            {
+                tp = "Песочные часы";
+            }
+            treePanel2.Text = data.allPeople[startId].ShortName + ": " + tp;
             if (typeOfTree == ANCESTORS)
             {
                 h = Math.Min(maxH - 1, getHeightOfAncestors(data.allPeople[startId], 0));
@@ -482,9 +531,8 @@ namespace Family_Tree
                 MessageBox.Show("Неизвестный тип дерева", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            treePanel2.Visible = true;
             treePanel.Visible = true;
-            //g = treePanel.CreateGraphics();
-            //buildLinesOfAncestors(data.allPeople[startId], 0, h, ancestorsToUp);
         }
        
         private void деревоПредковToolStripMenuItem_Click(object sender, EventArgs e)

@@ -25,6 +25,7 @@ namespace Family_Tree
             mother = -1;
             father = -1;
             partner = -1;
+            alive = true;
             siblings = new List<int> ();
             children = new List<int> ();
             incognito = Incognito;

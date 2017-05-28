@@ -176,6 +176,10 @@ namespace Family_Tree
                 {
                     allPeople[p.children[i]].mother = p.id;
                 }
+                if (p.partner != -1)
+                {
+                    allPeople[p.partner].children.Add(p.children[i]);
+                }
             }
             for (int i = 0; i < p.siblings.Count; ++i)
             {

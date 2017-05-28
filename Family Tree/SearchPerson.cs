@@ -51,7 +51,7 @@ namespace Family_Tree
             Debug.WriteLine(string.Format("Double Click {0} {1}", e.RowIndex, e.ColumnIndex));
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.ColumnIndex < 2)
             {
-                resId = e.RowIndex;
+                resId = int.Parse(dataGridView.Rows[e.RowIndex].Cells[0].Tag.ToString());
                 this.DialogResult = DialogResult.OK;
             }
         }

@@ -140,6 +140,7 @@
             // surnameTextBox
             // 
             this.surnameTextBox.Location = new System.Drawing.Point(7, 71);
+            this.surnameTextBox.MaxLength = 20;
             this.surnameTextBox.Name = "surnameTextBox";
             this.surnameTextBox.Size = new System.Drawing.Size(116, 20);
             this.surnameTextBox.TabIndex = 2;
@@ -147,6 +148,7 @@
             // nameTextBox
             // 
             this.nameTextBox.Location = new System.Drawing.Point(198, 71);
+            this.nameTextBox.MaxLength = 20;
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(135, 20);
             this.nameTextBox.TabIndex = 3;
@@ -154,6 +156,7 @@
             // patronomicTextBox
             // 
             this.patronomicTextBox.Location = new System.Drawing.Point(7, 125);
+            this.patronomicTextBox.MaxLength = 20;
             this.patronomicTextBox.Name = "patronomicTextBox";
             this.patronomicTextBox.Size = new System.Drawing.Size(116, 20);
             this.patronomicTextBox.TabIndex = 4;
@@ -161,6 +164,7 @@
             // birthPlaceTextBox
             // 
             this.birthPlaceTextBox.Location = new System.Drawing.Point(198, 184);
+            this.birthPlaceTextBox.MaxLength = 50;
             this.birthPlaceTextBox.Name = "birthPlaceTextBox";
             this.birthPlaceTextBox.Size = new System.Drawing.Size(135, 20);
             this.birthPlaceTextBox.TabIndex = 7;
@@ -270,6 +274,7 @@
             // maidenNameTextBox
             // 
             this.maidenNameTextBox.Location = new System.Drawing.Point(198, 124);
+            this.maidenNameTextBox.MaxLength = 20;
             this.maidenNameTextBox.Name = "maidenNameTextBox";
             this.maidenNameTextBox.Size = new System.Drawing.Size(135, 20);
             this.maidenNameTextBox.TabIndex = 5;
@@ -303,6 +308,7 @@
             // contactsTextBox
             // 
             this.contactsTextBox.Location = new System.Drawing.Point(7, 64);
+            this.contactsTextBox.MaxLength = 100;
             this.contactsTextBox.Name = "contactsTextBox";
             this.contactsTextBox.Size = new System.Drawing.Size(182, 20);
             this.contactsTextBox.TabIndex = 2;
@@ -320,6 +326,7 @@
             // burialPlaceTextBox
             // 
             this.burialPlaceTextBox.Location = new System.Drawing.Point(198, 65);
+            this.burialPlaceTextBox.MaxLength = 100;
             this.burialPlaceTextBox.Name = "burialPlaceTextBox";
             this.burialPlaceTextBox.Size = new System.Drawing.Size(135, 20);
             this.burialPlaceTextBox.TabIndex = 4;
