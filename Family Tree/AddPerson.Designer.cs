@@ -399,7 +399,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(507, 537);
+            this.ClientSize = new System.Drawing.Size(497, 537);
             this.Controls.Add(this.additionalInfoGroupBox);
             this.Controls.Add(this.avaterGroupBox);
             this.Controls.Add(this.aliveInfo);
@@ -407,6 +407,7 @@
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.mainInfoLabel);
             this.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "AddPerson";
             this.Text = "AddPerson";
             this.mainInfoGroupBox.ResumeLayout(false);

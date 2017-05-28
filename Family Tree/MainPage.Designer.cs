@@ -95,7 +95,7 @@
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.mainMenuStrip.Size = new System.Drawing.Size(705, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(659, 24);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -162,7 +162,7 @@
             this.DeleteColumn});
             this.dataGridView.Location = new System.Drawing.Point(14, 29);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(678, 390);
+            this.dataGridView.Size = new System.Drawing.Size(483, 342);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
@@ -197,7 +197,7 @@
             this.treePanel2.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.treePanel2.Location = new System.Drawing.Point(14, 30);
             this.treePanel2.Name = "treePanel2";
-            this.treePanel2.Size = new System.Drawing.Size(677, 389);
+            this.treePanel2.Size = new System.Drawing.Size(631, 369);
             this.treePanel2.TabIndex = 2;
             this.treePanel2.TabStop = false;
             this.treePanel2.Visible = false;
@@ -531,20 +531,21 @@
             this.treePanel.AutoScroll = true;
             this.treePanel.Location = new System.Drawing.Point(9, 28);
             this.treePanel.Name = "treePanel";
-            this.treePanel.Size = new System.Drawing.Size(662, 355);
+            this.treePanel.Size = new System.Drawing.Size(616, 335);
             this.treePanel.TabIndex = 0;
             // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 432);
+            this.ClientSize = new System.Drawing.Size(659, 412);
             this.Controls.Add(this.mainMenuStrip);
             this.Controls.Add(this.treeSettingsPanel);
-            this.Controls.Add(this.treePanel2);
             this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.treePanel2);
             this.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.MainMenuStrip = this.mainMenuStrip;
+            this.MinimumSize = new System.Drawing.Size(550, 430);
             this.Name = "MainPage";
             this.Text = "MainPage";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainPage_FormClosing);
