@@ -26,7 +26,16 @@ namespace Family_Tree
         {
             InitializeComponent();
             data = new DataBase();
-            dataGridView.Visible = false;
+            turnOffPanels();
+            dataGridView.Visible = true;
+            DrawGridView();
+            enableSavingTree(false);
+        }
+
+        private void enableSavingTree(bool value)
+        {
+            ToolStripMenuItem file = (ToolStripMenuItem)mainMenuStrip.Items[0];
+            file.DropDownItems[1].Visible = value;
         }
 
         public void AddPerson(Person p)
@@ -37,9 +46,10 @@ namespace Family_Tree
         private void turnOffPanels()
         {
             dataGridView.Visible = false;
-            treePanel2.Visible = false;
+            treeGroupBox.Visible = false;
             treePanel.Visible = false;
             treeSettingsPanel.Visible = false;
+            enableSavingTree(false);
             treePanel.Controls.Clear();
         }
 
@@ -176,13 +186,13 @@ namespace Family_Tree
             {
                 int minX = Math.Min(p[i].X, p[i + 1].X);
                 int minY = Math.Min(p[i].Y, p[i + 1].Y);
-                /*Bitmap bitmap = new Bitmap(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
+                Bitmap bitmap = new Bitmap(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     g.DrawLine(pen, new Point(p[i].X - minX + 1, p[i].Y - minY + 1), new Point(p[i + 1].X - minX + 1, p[i + 1].Y - minY + 1));
-                }*/
+                }
                 PictureBox pb = new PictureBox();
-                //pb.Image = bitmap;
+                pb.Image = bitmap;
                 pb.Left = minX;
                 pb.Top = minY;
                 pb.Size = new Size(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
@@ -201,6 +211,7 @@ namespace Family_Tree
                 {
                     g.DrawLine(new Pen(Brushes.Black, 4), new Point(0, 20), new Point(20, 0));
                 }
+                Font font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             }
             return bitmap;
         }
@@ -510,7 +521,7 @@ namespace Family_Tree
             {
                 tp = "Песочные часы";
             }
-            treePanel2.Text = data.allPeople[startId].ShortName + ": " + tp;
+            treeGroupBox.Text = data.allPeople[startId].ShortName + ": " + tp;
             if (typeOfTree == ANCESTORS)
             {
                 h = Math.Min(maxH - 1, getHeightOfAncestors(data.allPeople[startId], 0));
@@ -531,8 +542,9 @@ namespace Family_Tree
                 MessageBox.Show("Неизвестный тип дерева", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            treePanel2.Visible = true;
+            treeGroupBox.Visible = true;
             treePanel.Visible = true;
+            enableSavingTree(true);
         }
        
         private void деревоПредковToolStripMenuItem_Click(object sender, EventArgs e)
@@ -804,6 +816,77 @@ namespace Family_Tree
             if (res == DialogResult.Yes)
             {
                 Close();
+            }
+        }
+
+        private void putText(object sender, PaintEventArgs e)
+        {
+            PictureBox p = (PictureBox) sender;
+            Pair<Font, string> parameters = (Pair<Font, string>) p.Tag;
+            TextRenderer.DrawText(e.Graphics, parameters.Second, parameters.First, new Point(0, 0), Control.DefaultForeColor);
+        }
+
+        private Bitmap writeText(Size size, Font font, string text)
+        {
+            PictureBox p = new PictureBox();
+            p.Size = size;
+            p.Paint += new PaintEventHandler(putText);
+            p.Tag = new Pair<Font, string> (font, text);
+            treePanel.Controls.Add(p);
+            p.Refresh();
+            treePanel.Controls.Remove(p);
+            Bitmap b = new Bitmap(size.Width, size.Height);
+            p.DrawToBitmap(b, new Rectangle(new Point(0, 0), size));
+            return b;
+        }
+
+        private Bitmap generateTreeImage()
+        {
+            Bitmap header = writeText(TextRenderer.MeasureText(treeGroupBox.Text, treeGroupBox.Font), treeGroupBox.Font, treeGroupBox.Text);
+            int width = 0, height = 0;
+            for (int i = 0; i < treePanel.Controls.Count; ++i)
+            {
+                Control control = treePanel.Controls[i];
+                width = Math.Max(width, control.Right);
+                height = Math.Max(height, control.Bottom);
+                //Debug.WriteLine(string.Format("{0} {1}", control.GetType(), control.Name));
+            }
+            int plY = header.Height * 2;
+            height += plY;
+            Bitmap bitmap = new Bitmap(width, height + header.Height / 2);
+            
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.Clear(Control.DefaultBackColor);
+                g.DrawImage(header, new Point((width - header.Width) / 2, header.Height / 2));
+                for (int i = 0; i < treePanel.Controls.Count; ++i)
+                {
+                    Control control = treePanel.Controls[i];
+                    if (control.GetType() == new PictureBox().GetType())
+                    {
+                        PictureBox p = (PictureBox)control;
+                        g.DrawImage(p.Image, new Point(p.Left, p.Top + plY));
+                    }
+                    else if (control.GetType() == new Label().GetType())
+                    {
+                        Label l = (Label) control;
+                        Bitmap b = writeText(l.Size, l.Font, l.Text);
+                        g.DrawImage(b, new Point(l.Left, l.Top + plY));
+                    }
+                }
+            }
+            return bitmap;
+        }
+
+        private void сохранитьДеревоВФайлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bitmap bitmap = generateTreeImage();
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "png|*.png";
+            DialogResult res = fileDialog.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                bitmap.Save(fileDialog.FileName);
             }
         }
     }

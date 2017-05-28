@@ -32,6 +32,7 @@
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьДеревоВФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.базаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.поискToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,7 +42,8 @@
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnExtraInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.treePanel2 = new System.Windows.Forms.GroupBox();
+            this.treeGroupBox = new System.Windows.Forms.GroupBox();
+            this.treePanel = new System.Windows.Forms.Panel();
             this.addConneсtionStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.добавитьСвязьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отцаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,10 +77,9 @@
             this.ancestorsRadioButton = new System.Windows.Forms.RadioButton();
             this.descendantsRadioButton = new System.Windows.Forms.RadioButton();
             this.hourglassRadioButton = new System.Windows.Forms.RadioButton();
-            this.treePanel = new System.Windows.Forms.Panel();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.treePanel2.SuspendLayout();
+            this.treeGroupBox.SuspendLayout();
             this.addConneсtionStrip.SuspendLayout();
             this.treeSettingsPanel.SuspendLayout();
             this.numberOfGenerationsGroupBox.SuspendLayout();
@@ -103,6 +104,7 @@
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.сохранитьToolStripMenuItem,
+            this.сохранитьДеревоВФайлToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
@@ -111,14 +113,21 @@
             // сохранитьToolStripMenuItem
             // 
             this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
-            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.сохранитьToolStripMenuItem.Text = "Сохранить";
             this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
+            // 
+            // сохранитьДеревоВФайлToolStripMenuItem
+            // 
+            this.сохранитьДеревоВФайлToolStripMenuItem.Name = "сохранитьДеревоВФайлToolStripMenuItem";
+            this.сохранитьДеревоВФайлToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.сохранитьДеревоВФайлToolStripMenuItem.Text = "Сохранить дерево в файл";
+            this.сохранитьДеревоВФайлToolStripMenuItem.Click += new System.EventHandler(this.сохранитьДеревоВФайлToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -188,19 +197,30 @@
             this.DeleteColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.DeleteColumn.Width = 23;
             // 
-            // treePanel2
+            // treeGroupBox
             // 
-            this.treePanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.treeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treePanel2.Controls.Add(this.treePanel);
-            this.treePanel2.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.treePanel2.Location = new System.Drawing.Point(14, 30);
-            this.treePanel2.Name = "treePanel2";
-            this.treePanel2.Size = new System.Drawing.Size(631, 369);
-            this.treePanel2.TabIndex = 2;
-            this.treePanel2.TabStop = false;
-            this.treePanel2.Visible = false;
+            this.treeGroupBox.Controls.Add(this.treePanel);
+            this.treeGroupBox.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.treeGroupBox.Location = new System.Drawing.Point(14, 30);
+            this.treeGroupBox.Name = "treeGroupBox";
+            this.treeGroupBox.Size = new System.Drawing.Size(631, 369);
+            this.treeGroupBox.TabIndex = 2;
+            this.treeGroupBox.TabStop = false;
+            this.treeGroupBox.Visible = false;
+            // 
+            // treePanel
+            // 
+            this.treePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treePanel.AutoScroll = true;
+            this.treePanel.Location = new System.Drawing.Point(9, 28);
+            this.treePanel.Name = "treePanel";
+            this.treePanel.Size = new System.Drawing.Size(616, 335);
+            this.treePanel.TabIndex = 0;
             // 
             // addConneсtionStrip
             // 
@@ -523,17 +543,6 @@
             this.hourglassRadioButton.Text = "Песочные часы";
             this.hourglassRadioButton.UseVisualStyleBackColor = true;
             // 
-            // treePanel
-            // 
-            this.treePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.treePanel.AutoScroll = true;
-            this.treePanel.Location = new System.Drawing.Point(9, 28);
-            this.treePanel.Name = "treePanel";
-            this.treePanel.Size = new System.Drawing.Size(616, 335);
-            this.treePanel.TabIndex = 0;
-            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -542,7 +551,7 @@
             this.Controls.Add(this.mainMenuStrip);
             this.Controls.Add(this.treeSettingsPanel);
             this.Controls.Add(this.dataGridView);
-            this.Controls.Add(this.treePanel2);
+            this.Controls.Add(this.treeGroupBox);
             this.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.MainMenuStrip = this.mainMenuStrip;
             this.MinimumSize = new System.Drawing.Size(550, 430);
@@ -552,7 +561,7 @@
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.treePanel2.ResumeLayout(false);
+            this.treeGroupBox.ResumeLayout(false);
             this.addConneсtionStrip.ResumeLayout(false);
             this.treeSettingsPanel.ResumeLayout(false);
             this.numberOfGenerationsGroupBox.ResumeLayout(false);
@@ -576,7 +585,7 @@
         private System.Windows.Forms.ToolStripMenuItem деревоToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.GroupBox treePanel2;
+        private System.Windows.Forms.GroupBox treeGroupBox;
         private System.Windows.Forms.ContextMenuStrip addConneсtionStrip;
         private System.Windows.Forms.ToolStripMenuItem добавитьСвязьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem отцаToolStripMenuItem;
@@ -614,6 +623,7 @@
         private System.Windows.Forms.ToolStripMenuItem дочьToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
         private System.Windows.Forms.Panel treePanel;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьДеревоВФайлToolStripMenuItem;
 
     }
 }
