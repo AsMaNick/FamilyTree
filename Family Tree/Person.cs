@@ -17,7 +17,8 @@ namespace Family_Tree
         public string name, surname, patronymic, maidenName, birthPlace, contacts, burialPlace;
         public string fileAvatar;
         public string[] additionalInfo;
-        public DateTime birthDate, deathDate;
+        public Date birthDate;
+        public DateTime deathDate;
         public bool incognito;
 
         public Person(bool Incognito = false, bool Male = true)
@@ -33,7 +34,7 @@ namespace Family_Tree
             fileAvatar = "";
         }
 
-        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, DateTime BirthDate, DateTime DeathDate, string[] AdditionalInfo, string FileAvatar, int Id)
+        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, Date BirthDate, DateTime DeathDate, string[] AdditionalInfo, string FileAvatar, int Id)
         {
             name = Name;
             surname = Surname;
@@ -106,13 +107,22 @@ namespace Family_Tree
             }
             return DataBase.pathToAvatars + this.fileAvatar;
         }
-        private DateTime readDate(ref StreamReader input)
+        private DateTime readDateTime(ref StreamReader input)
         {
             string[] s = input.ReadLine().Split(' ');
             int day = Int32.Parse(s[0]);
             int month = Int32.Parse(s[1]);
             int year = Int32.Parse(s[2]);
             DateTime d = new DateTime(year, month, day);
+            return d;
+        }
+        private Date readDate(ref StreamReader input)
+        {
+            string[] s = input.ReadLine().Split(' ');
+            int day = Int32.Parse(s[0]);
+            int month = Int32.Parse(s[1]);
+            int year = Int32.Parse(s[2]);
+            Date d = new Date(year, month, day);
             return d;
         }
         public void writeToFile(ref StreamWriter output) 
@@ -160,7 +170,7 @@ namespace Family_Tree
             birthPlace = input.ReadLine();
             burialPlace = input.ReadLine();
             birthDate = readDate(ref input);
-            deathDate = readDate(ref input);
+            deathDate = readDateTime(ref input);
             int n = Int32.Parse(input.ReadLine());
             additionalInfo = new string[n];
             for (int i = 0; i < n; ++i)

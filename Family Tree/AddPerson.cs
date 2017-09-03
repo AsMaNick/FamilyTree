@@ -27,7 +27,25 @@ namespace Family_Tree
                 InitializeForm();
             }
             manRadioButton.TabStop = false;
-            Debug.WriteLine(manRadioButton.TabStop);
+        }
+
+        private void updateBirthDate(int y, int m, int d)
+        {
+            this.BirthYear.Text = Convert.ToString(y);
+            if (y == 0)
+            {
+                this.BirthYear.Text = "";
+            }
+            this.BirthMonth.Text = "";
+            if (m > 0)
+            {
+                this.BirthMonth.Text = this.BirthMonth.Items[m - 1].ToString();
+            }
+            this.BirthDay.Text = Convert.ToString(d);
+            if (d == 0)
+            {
+                this.BirthDay.Text = "";
+            }
         }
 
         public void InitializeForm()
@@ -60,7 +78,7 @@ namespace Family_Tree
             this.contactsTextBox.Text = p.contacts;
             this.birthPlaceTextBox.Text = p.birthPlace;
             this.burialPlaceTextBox.Text = p.burialPlace;
-            this.birthdayDate.Value = p.birthDate;
+            updateBirthDate(p.birthDate.Year, p.birthDate.Month, p.birthDate.Day);
             this.deathDate.Value = p.deathDate;
             this.additionalInfoRichTextBox.Text = "";
             for (int i = 0; i < p.additionalInfo.Length; ++i)
@@ -100,6 +118,72 @@ namespace Family_Tree
             }
         }
 
+        private int getMonth(string month)
+        {
+            if (month == "")
+            {
+                return 0;
+            }
+            for (int i = 0; i < BirthMonth.Items.Count; ++i)
+            {
+                if (BirthMonth.Items[i].ToString() == month)
+                {
+                    return i + 1;
+                }
+            }
+            return -1;
+        }
+
+        private bool MyTryParse(string s, out int x) 
+        {
+            if (s == "")
+            {
+                x = 0;
+                return true;
+            }
+            return int.TryParse(s, out x);
+        }
+
+        private bool leapYear(int y)
+        {
+            return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+        }
+
+        private bool dateExists(int y, int m, int d)
+        {
+            if (d == 0)
+            {
+                return true;
+            }
+            if (m == 0)
+            {
+                return 1 <= d && d <= 31;
+            }
+            --m;
+            int[] days = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+            if (leapYear(y))
+            {
+                ++days[1];
+            }
+            return d >= 1 && d <= days[m];
+        }
+
+        private Date getDate()
+        {
+            int d, m, y;
+            bool okDay = MyTryParse(BirthDay.Text, out d);
+            m = getMonth(BirthMonth.Text);
+            bool okYear = int.TryParse(BirthYear.Text, out y);
+            if (okDay && m != -1 && okYear)
+            {
+                if (y >= 0 && y < 3000 && dateExists(y, m, d))
+                {
+                    return new Date(y, m, d);
+                }
+            }
+            throw new System.ArgumentException("Wrong field");
+        }
+
         private void addButton_Click(object sender, EventArgs e)
         {
             string fileAvatar = "";
@@ -112,7 +196,18 @@ namespace Family_Tree
             {
                 nid = parent.data.allPeople.Count;
             }
-            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, birthdayDate.Value, deathDate.Value, additionalInfoRichTextBox.Lines, fileAvatar, nid);
+            Date BirthDate;
+            try
+            {
+                BirthDate = getDate();
+            }
+            catch (ArgumentException exc)
+            {
+                string error = exc.Message;
+                DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата рожения\".", "Подтверждение операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, BirthDate, deathDate.Value, additionalInfoRichTextBox.Lines, fileAvatar, nid);
             if (addedPerson != null)
             {
                 p.mother = addedPerson.mother;
@@ -160,6 +255,7 @@ namespace Family_Tree
             this.maidenNameLabel.Text = "Девичья фамилия";
             this.aliveRadioButton.Text = "Жива";
             this.deadRadioButton.Text = "Умерла";
+            this.womanRadioButton.TabStop = false;
         }
 
         public void enableMan()
@@ -176,6 +272,7 @@ namespace Family_Tree
             this.maidenNameLabel.Text = "Фамилия до брака";
             this.aliveRadioButton.Text = "Жив";
             this.deadRadioButton.Text = "Умер";
+            this.manRadioButton.TabStop = false;
         }
 
         public void fixGender()
@@ -234,11 +331,15 @@ namespace Family_Tree
             if (res == DialogResult.OK)
             {
                 Debug.WriteLine(fileDialog.FileName);
-                int h = this.avatarPictureBox.Image.Height;
-                int w = this.avatarPictureBox.Image.Width;
-                this.avatarPictureBox.Image = (Image) (new Bitmap(Image.FromFile(fileDialog.FileName), new Size(w, h)));
-                this.avatarPictureBox.Tag = new ID(parent.data.AddAvatar(this.avatarPictureBox.Image));
-                Debug.WriteLine(this.avatarPictureBox.Tag.ToString());
+                GetPhoto getPhoto = new GetPhoto(fileDialog.FileName);
+                DialogResult res2 = getPhoto.ShowDialog();
+                if (res2 == DialogResult.OK) {
+                    int w = this.avatarPictureBox.Image.Width;
+                    int h = this.avatarPictureBox.Image.Height;
+                    this.avatarPictureBox.Image = (Image) (new Bitmap(getPhoto.Result, new Size(w, h)));
+                    this.avatarPictureBox.Tag = new ID(parent.data.AddAvatar(this.avatarPictureBox.Image));
+                    Debug.WriteLine(this.avatarPictureBox.Tag.ToString());
+                }
             }
         }
     }

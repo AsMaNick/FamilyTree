@@ -51,6 +51,13 @@
       <DependentUpon>AddPerson.cs</DependentUpon>
     </Compile>
     <Compile Include="DataBase.cs" />
+    <Compile Include="Date.cs" />
+    <Compile Include="GetPhoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetPhoto.Designer.cs">
+      <DependentUpon>GetPhoto.cs</DependentUpon>
+    </Compile>
     <Compile Include="ID.cs" />
     <Compile Include="MainPage.cs">
       <SubType>Form</SubType>
@@ -67,8 +74,14 @@
     <Compile Include="SearchPerson.Designer.cs">
       <DependentUpon>SearchPerson.cs</DependentUpon>
     </Compile>
+    <Compile Include="TransparentPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="AddPerson.resx">
       <DependentUpon>AddPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetPhoto.resx">
+      <DependentUpon>GetPhoto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainPage.resx">
       <DependentUpon>MainPage.cs</DependentUpon>
@@ -86,6 +99,7 @@
     <EmbeddedResource Include="SearchPerson.resx">
       <DependentUpon>SearchPerson.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

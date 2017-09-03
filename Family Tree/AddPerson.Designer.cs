@@ -40,7 +40,6 @@
             this.patronomicTextBox = new System.Windows.Forms.TextBox();
             this.birthPlaceTextBox = new System.Windows.Forms.TextBox();
             this.addButton = new System.Windows.Forms.Button();
-            this.birthdayDate = new System.Windows.Forms.DateTimePicker();
             this.deathDate = new System.Windows.Forms.DateTimePicker();
             this.manRadioButton = new System.Windows.Forms.RadioButton();
             this.womanRadioButton = new System.Windows.Forms.RadioButton();
@@ -59,6 +58,10 @@
             this.avatarPictureBox = new System.Windows.Forms.PictureBox();
             this.additionalInfoGroupBox = new System.Windows.Forms.GroupBox();
             this.additionalInfoRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.BirthDay = new System.Windows.Forms.TextBox();
+            this.BirthMonth = new System.Windows.Forms.ComboBox();
+            this.BirthYear = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
@@ -180,14 +183,6 @@
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
-            // birthdayDate
-            // 
-            this.birthdayDate.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.birthdayDate.Location = new System.Drawing.Point(7, 184);
-            this.birthdayDate.Name = "birthdayDate";
-            this.birthdayDate.Size = new System.Drawing.Size(182, 22);
-            this.birthdayDate.TabIndex = 6;
-            // 
             // deathDate
             // 
             this.deathDate.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -251,12 +246,15 @@
             // 
             // mainInfoGroupBox
             // 
+            this.mainInfoGroupBox.Controls.Add(this.textBox1);
+            this.mainInfoGroupBox.Controls.Add(this.BirthYear);
+            this.mainInfoGroupBox.Controls.Add(this.BirthMonth);
+            this.mainInfoGroupBox.Controls.Add(this.BirthDay);
             this.mainInfoGroupBox.Controls.Add(this.maidenNameTextBox);
             this.mainInfoGroupBox.Controls.Add(this.maidenNameLabel);
             this.mainInfoGroupBox.Controls.Add(this.manRadioButton);
             this.mainInfoGroupBox.Controls.Add(this.womanRadioButton);
             this.mainInfoGroupBox.Controls.Add(this.surnameLabel);
-            this.mainInfoGroupBox.Controls.Add(this.birthdayDate);
             this.mainInfoGroupBox.Controls.Add(this.birthPlaceTextBox);
             this.mainInfoGroupBox.Controls.Add(this.surnameTextBox);
             this.mainInfoGroupBox.Controls.Add(this.birthPlaceLabel);
@@ -395,6 +393,54 @@
             this.additionalInfoRichTextBox.TabIndex = 0;
             this.additionalInfoRichTextBox.Text = "";
             // 
+            // BirthDay
+            // 
+            this.BirthDay.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.BirthDay.Location = new System.Drawing.Point(10, 184);
+            this.BirthDay.MaxLength = 2;
+            this.BirthDay.Name = "BirthDay";
+            this.BirthDay.Size = new System.Drawing.Size(24, 20);
+            this.BirthDay.TabIndex = 123;
+            this.BirthDay.Text = "31";
+            // 
+            // BirthMonth
+            // 
+            this.BirthMonth.FormattingEnabled = true;
+            this.BirthMonth.Items.AddRange(new object[] {
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"});
+            this.BirthMonth.Location = new System.Drawing.Point(34, 184);
+            this.BirthMonth.MaxLength = 8;
+            this.BirthMonth.Name = "BirthMonth";
+            this.BirthMonth.Size = new System.Drawing.Size(87, 22);
+            this.BirthMonth.TabIndex = 124;
+            // 
+            // BirthYear
+            // 
+            this.BirthYear.Location = new System.Drawing.Point(121, 184);
+            this.BirthYear.MaxLength = 4;
+            this.BirthYear.Name = "BirthYear";
+            this.BirthYear.Size = new System.Drawing.Size(39, 20);
+            this.BirthYear.TabIndex = 125;
+            this.BirthYear.Text = "1999";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(3, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 126;
+            // 
             // AddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -436,7 +482,6 @@
         private System.Windows.Forms.TextBox patronomicTextBox;
         private System.Windows.Forms.TextBox birthPlaceTextBox;
         private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.DateTimePicker birthdayDate;
         private System.Windows.Forms.DateTimePicker deathDate;
         private System.Windows.Forms.RadioButton manRadioButton;
         private System.Windows.Forms.RadioButton womanRadioButton;
@@ -455,6 +500,10 @@
         private System.Windows.Forms.Label maidenNameLabel;
         private System.Windows.Forms.TextBox contactsTextBox;
         private System.Windows.Forms.Button addPhotoButton;
+        private System.Windows.Forms.TextBox BirthDay;
+        private System.Windows.Forms.TextBox BirthYear;
+        private System.Windows.Forms.ComboBox BirthMonth;
+        private System.Windows.Forms.TextBox textBox1;
 
 
     }

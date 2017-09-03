@@ -12,16 +12,24 @@ using System.IO;
 
 namespace Family_Tree
 {
+    //Основная форма
     public partial class MainPage : Form
     {
-        const int dWidth = 200, dWidthCouple = 150, dHeight = 150, dText = 20, hLine = 10;
-        const int ANCESTORS = 1, DESCENDANTS = 2, HOURGLASS = 3;
-        const bool ancestorsToUp = true;
+        const int dWidth = 200;//Расстояние между двумя персонами при отображении дерева
+        const int dWidthCouple = 150;//Растояние между родителями при отображении дерева потомков
+        const int dHeight = 150;//Высота одного уровня
+        const int dText = 20;//Высота текста ФИО при отображении дерева
+        const int hLine = 10;//Вертикальный отступ линии от изображения
+        const int ANCESTORS = 1;//Тип дерева предков
+        const int DESCENDANTS = 2;//Тип дерева потомков
+        const int HOURGLASS = 3;//Тип дерева песочные часы
+        const bool ancestorsToUp = true;//Константа, указывающая в какую сторону отображать дерево предков (вверх/вниз)
         
-        public DataBase data;
-        private Person chosenPerson;
+        public DataBase data;//База всех персон
+        private Person chosenPerson;//Выбранный человек для дальнейшого редактирования
         private Graphics g;
-
+        
+        //Конструктор, вызываемый при создании формы
         public MainPage()
         {
             InitializeComponent();
@@ -32,17 +40,36 @@ namespace Family_Tree
             enableSavingTree(false);
         }
 
+        //Метод добавления нового человека в базу
+        public void AddPerson(Person p)
+        {
+            data.AddPerson(p);
+        }
+
+        //Метод, рисующий границу на фотографии
+        public static Image drawBorder(Image im, bool isDead = false)
+        {
+            Bitmap bitmap = new Bitmap(im);
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.DrawRectangle(new Pen(Brushes.Gray, 5), new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+                if (isDead)
+                {
+                    g.DrawLine(new Pen(Brushes.Black, 4), new Point(0, 20), new Point(20, 0));
+                }
+                Font font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            }
+            return bitmap;
+        }
+
+        //Метод, разрещающий сохранять построенное дерево в файл
         private void enableSavingTree(bool value)
         {
             ToolStripMenuItem file = (ToolStripMenuItem)mainMenuStrip.Items[0];
             file.DropDownItems[1].Visible = value;
         }
 
-        public void AddPerson(Person p)
-        {
-            data.AddPerson(p);
-        }
-
+        //Метод, делающей все панели невидимыми
         private void turnOffPanels()
         {
             dataGridView.Visible = false;
@@ -53,6 +80,7 @@ namespace Family_Tree
             treePanel.Controls.Clear();
         }
 
+        //Метод, перерисовывающий активную панель
         private void showActivePanel()
         {
             if (dataGridView.Visible)
@@ -68,16 +96,21 @@ namespace Family_Tree
                 fillStartPersonComboBox();
             }
         }
+
+        //Метод, позволяющий добавить нового человека в базу
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tryAddPerson(-1);
             showActivePanel();
         }
 
+        //Метод, срабатывающий при закрытии окна; сохраняет данные
         private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             data.save();
         }
+
+        //Метод, перерисовывающий список всех персон из базы
         private void DrawGridView()
         {
             treePanel.Controls.Clear();
@@ -91,6 +124,8 @@ namespace Family_Tree
                 dataGridView.Rows[i].ReadOnly = true;
             }
         }
+
+        //Метод, срабатывающий при выборе пункта База - Поиск; отображает таблицу всех персон
         private void поискToolStripMenuItem_Click(object sender, EventArgs e)
         {
             turnOffPanels();
@@ -98,11 +133,13 @@ namespace Family_Tree
             DrawGridView();
         }
 
+        //Метод получения id заданной персоны в базе
         private int getId(int rowIndex)
         {
             return Int32.Parse(dataGridView.Rows[rowIndex].Cells[0].Tag.ToString());
         }
 
+        //Метод, создающий новую форму добавления нового человека; возвращает true если новій человек успешно добавлен
         private Pair<bool, Person> tryAddPerson(int id = -1, bool man = true, bool fixedGender = false)
         {
             AddPerson myForm = new AddPerson(this, id);
@@ -126,6 +163,7 @@ namespace Family_Tree
             return new Pair<bool, Person>(false, myForm.addedPerson);
         }
 
+        //Метод, срабатывающийся при двойном клике на персону; отображает информацию
         private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             Debug.WriteLine(string.Format("Double Click {0} {1}", e.RowIndex, e.ColumnIndex));
@@ -136,6 +174,7 @@ namespace Family_Tree
             }
         }
 
+        //Метод, срабатывающийся при клике на ячейку таблицы
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             Debug.WriteLine(string.Format("Click {0} {1}", e.RowIndex, e.ColumnIndex));
@@ -151,6 +190,7 @@ namespace Family_Tree
             }
         }
 
+        //Метод, показывающий всплывающее меню
         private void showMenu(object sender, EventArgs ee)
         {
             MouseEventArgs e = (MouseEventArgs) ee;
@@ -174,6 +214,7 @@ namespace Family_Tree
             }
         }
 
+        //Метод рисующий соединение между людьми при отображении дерева
         private void drawLine(params Point[] p)
         {
             if (p.Length == 0)
@@ -201,21 +242,7 @@ namespace Family_Tree
             }
         }
 
-        public static Image drawBorder(Image im, bool isDead = false)
-        {
-            Bitmap bitmap = new Bitmap(im);
-            using (Graphics g = Graphics.FromImage(bitmap))
-            {
-                g.DrawRectangle(new Pen(Brushes.Gray, 5), new Rectangle(0, 0, bitmap.Width, bitmap.Height));
-                if (isDead)
-                {
-                    g.DrawLine(new Pen(Brushes.Black, 4), new Point(0, 20), new Point(20, 0));
-                }
-                Font font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            }
-            return bitmap;
-        }
-
+        //Метод, рисующий основную информацию о челевоке при построении дерева
         private int showPerson(Person p, int x, int y, int maxL = 50)
         {
 
@@ -255,6 +282,7 @@ namespace Family_Tree
             return l.Left + l.Width;
         }
 
+        //Метод, рисующий основную информацию о родителях при построении дерева
         private int showCouple(Person father, Person mother, int x, int y)
         {
             int pos = showPerson(father, x, y);
@@ -267,6 +295,7 @@ namespace Family_Tree
             return p2.Left - p1.Right;
         }
 
+        //Метод, получающий заданые элемент по его id
         private PictureBox getPbById(int id) {
             Debug.WriteLine(id);
             PictureBox p = (PictureBox) this.treePanel.Controls.Find("Person" + Convert.ToString(id), true)[0];
@@ -278,6 +307,7 @@ namespace Family_Tree
             return p;
         }
 
+        //Метод, рисующий связь между двумя задаными людьми
         private void drawConnection(PictureBox p1, PictureBox p2, bool rev, int distToCouple = 0)
         {
             Pen pen = new Pen(Color.Gray, 2);
@@ -309,6 +339,7 @@ namespace Family_Tree
             }
         }
 
+        //Метод, определяющий высоту дерева предков
         private int getHeightOfAncestors(Person p, int level)
         {
             int res = level;
@@ -323,6 +354,7 @@ namespace Family_Tree
             return res;
         }
 
+        //Метод определяющий высоту дерева потомков
         private int getHeightOfDescendants(Person p, int level)
         {
             int res = level;
@@ -333,6 +365,7 @@ namespace Family_Tree
             return res;
         }
 
+        //Метод строящий дерево предков
         private Pair<int, int> buildTreeOfAncestors(Person p, int level, int x, int maxLevel, int height, bool rev) 
         {
             Pair<int, int> res1 = new Pair<int, int> (0, x);
@@ -376,6 +409,7 @@ namespace Family_Tree
             return new Pair<int, int> (x, Math.Max(res1.Second, Math.Max(res2.Second, nX)));
         }
 
+        //Метод, стрящий дерево потомков
         private Pair<int, int> buildTreeOfDescendants(Person p, int level, int x, int maxLevel, int height, bool rev)
         {
             List<Pair<int, int> > res = new List<Pair<int, int>>();
@@ -450,6 +484,7 @@ namespace Family_Tree
             return new Pair<int, int> (x, Math.Max(startX, x + pWidth));
         }
 
+        //Метод загрузки параметров дерева с формы
         private string getParametersOfTree(ref int typeOfTree, ref int startId, ref int maxH) 
         {
             if (ancestorsRadioButton.Checked)
@@ -500,6 +535,8 @@ namespace Family_Tree
             }
             return "";
         }
+
+        //Метод построения и отображения дерева на форме
         private void buildTree()
         {
             int typeOfTree = 0, startId = 0, maxH = 0;
@@ -545,13 +582,16 @@ namespace Family_Tree
             treeGroupBox.Visible = true;
             treePanel.Visible = true;
             enableSavingTree(true);
+            this.treePanel.Focus();
         }
-       
+
+        //Обработчик события клика на кнопку построения дерева
         private void деревоПредковToolStripMenuItem_Click(object sender, EventArgs e)
         {
             buildTree();
         }
 
+        //Обработчик события редактирования персоны
         private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Pair<bool, Person> p = tryAddPerson(chosenPerson.id);
@@ -561,6 +601,7 @@ namespace Family_Tree
             }
         }
 
+        //Обработчик события удаления персоны
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int id = chosenPerson.id;
@@ -572,6 +613,7 @@ namespace Family_Tree
             }
         }
 
+        //Метод, заполняющий пункты выпадющего списка персон
         private void fillStartPersonComboBox()
         {
             startPersonComboBox.Items.Clear();
@@ -586,6 +628,7 @@ namespace Family_Tree
             }
         }
 
+        //Обработчик события клика на кнопку работы с деревом
         private void деревоToolStripMenuItem_Click(object sender, EventArgs e)
         {
             turnOffPanels();
@@ -593,6 +636,7 @@ namespace Family_Tree
             fillStartPersonComboBox();
         }
 
+        //Метод, отображающий нужные элементы в зависимости от типа ограничения поколений
         private void limitToRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             if (limitToRadioButton.Checked)
@@ -605,16 +649,19 @@ namespace Family_Tree
             }
         }
 
+        //Обработчик событий клика на кнопку построить дерево
         private void buildButton_Click(object sender, EventArgs e)
         {
             buildTree();
         }
 
+        //Метод, определяющий пол человека в зависимости от типа связи
         private bool isMale(string s, bool male)
         {
             return s == "father" || s == "son" || s == "brother" || (s == "partner" && !male);
         }
 
+        //Метод проверки связи двух персон; возвращает, true если персоны связаны
         private bool dfs(int v1, int v2, bool[] used)
         {
             if (v1 == v2)
@@ -641,6 +688,7 @@ namespace Family_Tree
             return res;
         }
 
+        //Метод проверки связи двух персон; возвращает, true если персоны связаны
         private bool pathExists(int v1, int v2)
         {
             bool[] used = new bool[data.allPeople.Count];
@@ -651,6 +699,7 @@ namespace Family_Tree
             return dfs(v1, v2, used);
         }
 
+        //Метод, позволяющий добавить связь между двумя персонами
         private void addConnection(Person chosenPerson, string typeOfConnection, bool fromDataBase)
         {
             if ((typeOfConnection == "father" && chosenPerson.father != -1) || (typeOfConnection == "mother" && chosenPerson.mother != -1) || (typeOfConnection == "partner" && chosenPerson.partner != -1))
@@ -733,83 +782,98 @@ namespace Family_Tree
             buildTree();
         }
 
+        //Обработчик события клика на пункт меню "добавить отца"
         private void отцаToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "father", true);
         }
 
+        //Обработчик события клика на пункт меню "добавить мать"
         private void матьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "mother", true);
         }
 
+        //Обработчик события клика на пункт меню "добавить сына"
         private void сынаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "son", true);
         }
 
+        //Обработчик события клика на пункт меню "добавить дочь"
         private void дочьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "daughter", true);
         }
 
+        //Обработчик события клика на пункт меню "добавить брата"
         private void братаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "brother", true);
         }
 
+        //Обработчик события клика на пункт меню "добавить сестру"
         private void сеструToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "sister", true);
         }
 
+        //Обработчик события клика на пункт меню "добавить партнера"
         private void партнераToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "partner", true);
         }
 
+        //Обработчик события клика на пункт меню "добавить отца"
         private void отцаToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "father", false);
         }
 
-
+        //Обработчик события клика на пункт меню "добавить мать"
         private void матьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "mother", false);
         }
 
+        //Обработчик события клика на пункт меню "добавить сына"
         private void сынаToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "son", false);
         }
 
+        //Обработчик события клика на пункт меню "добавить дочь"
         private void дочьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "daughter", false);
         }
 
+        //Обработчик события клика на пункт меню "добавить брата"
         private void братаToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "brother", false);
         }
 
+        //Обработчик события клика на пункт меню "добавить сестру"
         private void сеструToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "sister", false);
         }
 
+        //Обработчик события клика на пункт меню "добавить партнера"
         private void партнераToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "partner", false);
         }
 
+        //Обработчик события сохранения данных
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             data.save();
             DialogResult res = MessageBox.Show("Изменения успешно сохранены.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        //Обработчик события выхода из программы
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult res = MessageBox.Show("Вы уверены, что хотите выйти?\nВсе изменения будут сохранены.", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -819,6 +883,7 @@ namespace Family_Tree
             }
         }
 
+        //Метод вывода текста на элемент
         private void putText(object sender, PaintEventArgs e)
         {
             PictureBox p = (PictureBox) sender;
@@ -826,6 +891,7 @@ namespace Family_Tree
             TextRenderer.DrawText(e.Graphics, parameters.Second, parameters.First, new Point(0, 0), Control.DefaultForeColor);
         }
 
+        //Метод вывода текста на элемент
         private Bitmap writeText(Size size, Font font, string text)
         {
             PictureBox p = new PictureBox();
@@ -840,6 +906,7 @@ namespace Family_Tree
             return b;
         }
 
+        //Метод, генерирующий изображение дерева
         private Bitmap generateTreeImage()
         {
             Bitmap header = writeText(TextRenderer.MeasureText(treeGroupBox.Text, treeGroupBox.Font), treeGroupBox.Font, treeGroupBox.Text);
@@ -878,6 +945,7 @@ namespace Family_Tree
             return bitmap;
         }
 
+        //Обработчик события клика на пункт "сохранить дерево в файл"
         private void сохранитьДеревоВФайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Bitmap bitmap = generateTreeImage();
@@ -891,6 +959,7 @@ namespace Family_Tree
         }
     }
 
+    //Вспомагательный класс, хранящий пару элементов
     public class Pair<T, U>
     {
         public Pair()
