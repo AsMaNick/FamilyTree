@@ -110,6 +110,16 @@ namespace Family_Tree
             data.save();
         }
 
+        private string Number(int x, int len)
+        {
+            string s = Convert.ToString(x);
+            while (s.Length < len)
+            {
+                s = "0" + s;
+            }
+            return s;
+        }
+
         //Метод, перерисовывающий список всех персон из базы
         private void DrawGridView()
         {
@@ -118,8 +128,9 @@ namespace Family_Tree
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
                 dataGridView.Rows.Add(new DataGridViewRow());
-                dataGridView.Rows[i].Cells[0].Value = data.allPeople[i].FullName;
-                dataGridView.Rows[i].Cells[1].Value = data.allPeople[i].birthPlace;
+                dataGridView.Rows[i].Cells[0].Value = Number(i + 1, 4);
+                dataGridView.Rows[i].Cells[1].Value = data.allPeople[i].FullName;
+                dataGridView.Rows[i].Cells[2].Value = data.allPeople[i].birthPlace;
                 dataGridView.Rows[i].Cells[0].Tag = new ID(i);
                 dataGridView.Rows[i].ReadOnly = true;
             }
@@ -178,7 +189,7 @@ namespace Family_Tree
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             Debug.WriteLine(string.Format("Click {0} {1}", e.RowIndex, e.ColumnIndex));
-            if (e.RowIndex >= 0 && e.ColumnIndex == 2)
+            if (e.RowIndex >= 0 && e.ColumnIndex == 3)
             {
                 int id = getId(e.RowIndex);
                 DialogResult res = MessageBox.Show("Вы уверены, что хотите удалить информацию о данном человеке?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

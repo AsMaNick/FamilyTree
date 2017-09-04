@@ -17,8 +17,8 @@ namespace Family_Tree
         public string name, surname, patronymic, maidenName, birthPlace, contacts, burialPlace;
         public string fileAvatar;
         public string[] additionalInfo;
-        public Date birthDate;
-        public DateTime deathDate;
+        public Date birthDate, deathDate;
+        //public DateTime birthDate, deathDate;
         public bool incognito;
 
         public Person(bool Incognito = false, bool Male = true)
@@ -34,7 +34,7 @@ namespace Family_Tree
             fileAvatar = "";
         }
 
-        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, Date BirthDate, DateTime DeathDate, string[] AdditionalInfo, string FileAvatar, int Id)
+        public Person(string Name, string Surname, string Patronymic, string MaidenName, bool Man, bool Alive, string Contacts, string BirthPlace, string BurialPlace, Date BirthDate, Date DeathDate, string[] AdditionalInfo, string FileAvatar, int Id)
         {
             name = Name;
             surname = Surname;
@@ -137,7 +137,10 @@ namespace Family_Tree
             output.WriteLine(birthPlace);
             output.WriteLine(burialPlace);
             output.WriteLine(string.Format("{0} {1} {2}", birthDate.Day, birthDate.Month, birthDate.Year));
-            output.WriteLine(string.Format("{0} {1} {2}", deathDate.Day, deathDate.Month, deathDate.Year));
+            if (!alive)
+            {
+                output.WriteLine(string.Format("{0} {1} {2}", deathDate.Day, deathDate.Month, deathDate.Year));
+            }
             output.WriteLine(additionalInfo.Length);
             for (int i = 0; i < additionalInfo.Length; ++i)
             {
@@ -170,7 +173,14 @@ namespace Family_Tree
             birthPlace = input.ReadLine();
             burialPlace = input.ReadLine();
             birthDate = readDate(ref input);
-            deathDate = readDateTime(ref input);
+            if (!alive)
+            {
+                deathDate = readDate(ref input);
+            }
+            else
+            {
+                deathDate = new Date(0, 0, 0);
+            }
             int n = Int32.Parse(input.ReadLine());
             additionalInfo = new string[n];
             for (int i = 0; i < n; ++i)

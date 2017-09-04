@@ -26,25 +26,30 @@ namespace Family_Tree
             {
                 InitializeForm();
             }
+            else
+            {
+                fillAliveMenu(true);
+                fillDeadMenu(false);
+            }
             manRadioButton.TabStop = false;
         }
 
-        private void updateBirthDate(int y, int m, int d)
+        private void updateDate(int y, int m, int d, TextBox Year, ComboBox Month, TextBox Day)
         {
-            this.BirthYear.Text = Convert.ToString(y);
+            Year.Text = Convert.ToString(y);
             if (y == 0)
             {
-                this.BirthYear.Text = "";
+                Year.Text = "";
             }
-            this.BirthMonth.Text = "";
+            Month.Text = "";
             if (m > 0)
             {
-                this.BirthMonth.Text = this.BirthMonth.Items[m - 1].ToString();
+                Month.Text = this.BirthMonth.Items[m - 1].ToString();
             }
-            this.BirthDay.Text = Convert.ToString(d);
+            Day.Text = Convert.ToString(d);
             if (d == 0)
             {
-                this.BirthDay.Text = "";
+                Day.Text = "";
             }
         }
 
@@ -78,8 +83,10 @@ namespace Family_Tree
             this.contactsTextBox.Text = p.contacts;
             this.birthPlaceTextBox.Text = p.birthPlace;
             this.burialPlaceTextBox.Text = p.burialPlace;
-            updateBirthDate(p.birthDate.Year, p.birthDate.Month, p.birthDate.Day);
-            this.deathDate.Value = p.deathDate;
+            updateDate(p.birthDate.Year, p.birthDate.Month, p.birthDate.Day, this.BirthYear, this.BirthMonth, this.BirthDay);
+            updateDate(p.deathDate.Year, p.deathDate.Month, p.deathDate.Day, this.DeathYear, this.DeathMonth, this.DeathDay);
+            Debug.WriteLine(p.deathDate.Year);
+            Debug.WriteLine(DeathYear.Text);
             this.additionalInfoRichTextBox.Text = "";
             for (int i = 0; i < p.additionalInfo.Length; ++i)
             {
@@ -116,6 +123,8 @@ namespace Family_Tree
             {
                 addedPerson.children.Add(p.children[i]);
             }
+            fillAliveMenu(p.alive);
+            fillDeadMenu(!p.alive);
         }
 
         private int getMonth(string month)
@@ -168,12 +177,12 @@ namespace Family_Tree
             return d >= 1 && d <= days[m];
         }
 
-        private Date getDate()
+        private Date getDate(TextBox Year, ComboBox Month, TextBox Day)
         {
             int d, m, y;
-            bool okDay = MyTryParse(BirthDay.Text, out d);
-            m = getMonth(BirthMonth.Text);
-            bool okYear = int.TryParse(BirthYear.Text, out y);
+            bool okDay = MyTryParse(Day.Text, out d);
+            m = getMonth(Month.Text);
+            bool okYear = MyTryParse(Year.Text, out y);
             if (okDay && m != -1 && okYear)
             {
                 if (y >= 0 && y < 3000 && dateExists(y, m, d))
@@ -196,10 +205,10 @@ namespace Family_Tree
             {
                 nid = parent.data.allPeople.Count;
             }
-            Date BirthDate;
+            Date BirthDate, DeathDate;
             try
             {
-                BirthDate = getDate();
+                BirthDate = getDate(BirthYear, BirthMonth, BirthDay);
             }
             catch (ArgumentException exc)
             {
@@ -207,7 +216,17 @@ namespace Family_Tree
                 DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата рожения\".", "Подтверждение операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, BirthDate, deathDate.Value, additionalInfoRichTextBox.Lines, fileAvatar, nid);
+            try
+            {
+                DeathDate = getDate(DeathYear, DeathMonth, DeathDay);
+            }
+            catch (ArgumentException exc)
+            {
+                string error = exc.Message;
+                DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата смерти\".", "Подтверждение операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, BirthDate, DeathDate, additionalInfoRichTextBox.Lines, fileAvatar, nid);
             if (addedPerson != null)
             {
                 p.mother = addedPerson.mother;
@@ -308,7 +327,9 @@ namespace Family_Tree
             this.burialPlaceLabel.Visible = value;
             this.burialPlaceTextBox.Visible = value;
             this.deathDataLabel.Visible = value;
-            this.deathDate.Visible = value;
+            this.DeathYear.Visible = value;
+            this.DeathMonth.Visible = value;
+            this.DeathDay.Visible = value;
         }
 
         private void deadRadioButton_CheckedChanged(object sender, EventArgs e)

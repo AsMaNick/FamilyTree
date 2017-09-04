@@ -41,6 +41,7 @@
             this.деревоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnExtraInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.treeGroupBox = new System.Windows.Forms.GroupBox();
@@ -168,20 +169,27 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnName,
+            this.Column1,
             this.ColumnExtraInfo,
             this.DeleteColumn});
             this.dataGridView.Location = new System.Drawing.Point(14, 29);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(483, 342);
+            this.dataGridView.Size = new System.Drawing.Size(523, 342);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             // 
             // ColumnName
             // 
-            this.ColumnName.HeaderText = "Имя";
+            this.ColumnName.HeaderText = "№";
             this.ColumnName.Name = "ColumnName";
-            this.ColumnName.Width = 200;
+            this.ColumnName.Width = 40;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Имя";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 200;
             // 
             // ColumnExtraInfo
             // 
@@ -549,9 +557,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 412);
+            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.mainMenuStrip);
             this.Controls.Add(this.treeSettingsPanel);
-            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.treeGroupBox);
             this.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -612,9 +620,6 @@
         private System.Windows.Forms.RadioButton hourglassRadioButton;
         private System.Windows.Forms.RadioButton descendantsRadioButton;
         private System.Windows.Forms.RadioButton ancestorsRadioButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
-        private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
         private System.Windows.Forms.GroupBox numberOfGenerationsGroupBox;
         private System.Windows.Forms.GroupBox startPersonGroupBox;
         private System.Windows.Forms.GroupBox typeOfTreeGroupBox;
@@ -627,6 +632,10 @@
         private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
         private System.Windows.Forms.Panel treePanel;
         private System.Windows.Forms.ToolStripMenuItem сохранитьДеревоВФайлToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
+        private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
 
     }
 }
