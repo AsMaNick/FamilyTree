@@ -52,12 +52,11 @@ namespace Family_Tree
             Bitmap bitmap = new Bitmap(im);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
-                g.DrawRectangle(new Pen(Brushes.Gray, 5), new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+                g.DrawRectangle(new Pen(Brushes.Gray, 5), new Rectangle(0, 0, bitmap.Width - 1, bitmap.Height - 1));
                 if (isDead)
                 {
                     g.DrawLine(new Pen(Brushes.Black, 4), new Point(0, 20), new Point(20, 0));
                 }
-                Font font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             }
             return bitmap;
         }
@@ -635,7 +634,7 @@ namespace Family_Tree
             }
             if (startPersonComboBox.Text == "")
             {
-                startPersonComboBox.Text = "Асландуков Матвей Николаевич";
+                startPersonComboBox.Text = data.allPeople[0].FullName;
             }
         }
 
@@ -966,6 +965,23 @@ namespace Family_Tree
             if (res == DialogResult.OK)
             {
                 bitmap.Save(fileDialog.FileName);
+            }
+        }
+
+        private void добавитьФотографиюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png";
+            DialogResult res = fileDialog.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                Debug.WriteLine(fileDialog.FileName);
+                AddPhoto addPhoto = new AddPhoto(fileDialog.FileName, data);
+                DialogResult res2 = addPhoto.ShowDialog();
+                if (res2 == DialogResult.OK)
+                {
+                    data.addPhoto(addPhoto.result);
+                }
             }
         }
     }

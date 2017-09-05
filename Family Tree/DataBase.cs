@@ -13,19 +13,124 @@ namespace Family_Tree
     public class DataBase
     {
         const string pathToDataBase = "data.txt";
+        const string pathToPhotoDataBase = "photoData.txt";
 
         public const string pathToAvatars = "../../images/avatars/";
         public List<Person> allPeople;
         public List<string> allAvatars;
+        public List<Photo> allPhotos;
+
         public DataBase()
         {
             allPeople = new List<Person>();
+            allPhotos = new List<Photo>();
             readFromFile(pathToDataBase);
+            readPhotosFromFile(pathToPhotoDataBase);
+            addPhotosToPeople();
+        }
+        private void addPhotosToPeople()
+        {
+            for (int i = 0; i < allPhotos.Count; ++i)
+            {
+                Photo p = allPhotos[i];
+                for (int j = 0; j < p.peopleIds.Count; ++j)
+                {
+                    allPeople[p.peopleIds[j]].allPhotosIds.Add(i);
+                }
+            }
         }
         public void AddPerson(Person p)
         {
             allPeople.Add(p);
             Debug.WriteLine(p.BasicInfo());
+        }
+        public string AddAvatar(Image im)
+        {
+            string fileName = Convert.ToString(allAvatars.Count) + ".jpg";
+            im.Save(pathToAvatars + fileName);
+            allAvatars.Add(fileName);
+            return fileName;
+        }
+        public void addPhoto(Photo p)
+        {
+            string fileName = "GroupPhoto" + Convert.ToString(allPhotos.Count) + ".jpg";
+            p.img.Save(pathToAvatars + fileName);
+            p.pathToFile = fileName;
+            p.id = allPhotos.Count;
+            for (int i = 0; i < p.peopleIds.Count; ++i)
+            {
+                allPeople[p.peopleIds[i]].allPhotosIds.Add(p.id);
+            }
+            allPhotos.Add(p);
+        }
+        public void readFromFile(string file)
+        {
+            StreamReader input = new StreamReader(file);
+            int n = Convert.ToInt32(input.ReadLine());
+            for (int i = 0; i < n; ++i)
+            {
+                Person p = new Person();
+                p.readFromFile(ref input);
+                p.id = i;
+                allPeople.Add(p);
+                Debug.WriteLine(p.BasicInfo());
+            }
+            n = Convert.ToInt32(input.ReadLine());
+            allAvatars = new List<string>();
+            for (int i = 0; i < n; ++i)
+            {
+                allAvatars.Add(input.ReadLine());
+            }
+            input.Close();
+            updateConnections();
+        }
+        public void writeToFile(string file)
+        {
+            StreamWriter output = new StreamWriter(file);
+            Debug.WriteLine(allPeople.Count);
+            output.WriteLine(allPeople.Count);
+            for (int i = 0; i < allPeople.Count; ++i)
+            {
+                Debug.WriteLine(string.Format("writing person #{0}", i));
+                allPeople[i].writeToFile(ref output);
+            }
+            output.WriteLine(allAvatars.Count);
+            for (int i = 0; i < allAvatars.Count; ++i)
+            {
+                output.WriteLine(allAvatars[i]);
+            }
+            output.Close();
+        }
+
+        public void readPhotosFromFile(string file)
+        {
+            StreamReader input = new StreamReader(file);
+            int n = Convert.ToInt32(input.ReadLine());
+            for (int i = 0; i < n; ++i)
+            {
+                Photo p = new Photo();
+                p.readFromFile(ref input);
+                p.id = i;
+                allPhotos.Add(p);
+            }
+            input.Close();
+        }
+        public void writePhotosToFile(string file)
+        {
+            StreamWriter output = new StreamWriter(file);
+            Debug.WriteLine(allPhotos.Count);
+            output.WriteLine(allPhotos.Count);
+            for (int i = 0; i < allPhotos.Count; ++i)
+            {
+                Debug.WriteLine(string.Format("writing photo #{0}", i));
+                allPhotos[i].writeToFile(ref output);
+            }
+            output.Close();
+        }
+        public void save()
+        {
+            writeToFile(pathToDataBase);
+            writePhotosToFile(pathToPhotoDataBase);
         }
         private void updateLink(ref int cur, int id) 
         {
@@ -85,56 +190,6 @@ namespace Family_Tree
             {
                 Debug.WriteLine(string.Format("Cann't delete unexisting Person, id = {0}", id));
             }
-        }
-        public string AddAvatar(Image im)
-        {
-            string fileName = Convert.ToString(allAvatars.Count) + ".jpg";
-            im.Save(pathToAvatars + fileName);
-            allAvatars.Add(fileName);
-            return fileName;
-        }
-        public void readFromFile(string file)
-        {
-            StreamReader input = new StreamReader(file);
-            int n = Convert.ToInt32(input.ReadLine());
-            for (int i = 0; i < n; ++i)
-            {
-                Person p = new Person();
-                p.readFromFile(ref input);
-                p.id = i;
-                allPeople.Add(p);
-                Debug.WriteLine(p.BasicInfo());
-            }
-            n = Convert.ToInt32(input.ReadLine());
-            allAvatars = new List<string>();
-            for (int i = 0; i < n; ++i)
-            {
-                allAvatars.Add(input.ReadLine());
-            }
-            input.Close();
-            updateConnections();
-        }
-        public void writeToFile(string file)
-        {
-            StreamWriter output = new StreamWriter(file);
-            Debug.WriteLine(allPeople.Count);
-            output.WriteLine(allPeople.Count);
-            for (int i = 0; i < allPeople.Count; ++i)
-            {
-                Debug.WriteLine(string.Format("writing person #{0}", i));
-                allPeople[i].writeToFile(ref output);
-            }
-            output.WriteLine(allAvatars.Count);
-            for (int i = 0; i < allAvatars.Count; ++i)
-            {
-                output.WriteLine(allAvatars[i]);
-            }
-            output.Close();
-        }
-
-        public void save()
-        {
-            writeToFile(pathToDataBase);
         }
 
         private List<int> distinct(List<int> a)

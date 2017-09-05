@@ -13,6 +13,7 @@ namespace Family_Tree
 {
     public partial class AddPerson : Form
     {
+        const int minPhotoHeight = 100, distanceBetweenPhotos = 5;
         private int id;
         private MainPage parent;
         public Person addedPerson;
@@ -213,7 +214,7 @@ namespace Family_Tree
             catch (ArgumentException exc)
             {
                 string error = exc.Message;
-                DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата рожения\".", "Подтверждение операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата рожения\".", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -223,7 +224,7 @@ namespace Family_Tree
             catch (ArgumentException exc)
             {
                 string error = exc.Message;
-                DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата смерти\".", "Подтверждение операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата смерти\".", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, BirthDate, DeathDate, additionalInfoRichTextBox.Lines, fileAvatar, nid);
@@ -362,6 +363,82 @@ namespace Family_Tree
                     Debug.WriteLine(this.avatarPictureBox.Tag.ToString());
                 }
             }
+        }
+
+        private void основнаяИнформацияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            photoPanel.Visible = false;
+        }
+
+        private void placeAllPhotos(Person p, List<Photo> allPhotos)
+        {
+            int h = distanceBetweenPhotos;
+            for (int i = 0; i < p.allPhotosIds.Count; )
+            {
+                int cnt = 0, sum = 0;
+                for (int j = i; j < p.allPhotosIds.Count; ++j)
+                {
+                    int id = p.allPhotosIds[j];
+                    int totalWidth = (cnt + 2) * distanceBetweenPhotos + sum + (allPhotos[id].img.Width * minPhotoHeight) / allPhotos[id].img.Height;
+                    if (totalWidth >= photoPanel.Width)
+                    {
+                        break;
+                    }
+                    ++cnt;
+                    sum += (allPhotos[id].img.Width * minPhotoHeight) / allPhotos[id].img.Height;
+                }
+                cnt = Math.Max(cnt, 1);
+                double k = 1.0 * (photoPanel.Width - 10 - (cnt + 1) * distanceBetweenPhotos) / sum;
+                Debug.WriteLine("{0} {1}", i, k);
+                sum = 0;
+                int plH = 0;
+                for (int j = i; j < i + cnt; ++j)
+                {
+                    int id = p.allPhotosIds[j];
+                    PictureBox pb = new PictureBox();
+                    pb.Image = Photo.Scale(allPhotos[id].img, k * minPhotoHeight / allPhotos[id].img.Height);
+                    pb.Size = pb.Image.Size;
+                    pb.Left = (j - i) * distanceBetweenPhotos + sum;
+                    pb.Top = h;
+                    pb.MouseDoubleClick += photo_MouseDoubleClick;
+                    pb.Tag = id;
+                    plH = pb.Height;
+                    this.photoPanel.Controls.Add(pb);
+                    sum += pb.Width;
+                }
+                h += plH + distanceBetweenPhotos;
+                i += cnt;
+            }
+        }
+
+        void photo_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            PictureBox pb = (PictureBox)(sender);
+            int id = (int)pb.Tag;
+            AddPhoto addPhoto = new AddPhoto(parent.data.allPhotos[id], parent.data);
+            DialogResult res2 = addPhoto.ShowDialog();
+            if (res2 == DialogResult.OK)
+            {
+                
+            }
+        }
+
+        private void фотографииToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (id == -1 || parent.data.allPeople[id].allPhotosIds.Count == 0)
+            {
+                DialogResult res = MessageBox.Show("У данной персоны нет загруженных фотографий.", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            photoPanel.BringToFront();
+            photoPanel.Visible = true;
+            photoPanel.Focus();
+            placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+        }
+
+        private void AddPerson_Activated(object sender, EventArgs e)
+        {
+            //this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
     }
 }

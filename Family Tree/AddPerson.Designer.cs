@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainInfoLabel = new System.Windows.Forms.Label();
             this.surnameLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
             this.patronymicLabel = new System.Windows.Forms.Label();
@@ -52,6 +51,9 @@
             this.maidenNameLabel = new System.Windows.Forms.Label();
             this.aliveInfo = new System.Windows.Forms.GroupBox();
             this.contactsTextBox = new System.Windows.Forms.TextBox();
+            this.DeathYear = new System.Windows.Forms.TextBox();
+            this.DeathMonth = new System.Windows.Forms.ComboBox();
+            this.DeathDay = new System.Windows.Forms.TextBox();
             this.contactsLabel = new System.Windows.Forms.Label();
             this.burialPlaceTextBox = new System.Windows.Forms.TextBox();
             this.burialPlaceLabel = new System.Windows.Forms.Label();
@@ -60,25 +62,17 @@
             this.avatarPictureBox = new System.Windows.Forms.PictureBox();
             this.additionalInfoGroupBox = new System.Windows.Forms.GroupBox();
             this.additionalInfoRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.DeathDay = new System.Windows.Forms.TextBox();
-            this.DeathMonth = new System.Windows.Forms.ComboBox();
-            this.DeathYear = new System.Windows.Forms.TextBox();
+            this.addPersonMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.основнаяИнформацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.фотографииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.photoPanel = new System.Windows.Forms.Panel();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).BeginInit();
             this.additionalInfoGroupBox.SuspendLayout();
+            this.addPersonMenuStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // mainInfoLabel
-            // 
-            this.mainInfoLabel.AutoSize = true;
-            this.mainInfoLabel.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.mainInfoLabel.Location = new System.Drawing.Point(128, 10);
-            this.mainInfoLabel.Name = "mainInfoLabel";
-            this.mainInfoLabel.Size = new System.Drawing.Size(218, 16);
-            this.mainInfoLabel.TabIndex = 0;
-            this.mainInfoLabel.Text = "Введите основную информацию";
             // 
             // surnameLabel
             // 
@@ -343,6 +337,44 @@
             this.contactsTextBox.Size = new System.Drawing.Size(182, 20);
             this.contactsTextBox.TabIndex = 2;
             // 
+            // DeathYear
+            // 
+            this.DeathYear.Location = new System.Drawing.Point(121, 65);
+            this.DeathYear.MaxLength = 4;
+            this.DeathYear.Name = "DeathYear";
+            this.DeathYear.Size = new System.Drawing.Size(39, 20);
+            this.DeathYear.TabIndex = 25;
+            // 
+            // DeathMonth
+            // 
+            this.DeathMonth.FormattingEnabled = true;
+            this.DeathMonth.Items.AddRange(new object[] {
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"});
+            this.DeathMonth.Location = new System.Drawing.Point(34, 65);
+            this.DeathMonth.MaxLength = 8;
+            this.DeathMonth.Name = "DeathMonth";
+            this.DeathMonth.Size = new System.Drawing.Size(87, 22);
+            this.DeathMonth.TabIndex = 24;
+            // 
+            // DeathDay
+            // 
+            this.DeathDay.Location = new System.Drawing.Point(7, 65);
+            this.DeathDay.MaxLength = 2;
+            this.DeathDay.Name = "DeathDay";
+            this.DeathDay.Size = new System.Drawing.Size(24, 20);
+            this.DeathDay.TabIndex = 23;
+            // 
             // contactsLabel
             // 
             this.contactsLabel.AutoSize = true;
@@ -425,43 +457,40 @@
             this.additionalInfoRichTextBox.TabIndex = 0;
             this.additionalInfoRichTextBox.Text = "";
             // 
-            // DeathDay
+            // addPersonMenuStrip
             // 
-            this.DeathDay.Location = new System.Drawing.Point(7, 65);
-            this.DeathDay.MaxLength = 2;
-            this.DeathDay.Name = "DeathDay";
-            this.DeathDay.Size = new System.Drawing.Size(24, 20);
-            this.DeathDay.TabIndex = 23;
+            this.addPersonMenuStrip.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.addPersonMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.основнаяИнформацияToolStripMenuItem,
+            this.фотографииToolStripMenuItem});
+            this.addPersonMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.addPersonMenuStrip.Name = "addPersonMenuStrip";
+            this.addPersonMenuStrip.Size = new System.Drawing.Size(497, 24);
+            this.addPersonMenuStrip.TabIndex = 5;
+            this.addPersonMenuStrip.Text = "menuStrip1";
             // 
-            // DeathMonth
+            // основнаяИнформацияToolStripMenuItem
             // 
-            this.DeathMonth.FormattingEnabled = true;
-            this.DeathMonth.Items.AddRange(new object[] {
-            "января",
-            "февраля",
-            "марта",
-            "апреля",
-            "мая",
-            "июня",
-            "июля",
-            "августа",
-            "сентября",
-            "октября",
-            "ноября",
-            "декабря"});
-            this.DeathMonth.Location = new System.Drawing.Point(34, 65);
-            this.DeathMonth.MaxLength = 8;
-            this.DeathMonth.Name = "DeathMonth";
-            this.DeathMonth.Size = new System.Drawing.Size(87, 22);
-            this.DeathMonth.TabIndex = 24;
+            this.основнаяИнформацияToolStripMenuItem.Name = "основнаяИнформацияToolStripMenuItem";
+            this.основнаяИнформацияToolStripMenuItem.Size = new System.Drawing.Size(157, 20);
+            this.основнаяИнформацияToolStripMenuItem.Text = "Основная информация";
+            this.основнаяИнформацияToolStripMenuItem.Click += new System.EventHandler(this.основнаяИнформацияToolStripMenuItem_Click);
             // 
-            // DeathYear
+            // фотографииToolStripMenuItem
             // 
-            this.DeathYear.Location = new System.Drawing.Point(121, 65);
-            this.DeathYear.MaxLength = 4;
-            this.DeathYear.Name = "DeathYear";
-            this.DeathYear.Size = new System.Drawing.Size(39, 20);
-            this.DeathYear.TabIndex = 25;
+            this.фотографииToolStripMenuItem.Name = "фотографииToolStripMenuItem";
+            this.фотографииToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
+            this.фотографииToolStripMenuItem.Text = "Фотографии";
+            this.фотографииToolStripMenuItem.Click += new System.EventHandler(this.фотографииToolStripMenuItem_Click);
+            // 
+            // photoPanel
+            // 
+            this.photoPanel.AutoScroll = true;
+            this.photoPanel.Location = new System.Drawing.Point(14, 28);
+            this.photoPanel.Name = "photoPanel";
+            this.photoPanel.Size = new System.Drawing.Size(472, 504);
+            this.photoPanel.TabIndex = 6;
+            this.photoPanel.Visible = false;
             // 
             // AddPerson
             // 
@@ -473,11 +502,15 @@
             this.Controls.Add(this.aliveInfo);
             this.Controls.Add(this.mainInfoGroupBox);
             this.Controls.Add(this.addButton);
-            this.Controls.Add(this.mainInfoLabel);
+            this.Controls.Add(this.addPersonMenuStrip);
+            this.Controls.Add(this.photoPanel);
             this.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MainMenuStrip = this.addPersonMenuStrip;
+            this.MaximizeBox = false;
             this.Name = "AddPerson";
             this.Text = "Добавить Человека";
+            this.Activated += new System.EventHandler(this.AddPerson_Activated);
             this.mainInfoGroupBox.ResumeLayout(false);
             this.mainInfoGroupBox.PerformLayout();
             this.aliveInfo.ResumeLayout(false);
@@ -485,6 +518,8 @@
             this.avaterGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).EndInit();
             this.additionalInfoGroupBox.ResumeLayout(false);
+            this.addPersonMenuStrip.ResumeLayout(false);
+            this.addPersonMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -492,7 +527,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label mainInfoLabel;
         private System.Windows.Forms.Label surnameLabel;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.Label patronymicLabel;
@@ -527,6 +561,10 @@
         private System.Windows.Forms.TextBox DeathYear;
         private System.Windows.Forms.ComboBox DeathMonth;
         private System.Windows.Forms.TextBox DeathDay;
+        private System.Windows.Forms.MenuStrip addPersonMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem основнаяИнформацияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem фотографииToolStripMenuItem;
+        private System.Windows.Forms.Panel photoPanel;
 
 
     }

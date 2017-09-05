@@ -20,3 +20,4 @@ D:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой 
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.SearchPerson.resources
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family Tree.csprojResolveAssemblyReference.cache
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.GetPhoto.resources
+d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.AddPhoto.resources

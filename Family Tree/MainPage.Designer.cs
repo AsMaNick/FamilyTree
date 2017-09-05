@@ -38,6 +38,7 @@
             this.базаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.поискToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.добавитьФотографиюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.деревоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,7 +67,6 @@
             this.партнераToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.редактироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.treeSettingsPanel = new System.Windows.Forms.Panel();
             this.buildButton = new System.Windows.Forms.Button();
             this.numberOfGenerationsGroupBox = new System.Windows.Forms.GroupBox();
@@ -79,6 +79,7 @@
             this.ancestorsRadioButton = new System.Windows.Forms.RadioButton();
             this.descendantsRadioButton = new System.Windows.Forms.RadioButton();
             this.hourglassRadioButton = new System.Windows.Forms.RadioButton();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.treeGroupBox.SuspendLayout();
@@ -137,7 +138,8 @@
             // 
             this.базаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.поискToolStripMenuItem,
-            this.добавитьToolStripMenuItem});
+            this.добавитьToolStripMenuItem,
+            this.добавитьФотографиюToolStripMenuItem});
             this.базаToolStripMenuItem.Name = "базаToolStripMenuItem";
             this.базаToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.базаToolStripMenuItem.Text = "База";
@@ -145,16 +147,23 @@
             // поискToolStripMenuItem
             // 
             this.поискToolStripMenuItem.Name = "поискToolStripMenuItem";
-            this.поискToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.поискToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.поискToolStripMenuItem.Text = "Поиск";
             this.поискToolStripMenuItem.Click += new System.EventHandler(this.поискToolStripMenuItem_Click);
             // 
             // добавитьToolStripMenuItem
             // 
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.добавитьToolStripMenuItem.Text = "Добавить";
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.добавитьToolStripMenuItem.Text = "Добавить персону";
             this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.добавитьToolStripMenuItem_Click);
+            // 
+            // добавитьФотографиюToolStripMenuItem
+            // 
+            this.добавитьФотографиюToolStripMenuItem.Name = "добавитьФотографиюToolStripMenuItem";
+            this.добавитьФотографиюToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.добавитьФотографиюToolStripMenuItem.Text = "Добавить фотографию";
+            this.добавитьФотографиюToolStripMenuItem.Click += new System.EventHandler(this.добавитьФотографиюToolStripMenuItem_Click);
             // 
             // деревоToolStripMenuItem
             // 
@@ -389,15 +398,6 @@
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Image = global::Family_Tree.Properties.Resources.delete_min1;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.ReadOnly = true;
-            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn1.Width = 23;
-            // 
             // treeSettingsPanel
             // 
             this.treeSettingsPanel.Controls.Add(this.buildButton);
@@ -552,15 +552,24 @@
             this.hourglassRadioButton.Text = "Песочные часы";
             this.hourglassRadioButton.UseVisualStyleBackColor = true;
             // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::Family_Tree.Properties.Resources.delete_min1;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn1.Width = 23;
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 412);
-            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.mainMenuStrip);
             this.Controls.Add(this.treeSettingsPanel);
             this.Controls.Add(this.treeGroupBox);
+            this.Controls.Add(this.dataGridView);
             this.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
@@ -636,6 +645,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
         private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
+        private System.Windows.Forms.ToolStripMenuItem добавитьФотографиюToolStripMenuItem;
 
     }
 }

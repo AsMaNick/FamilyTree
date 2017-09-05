@@ -29,7 +29,7 @@ namespace Family_Tree
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 //g.FillRectangle(Brushes.Gray, 0, 0, w, h);
-                g.DrawRectangle(new Pen(Brushes.White, 5), 0, 0, w, h);
+                g.DrawRectangle(new Pen(Brushes.White, 5), 0, 0, w - 1, h - 1);
                 //Font font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             }
             return bitmap;

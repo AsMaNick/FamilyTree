@@ -20,6 +20,7 @@ namespace Family_Tree
         public Date birthDate, deathDate;
         //public DateTime birthDate, deathDate;
         public bool incognito;
+        public List<int> allPhotosIds;
 
         public Person(bool Incognito = false, bool Male = true)
         {
@@ -29,6 +30,7 @@ namespace Family_Tree
             alive = true;
             siblings = new List<int> ();
             children = new List<int> ();
+            allPhotosIds = new List<int>();
             incognito = Incognito;
             man = Male;
             fileAvatar = "";
