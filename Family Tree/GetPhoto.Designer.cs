@@ -31,14 +31,15 @@
             this.button1 = new System.Windows.Forms.Button();
             this.photoPanel = new System.Windows.Forms.Panel();
             this.photo = new System.Windows.Forms.PictureBox();
+            this.photoGroupBox = new System.Windows.Forms.GroupBox();
             this.photoPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.photo)).BeginInit();
+            this.photoGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button1.Font = new System.Drawing.Font("Georgia", 9.75F);
             this.button1.Location = new System.Drawing.Point(213, 434);
             this.button1.Name = "button1";
@@ -55,19 +56,31 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.photoPanel.AutoScroll = true;
             this.photoPanel.Controls.Add(this.photo);
-            this.photoPanel.Location = new System.Drawing.Point(12, 12);
+            this.photoPanel.Location = new System.Drawing.Point(6, 19);
             this.photoPanel.Name = "photoPanel";
-            this.photoPanel.Size = new System.Drawing.Size(482, 416);
+            this.photoPanel.Size = new System.Drawing.Size(469, 380);
             this.photoPanel.TabIndex = 2;
             // 
             // photo
             // 
             this.photo.Location = new System.Drawing.Point(4, 4);
-            this.photo.MinimumSize = new System.Drawing.Size(475, 400);
             this.photo.Name = "photo";
-            this.photo.Size = new System.Drawing.Size(475, 406);
+            this.photo.Size = new System.Drawing.Size(462, 373);
             this.photo.TabIndex = 0;
             this.photo.TabStop = false;
+            // 
+            // photoGroupBox
+            // 
+            this.photoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.photoGroupBox.Controls.Add(this.photoPanel);
+            this.photoGroupBox.Font = new System.Drawing.Font("Georgia", 9.75F);
+            this.photoGroupBox.Location = new System.Drawing.Point(13, 13);
+            this.photoGroupBox.Name = "photoGroupBox";
+            this.photoGroupBox.Size = new System.Drawing.Size(481, 415);
+            this.photoGroupBox.TabIndex = 3;
+            this.photoGroupBox.TabStop = false;
             // 
             // GetPhoto
             // 
@@ -75,13 +88,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(506, 460);
-            this.Controls.Add(this.photoPanel);
+            this.Controls.Add(this.photoGroupBox);
             this.Controls.Add(this.button1);
             this.Name = "GetPhoto";
             this.Text = "getPhoto";
             this.Activated += new System.EventHandler(this.GetPhoto_Activated);
             this.photoPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();
+            this.photoGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -90,6 +104,7 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel photoPanel;
+        private System.Windows.Forms.GroupBox photoGroupBox;
         private System.Windows.Forms.PictureBox photo;
     }
 }

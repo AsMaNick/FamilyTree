@@ -100,14 +100,14 @@ namespace Family_Tree
             {
                 if (this.man)
                 {
-                    return DataBase.pathToAvatars + "man2.png";
+                    return DataBase.pathToAvatarss + "man2.png";
                 }
                 else
                 {
-                    return DataBase.pathToAvatars + "woman2.png";
+                    return DataBase.pathToAvatarss + "woman2.png";
                 }
             }
-            return DataBase.pathToAvatars + this.fileAvatar;
+            return DataBase.pathToAvatarss + this.fileAvatar;
         }
         private DateTime readDateTime(ref StreamReader input)
         {

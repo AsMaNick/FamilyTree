@@ -20,11 +20,13 @@ namespace Family_Tree
         public List<int> peopleIds;
         public string pathToFile, additionalInfo;
         public int id;
+        public bool deleted;
 
         public Photo()
         {
             zones = new List<Rectangle>();
             peopleIds = new List<int>();
+            deleted = false;
         }
 
         public static Image Scale(Image img, double k)
@@ -38,7 +40,7 @@ namespace Family_Tree
         {
             pathToFile = file.ReadLine();
             additionalInfo = file.ReadLine();
-            id = int.Parse(file.ReadLine());
+            deleted = Convert.ToBoolean(file.ReadLine());
             int n = int.Parse(file.ReadLine());
             for (int i = 0; i < n; ++i)
             {
@@ -51,14 +53,21 @@ namespace Family_Tree
                 zones.Add(new Rectangle(x, y, w, h));
                 peopleIds.Add(personId);
             }
-            img = (Image)(new Bitmap(DataBase.pathToAvatars + pathToFile));
+            if (!deleted)
+            {
+                img = (Image)(new Bitmap(DataBase.pathToGroupPhotos + pathToFile));
+            }
+            else
+            {
+                img = null;
+            }
         }
 
         public void writeToFile(ref StreamWriter file)
         {
             file.WriteLine(pathToFile);
             file.WriteLine(additionalInfo);
-            file.WriteLine(id);
+            file.WriteLine(deleted);
             int n = zones.Count;
             file.WriteLine(n);
             for (int i = 0; i < n; ++i)
@@ -75,6 +84,14 @@ namespace Family_Tree
                 file.WriteLine(h);
                 file.WriteLine(personId);
             }
+        }
+
+        public void delete()
+        {
+            this.deleted = true;
+            this.img = null;
+            this.peopleIds.Clear();
+            this.zones.Clear();
         }
     }
 }

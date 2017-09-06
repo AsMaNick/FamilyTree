@@ -23,6 +23,7 @@ namespace Family_Tree
         private DataBase data;
         List<Label> labeledPeople;
         private int lastLabeledPeopleCount = 0, szScroll = 0;
+        private Label choosenLabel;
 
         public AddPhoto()
         {
@@ -93,6 +94,7 @@ namespace Family_Tree
             {
                 scale *= stepScale;
                 updatePhoto();
+                updatePhotoPosition();
             }
             this.photoPanel.Focus();
         }
@@ -103,6 +105,7 @@ namespace Family_Tree
             {
                 scale /= stepScale;
                 updatePhoto();
+                updatePhotoPosition();
             }
             this.photoPanel.Focus();
         }
@@ -116,7 +119,7 @@ namespace Family_Tree
             }
         }
 
-        private void updateCoordinates(ref int x, int len, int okLen)
+        public static void updateCoordinates(ref int x, int len, int okLen)
         {
             x = Math.Max(0, ((x + 1) * okLen) / len - 1);
         }
@@ -139,6 +142,28 @@ namespace Family_Tree
                     labeledPeople[id].Font = new System.Drawing.Font("Georgia", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204))); ;
                 }
             }
+        }
+
+        private void updateZone(int id)
+        {
+            if (id == -1)
+            {
+                pb.Visible = false;
+                return;
+            }
+            int mnX = result.zones[id].Left;
+            int mnY = result.zones[id].Top;
+            int mxX = result.zones[id].Left + result.zones[id].Width - 1;
+            int mxY = result.zones[id].Top + result.zones[id].Height - 1;
+            updateCoordinates(ref mnX, this.result.img.Width, this.photo.Width);
+            updateCoordinates(ref mxX, this.result.img.Width, this.photo.Width);
+            updateCoordinates(ref mnY, this.result.img.Height, this.photo.Height);
+            updateCoordinates(ref mxY, this.result.img.Height, this.photo.Height);
+            pb.Left = mnX;
+            pb.Top = mnY;
+            pb.Size = new Size(mxX - mnX + 1, mxY - mnY + 1);
+            pb.Image = GetPhoto.drawBorder(pb.Height, pb.Width);
+            pb.Visible = true;
         }
 
         private void photo_MouseMove(object sender, MouseEventArgs e)
@@ -215,6 +240,7 @@ namespace Family_Tree
                     newPersonComboBox.Focus();
                     lastX = -1;
                     lastY = -1;
+                    Debug.WriteLine(pb.Visible);
                 }
                 else
                 {
@@ -237,6 +263,7 @@ namespace Family_Tree
                     l.Top = yPosition(labeledPeople.Count);
                     l.MouseEnter += l_MouseEnter;
                     l.MouseLeave += l_MouseLeave;
+                    l.MouseClick += l_MouseClick;
                     labeledPeople.Add(l);
                     this.labeledPeoplePanel.Controls.Add(labeledPeople.Last());
                 }
@@ -260,7 +287,16 @@ namespace Family_Tree
             }
         }
 
-        void l_MouseLeave(object sender, EventArgs e)
+        void l_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                choosenLabel = (Label) sender;
+                deleteLabelMenuStrip.Show(MousePosition, ToolStripDropDownDirection.Right);
+            }
+        }
+
+        private void l_MouseLeave(object sender, EventArgs e)
         {
             pb.Visible = false;
             updateBold(-1);
@@ -271,19 +307,7 @@ namespace Family_Tree
             Label l = (Label)sender;
             int id = (int) l.Tag;
             updateBold(id);
-            int mnX = result.zones[id].Left;
-            int mnY = result.zones[id].Top;
-            int mxX = result.zones[id].Left + result.zones[id].Width - 1;
-            int mxY = result.zones[id].Top + result.zones[id].Height - 1;
-            updateCoordinates(ref mnX, this.result.img.Width, this.photo.Width);
-            updateCoordinates(ref mxX, this.result.img.Width, this.photo.Width);
-            updateCoordinates(ref mnY, this.result.img.Height, this.photo.Height);
-            updateCoordinates(ref mxY, this.result.img.Height, this.photo.Height);
-            pb.Left = mnX;
-            pb.Top = mnY;
-            pb.Size = new Size(mxX - mnX + 1, mxY - mnY + 1);
-            pb.Image = GetPhoto.drawBorder(pb.Height, pb.Width);
-            pb.Visible = true;
+            updateZone(id);
         }
 
         private int getPersonId(string fullName)
@@ -337,6 +361,36 @@ namespace Family_Tree
             for (int i = 0; i < result.peopleIds.Count; ++i)
             {
                 labeledPeople[i].Font = new System.Drawing.Font("Georgia", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            }
+        }
+
+        private void updatePhotoPosition()
+        {
+            int w = this.photo.Image.Width;
+            int h = this.photo.Image.Height;
+            int wPanel = this.photoPanel.Width;
+            int hPanel = this.photoPanel.Height;
+            this.photoPanel.AutoScrollPosition = new Point(0, 0);
+            this.photo.Left = Math.Max(4, (wPanel - w) / 2);
+            this.photo.Top = Math.Max(4, (hPanel - h) / 2 - 10);
+            //Debug.WriteLine("{0} {1}",);
+        }
+
+        private void AddPhoto_SizeChanged(object sender, EventArgs e)
+        {
+            //Form f = (Form)(sender);
+            updatePhotoPosition();
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("Вы уверены, что хотите удалить данную отметку?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                int index = (int)choosenLabel.Tag;
+                result.peopleIds.RemoveAt(index);
+                result.zones.RemoveAt(index);
+                updateInformation();
             }
         }
     }

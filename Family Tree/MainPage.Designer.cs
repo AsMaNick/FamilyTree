@@ -80,6 +80,7 @@
             this.descendantsRadioButton = new System.Windows.Forms.RadioButton();
             this.hourglassRadioButton = new System.Windows.Forms.RadioButton();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.просмотрФотографийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.treeGroupBox.SuspendLayout();
@@ -138,6 +139,7 @@
             // 
             this.базаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.поискToolStripMenuItem,
+            this.просмотрФотографийToolStripMenuItem,
             this.добавитьToolStripMenuItem,
             this.добавитьФотографиюToolStripMenuItem});
             this.базаToolStripMenuItem.Name = "базаToolStripMenuItem";
@@ -147,21 +149,21 @@
             // поискToolStripMenuItem
             // 
             this.поискToolStripMenuItem.Name = "поискToolStripMenuItem";
-            this.поискToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.поискToolStripMenuItem.Text = "Поиск";
+            this.поискToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.поискToolStripMenuItem.Text = "Просмотр персон";
             this.поискToolStripMenuItem.Click += new System.EventHandler(this.поискToolStripMenuItem_Click);
             // 
             // добавитьToolStripMenuItem
             // 
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.добавитьToolStripMenuItem.Text = "Добавить персону";
             this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.добавитьToolStripMenuItem_Click);
             // 
             // добавитьФотографиюToolStripMenuItem
             // 
             this.добавитьФотографиюToolStripMenuItem.Name = "добавитьФотографиюToolStripMenuItem";
-            this.добавитьФотографиюToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.добавитьФотографиюToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.добавитьФотографиюToolStripMenuItem.Text = "Добавить фотографию";
             this.добавитьФотографиюToolStripMenuItem.Click += new System.EventHandler(this.добавитьФотографиюToolStripMenuItem_Click);
             // 
@@ -561,6 +563,13 @@
             this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewImageColumn1.Width = 23;
             // 
+            // просмотрФотографийToolStripMenuItem
+            // 
+            this.просмотрФотографийToolStripMenuItem.Name = "просмотрФотографийToolStripMenuItem";
+            this.просмотрФотографийToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.просмотрФотографийToolStripMenuItem.Text = "Просмотр фотографий";
+            this.просмотрФотографийToolStripMenuItem.Click += new System.EventHandler(this.просмотрФотографийToolStripMenuItem_Click);
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -646,6 +655,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
         private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
         private System.Windows.Forms.ToolStripMenuItem добавитьФотографиюToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem просмотрФотографийToolStripMenuItem;
 
     }
 }

@@ -14,16 +14,32 @@ namespace Family_Tree
     public partial class AddPerson : Form
     {
         const int minPhotoHeight = 100, distanceBetweenPhotos = 5;
+        public const int widthAvatar = 78, heightAvatar = 103;
         private int id;
         private MainPage parent;
         public Person addedPerson;
+        private PictureBox choosenPhoto;
 
         public AddPerson(MainPage mainPage, int Id = -1)
         {
             InitializeComponent();
             parent = mainPage;
             id = Id;
-            if (id != -1)
+            if (Id == -2)
+            {
+                mainInfoToolStripMenuItem.Visible = false;
+                Person p = new Person();
+                for (int i = 0; i < parent.data.allPhotos.Count; ++i)
+                {
+                    p.allPhotosIds.Add(i);
+                }
+                photoPanel.BringToFront();
+                photoPanel.Visible = true;
+                placeAllPhotos(p, parent.data.allPhotos);
+                photoPanel.Focus();
+                return;
+            } 
+            else if (id != -1)
             {
                 InitializeForm();
             }
@@ -106,7 +122,7 @@ namespace Family_Tree
             {
                 int h = this.avatarPictureBox.Image.Height;
                 int w = this.avatarPictureBox.Image.Width;
-                this.avatarPictureBox.Image = (Image) (new Bitmap(Image.FromFile(DataBase.pathToAvatars + p.fileAvatar), new Size(w, h)));
+                this.avatarPictureBox.Image = (Image) (new Bitmap(Image.FromFile(DataBase.pathToAvatarss + p.fileAvatar), new Size(w, h)));
                 this.avatarPictureBox.Image = MainPage.drawBorder(this.avatarPictureBox.Image);
                 this.avatarPictureBox.Tag = new ID(p.fileAvatar);
             }
@@ -360,6 +376,7 @@ namespace Family_Tree
                     int h = this.avatarPictureBox.Image.Height;
                     this.avatarPictureBox.Image = (Image) (new Bitmap(getPhoto.Result, new Size(w, h)));
                     this.avatarPictureBox.Tag = new ID(parent.data.AddAvatar(this.avatarPictureBox.Image));
+                    this.avatarPictureBox.Image = MainPage.drawBorder(this.avatarPictureBox.Image);
                     Debug.WriteLine(this.avatarPictureBox.Tag.ToString());
                 }
             }
@@ -372,13 +389,22 @@ namespace Family_Tree
 
         private void placeAllPhotos(Person p, List<Photo> allPhotos)
         {
+            List<int> allIds = new List<int> ();
+            for (int i = 0; i < p.allPhotosIds.Count; ++i)
+            {
+                if (!allPhotos[p.allPhotosIds[i]].deleted)
+                {
+                    allIds.Add(p.allPhotosIds[i]);
+                }
+            }
             int h = distanceBetweenPhotos;
-            for (int i = 0; i < p.allPhotosIds.Count; )
+            List<PictureBox> allPb = new List<PictureBox>();
+            for (int i = 0; i < allIds.Count; )
             {
                 int cnt = 0, sum = 0;
-                for (int j = i; j < p.allPhotosIds.Count; ++j)
+                for (int j = i; j < allIds.Count; ++j)
                 {
-                    int id = p.allPhotosIds[j];
+                    int id = allIds[j];
                     int totalWidth = (cnt + 2) * distanceBetweenPhotos + sum + (allPhotos[id].img.Width * minPhotoHeight) / allPhotos[id].img.Height;
                     if (totalWidth >= photoPanel.Width)
                     {
@@ -388,13 +414,13 @@ namespace Family_Tree
                     sum += (allPhotos[id].img.Width * minPhotoHeight) / allPhotos[id].img.Height;
                 }
                 cnt = Math.Max(cnt, 1);
-                double k = 1.0 * (photoPanel.Width - 10 - (cnt + 1) * distanceBetweenPhotos) / sum;
+                double k = 1.0 * (photoPanel.Width - 15 - (cnt + 1) * distanceBetweenPhotos) / sum;
                 Debug.WriteLine("{0} {1}", i, k);
                 sum = 0;
                 int plH = 0;
                 for (int j = i; j < i + cnt; ++j)
                 {
-                    int id = p.allPhotosIds[j];
+                    int id = allIds[j];
                     PictureBox pb = new PictureBox();
                     pb.Image = Photo.Scale(allPhotos[id].img, k * minPhotoHeight / allPhotos[id].img.Height);
                     pb.Size = pb.Image.Size;
@@ -403,16 +429,35 @@ namespace Family_Tree
                     pb.MouseDoubleClick += photo_MouseDoubleClick;
                     pb.Tag = id;
                     plH = pb.Height;
-                    this.photoPanel.Controls.Add(pb);
+                    pb.MouseClick += photo_MouseClick;
+                    allPb.Add(pb);
                     sum += pb.Width;
                 }
                 h += plH + distanceBetweenPhotos;
                 i += cnt;
             }
+            this.photoPanel.Controls.Clear();
+            for (int i = 0; i < allPb.Count; ++i)
+            {
+                this.photoPanel.Controls.Add(allPb[i]);
+            }
+        }
+
+        void photo_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                choosenPhoto = (PictureBox)sender;
+                deletePhotoMenuStrip.Show(MousePosition, ToolStripDropDownDirection.Right);
+            }
         }
 
         void photo_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Right)
+            {
+                return;
+            }
             PictureBox pb = (PictureBox)(sender);
             int id = (int)pb.Tag;
             AddPhoto addPhoto = new AddPhoto(parent.data.allPhotos[id], parent.data);
@@ -423,9 +468,17 @@ namespace Family_Tree
             }
         }
 
+        private bool photoClick = false;
+
         private void фотографииToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (id == -1 || parent.data.allPeople[id].allPhotosIds.Count == 0)
+            if (id == -2)
+            {
+                photoPanel.Focus();
+                return;
+            }
+            Debug.WriteLine(id);
+            if (id == -1 || parent.data.allPeople[id].allPhotosIds.Count == 0 || parent.data.allPhotos.Count == 0)
             {
                 DialogResult res = MessageBox.Show("У данной персоны нет загруженных фотографий.", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -433,12 +486,44 @@ namespace Family_Tree
             photoPanel.BringToFront();
             photoPanel.Visible = true;
             photoPanel.Focus();
+            if (photoClick)
+            {
+                return;
+            }
+            photoClick = true;
             placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
         }
 
         private void AddPerson_Activated(object sender, EventArgs e)
         {
-            //this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            if (id == -2)
+            {
+                this.photoPanel.Focus();
+            }
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PictureBox pb = choosenPhoto;
+            int delId = (int)pb.Tag;
+            DialogResult res = MessageBox.Show("Вы уверены, что хотите удалить данную фотографию?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                parent.data.deletePhoto(delId);
+            }
+            if (id == -2)
+            {
+                Person p = new Person();
+                for (int i = 0; i < parent.data.allPhotos.Count; ++i)
+                {
+                    p.allPhotosIds.Add(i);
+                }
+                placeAllPhotos(p, parent.data.allPhotos);
+            }
+            else
+            {
+                placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+            }
         }
     }
 }

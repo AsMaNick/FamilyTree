@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.surnameLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
             this.patronymicLabel = new System.Windows.Forms.Label();
@@ -63,15 +64,18 @@
             this.additionalInfoGroupBox = new System.Windows.Forms.GroupBox();
             this.additionalInfoRichTextBox = new System.Windows.Forms.RichTextBox();
             this.addPersonMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.основнаяИнформацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.фотографииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.photoPanel = new System.Windows.Forms.Panel();
+            this.deletePhotoMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.avatarPictureBox)).BeginInit();
             this.additionalInfoGroupBox.SuspendLayout();
             this.addPersonMenuStrip.SuspendLayout();
+            this.deletePhotoMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // surnameLabel
@@ -461,7 +465,7 @@
             // 
             this.addPersonMenuStrip.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.addPersonMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.основнаяИнформацияToolStripMenuItem,
+            this.mainInfoToolStripMenuItem,
             this.фотографииToolStripMenuItem});
             this.addPersonMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.addPersonMenuStrip.Name = "addPersonMenuStrip";
@@ -469,12 +473,12 @@
             this.addPersonMenuStrip.TabIndex = 5;
             this.addPersonMenuStrip.Text = "menuStrip1";
             // 
-            // основнаяИнформацияToolStripMenuItem
+            // mainInfoToolStripMenuItem
             // 
-            this.основнаяИнформацияToolStripMenuItem.Name = "основнаяИнформацияToolStripMenuItem";
-            this.основнаяИнформацияToolStripMenuItem.Size = new System.Drawing.Size(157, 20);
-            this.основнаяИнформацияToolStripMenuItem.Text = "Основная информация";
-            this.основнаяИнформацияToolStripMenuItem.Click += new System.EventHandler(this.основнаяИнформацияToolStripMenuItem_Click);
+            this.mainInfoToolStripMenuItem.Name = "mainInfoToolStripMenuItem";
+            this.mainInfoToolStripMenuItem.Size = new System.Drawing.Size(157, 20);
+            this.mainInfoToolStripMenuItem.Text = "Основная информация";
+            this.mainInfoToolStripMenuItem.Click += new System.EventHandler(this.основнаяИнформацияToolStripMenuItem_Click);
             // 
             // фотографииToolStripMenuItem
             // 
@@ -491,6 +495,20 @@
             this.photoPanel.Size = new System.Drawing.Size(472, 504);
             this.photoPanel.TabIndex = 6;
             this.photoPanel.Visible = false;
+            // 
+            // deletePhotoMenuStrip
+            // 
+            this.deletePhotoMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.удалитьToolStripMenuItem});
+            this.deletePhotoMenuStrip.Name = "deletePhotoMenuStrip";
+            this.deletePhotoMenuStrip.Size = new System.Drawing.Size(153, 48);
+            // 
+            // удалитьToolStripMenuItem
+            // 
+            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
             // AddPerson
             // 
@@ -520,6 +538,7 @@
             this.additionalInfoGroupBox.ResumeLayout(false);
             this.addPersonMenuStrip.ResumeLayout(false);
             this.addPersonMenuStrip.PerformLayout();
+            this.deletePhotoMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -562,9 +581,11 @@
         private System.Windows.Forms.ComboBox DeathMonth;
         private System.Windows.Forms.TextBox DeathDay;
         private System.Windows.Forms.MenuStrip addPersonMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem основнаяИнформацияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mainInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem фотографииToolStripMenuItem;
         private System.Windows.Forms.Panel photoPanel;
+        private System.Windows.Forms.ContextMenuStrip deletePhotoMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
 
 
     }

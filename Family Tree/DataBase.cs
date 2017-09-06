@@ -15,7 +15,8 @@ namespace Family_Tree
         const string pathToDataBase = "data.txt";
         const string pathToPhotoDataBase = "photoData.txt";
 
-        public const string pathToAvatars = "../../images/avatars/";
+        public const string pathToAvatarss = "../../images/avatars/";
+        public const string pathToGroupPhotos = "../../images/group_photos/";
         public List<Person> allPeople;
         public List<string> allAvatars;
         public List<Photo> allPhotos;
@@ -28,6 +29,7 @@ namespace Family_Tree
             readPhotosFromFile(pathToPhotoDataBase);
             addPhotosToPeople();
         }
+
         private void addPhotosToPeople()
         {
             for (int i = 0; i < allPhotos.Count; ++i)
@@ -39,22 +41,25 @@ namespace Family_Tree
                 }
             }
         }
+
         public void AddPerson(Person p)
         {
             allPeople.Add(p);
             Debug.WriteLine(p.BasicInfo());
         }
+
         public string AddAvatar(Image im)
         {
             string fileName = Convert.ToString(allAvatars.Count) + ".jpg";
-            im.Save(pathToAvatars + fileName);
+            im.Save(pathToAvatarss + fileName);
             allAvatars.Add(fileName);
             return fileName;
         }
+
         public void addPhoto(Photo p)
         {
             string fileName = "GroupPhoto" + Convert.ToString(allPhotos.Count) + ".jpg";
-            p.img.Save(pathToAvatars + fileName);
+            p.img.Save(pathToGroupPhotos + fileName);
             p.pathToFile = fileName;
             p.id = allPhotos.Count;
             for (int i = 0; i < p.peopleIds.Count; ++i)
@@ -63,6 +68,7 @@ namespace Family_Tree
             }
             allPhotos.Add(p);
         }
+
         public void readFromFile(string file)
         {
             StreamReader input = new StreamReader(file);
@@ -84,6 +90,7 @@ namespace Family_Tree
             input.Close();
             updateConnections();
         }
+
         public void writeToFile(string file)
         {
             StreamWriter output = new StreamWriter(file);
@@ -115,6 +122,7 @@ namespace Family_Tree
             }
             input.Close();
         }
+
         public void writePhotosToFile(string file)
         {
             StreamWriter output = new StreamWriter(file);
@@ -127,11 +135,13 @@ namespace Family_Tree
             }
             output.Close();
         }
+        
         public void save()
         {
             writeToFile(pathToDataBase);
             writePhotosToFile(pathToPhotoDataBase);
         }
+
         private void updateLink(ref int cur, int id) 
         {
             if (cur == id) 
@@ -190,6 +200,16 @@ namespace Family_Tree
             {
                 Debug.WriteLine(string.Format("Cann't delete unexisting Person, id = {0}", id));
             }
+        }
+
+        public void deletePhoto(int id)
+        {
+            for (int i = 0; i < this.allPhotos[id].peopleIds.Count; ++i)
+            {
+                int personId = this.allPhotos[id].peopleIds[i];
+                this.allPeople[personId].allPhotosIds.Remove(id);
+            }
+            this.allPhotos[id].delete();
         }
 
         private List<int> distinct(List<int> a)

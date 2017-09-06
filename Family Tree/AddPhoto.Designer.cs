@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.photoPanel = new System.Windows.Forms.Panel();
             this.photo = new System.Windows.Forms.PictureBox();
             this.additionalInfo = new System.Windows.Forms.RichTextBox();
@@ -38,10 +39,15 @@
             this.scaleLabel = new System.Windows.Forms.Label();
             this.labeledPeoplePanel = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.photoGroupBox = new System.Windows.Forms.GroupBox();
+            this.deleteLabelMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.photoPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.photo)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.photoGroupBox.SuspendLayout();
+            this.deleteLabelMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // photoPanel
@@ -51,9 +57,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.photoPanel.AutoScroll = true;
             this.photoPanel.Controls.Add(this.photo);
-            this.photoPanel.Location = new System.Drawing.Point(46, 13);
+            this.photoPanel.Location = new System.Drawing.Point(6, 19);
             this.photoPanel.Name = "photoPanel";
-            this.photoPanel.Size = new System.Drawing.Size(385, 371);
+            this.photoPanel.Size = new System.Drawing.Size(365, 346);
             this.photoPanel.TabIndex = 0;
             // 
             // photo
@@ -92,12 +98,11 @@
             // 
             // okButton
             // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.okButton.Font = new System.Drawing.Font("Georgia", 9.75F);
-            this.okButton.Location = new System.Drawing.Point(334, 390);
+            this.okButton.Location = new System.Drawing.Point(353, 390);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(97, 23);
+            this.okButton.Size = new System.Drawing.Size(72, 23);
             this.okButton.TabIndex = 3;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
@@ -105,6 +110,7 @@
             // 
             // plusButton
             // 
+            this.plusButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.plusButton.Image = global::Family_Tree.Properties.Resources.plus;
             this.plusButton.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.plusButton.Location = new System.Drawing.Point(12, 161);
@@ -116,6 +122,7 @@
             // 
             // minusButton
             // 
+            this.minusButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.minusButton.Image = global::Family_Tree.Properties.Resources.minus;
             this.minusButton.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.minusButton.Location = new System.Drawing.Point(12, 191);
@@ -127,6 +134,7 @@
             // 
             // scaleLabel
             // 
+            this.scaleLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.scaleLabel.AutoSize = true;
             this.scaleLabel.BackColor = System.Drawing.Color.Transparent;
             this.scaleLabel.Font = new System.Drawing.Font("Georgia", 9.75F);
@@ -159,25 +167,56 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Отмеченные персоны";
             // 
+            // photoGroupBox
+            // 
+            this.photoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.photoGroupBox.Controls.Add(this.photoPanel);
+            this.photoGroupBox.Font = new System.Drawing.Font("Georgia", 9.75F);
+            this.photoGroupBox.Location = new System.Drawing.Point(54, 13);
+            this.photoGroupBox.Name = "photoGroupBox";
+            this.photoGroupBox.Size = new System.Drawing.Size(377, 371);
+            this.photoGroupBox.TabIndex = 7;
+            this.photoGroupBox.TabStop = false;
+            // 
+            // deleteLabelMenuStrip
+            // 
+            this.deleteLabelMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.удалитьToolStripMenuItem});
+            this.deleteLabelMenuStrip.Name = "deleteLabelMenuStrip";
+            this.deleteLabelMenuStrip.Size = new System.Drawing.Size(119, 26);
+            // 
+            // удалитьToolStripMenuItem
+            // 
+            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
+            // 
             // AddPhoto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 418);
+            this.Controls.Add(this.photoGroupBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.scaleLabel);
             this.Controls.Add(this.minusButton);
             this.Controls.Add(this.plusButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.photoPanel);
+            this.MinimumSize = new System.Drawing.Size(700, 456);
             this.Name = "AddPhoto";
             this.Text = "AddPhoto";
             this.Activated += new System.EventHandler(this.AddPhoto_Activated);
+            this.SizeChanged += new System.EventHandler(this.AddPhoto_SizeChanged);
             this.photoPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.photoGroupBox.ResumeLayout(false);
+            this.deleteLabelMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,5 +234,8 @@
         private System.Windows.Forms.Label scaleLabel;
         private System.Windows.Forms.Panel labeledPeoplePanel;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox photoGroupBox;
+        private System.Windows.Forms.ContextMenuStrip deleteLabelMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
     }
 }

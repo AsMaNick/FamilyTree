@@ -38,6 +38,7 @@ namespace Family_Tree
             dataGridView.Visible = true;
             DrawGridView();
             enableSavingTree(false);
+            //System.Diagnostics.Process.Start("..\\..\\images/avatars/26.jpg");
         }
 
         //Метод добавления нового человека в базу
@@ -149,7 +150,7 @@ namespace Family_Tree
             return Int32.Parse(dataGridView.Rows[rowIndex].Cells[0].Tag.ToString());
         }
 
-        //Метод, создающий новую форму добавления нового человека; возвращает true если новій человек успешно добавлен
+        //Метод, создающий новую форму добавления нового человека; возвращает true если новый человек успешно добавлен
         private Pair<bool, Person> tryAddPerson(int id = -1, bool man = true, bool fixedGender = false)
         {
             AddPerson myForm = new AddPerson(this, id);
@@ -983,6 +984,12 @@ namespace Family_Tree
                     data.addPhoto(addPhoto.result);
                 }
             }
+        }
+
+        private void просмотрФотографийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pair<bool, Person> p = tryAddPerson(-2);
+            DrawGridView();
         }
     }
 
