@@ -61,7 +61,7 @@ namespace Family_Tree
         {
             InitializeComponent();
             data = Data;
-            result = p;
+            result = new Photo(p);
             additionalInfo.Text = p.additionalInfo;
             scale = Math.Min(9.99, 500.0 / result.img.Height);
             InitializeForm();
@@ -253,37 +253,28 @@ namespace Family_Tree
 
         private void updateInformation()
         {
-            if (result.peopleIds.Count > 0) {
-                while (labeledPeople.Count < result.peopleIds.Count)
-                {
-                    Label l = new Label();
-                    l.AutoSize = true;
-                    l.Font = new System.Drawing.Font("Georgia", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-                    l.Left = 0;
-                    l.Top = yPosition(labeledPeople.Count);
-                    l.MouseEnter += l_MouseEnter;
-                    l.MouseLeave += l_MouseLeave;
-                    l.MouseClick += l_MouseClick;
-                    labeledPeople.Add(l);
-                    this.labeledPeoplePanel.Controls.Add(labeledPeople.Last());
-                }
-                for (int i = 0; i < result.peopleIds.Count; ++i)
-                {
-                    labeledPeople[i].Tag = i;
-                    labeledPeople[i].Text = data.allPeople[result.peopleIds[i]].FullName;
-                    labeledPeople[i].Visible = true;
-                }
-                for (int i = result.peopleIds.Count; i < labeledPeople.Count; ++i)
-                {
-                    labeledPeople[i].Visible = false;
-                }
-                if (lastLabeledPeopleCount != labeledPeople.Count)
-                {
-                    //lastLabeledPeopleCount = labeledPeople.Count;
-                    //Point pos = labeledPeoplePanel.AutoScrollPosition;
-                    //szScroll = -labeledPeoplePanel.AutoScrollPosition.Y;
-                    //labeledPeoplePanel.AutoScrollPosition = pos;
-                }
+            while (labeledPeople.Count < result.peopleIds.Count)
+            {
+                Label l = new Label();
+                l.AutoSize = true;
+                l.Font = new System.Drawing.Font("Georgia", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                l.Left = 0;
+                l.Top = yPosition(labeledPeople.Count);
+                l.MouseEnter += l_MouseEnter;
+                l.MouseLeave += l_MouseLeave;
+                l.MouseClick += l_MouseClick;
+                labeledPeople.Add(l);
+                this.labeledPeoplePanel.Controls.Add(labeledPeople.Last());
+            }
+            for (int i = 0; i < result.peopleIds.Count; ++i)
+            {
+                labeledPeople[i].Tag = i;
+                labeledPeople[i].Text = data.allPeople[result.peopleIds[i]].FullName;
+                labeledPeople[i].Visible = true;
+            }
+            for (int i = result.peopleIds.Count; i < labeledPeople.Count; ++i)
+            {
+                labeledPeople[i].Visible = false;
             }
         }
 

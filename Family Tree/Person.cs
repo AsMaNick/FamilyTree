@@ -21,6 +21,7 @@ namespace Family_Tree
         //public DateTime birthDate, deathDate;
         public bool incognito;
         public List<int> allPhotosIds;
+        public string secretId;
 
         public Person(bool Incognito = false, bool Male = true)
         {
@@ -129,6 +130,7 @@ namespace Family_Tree
         }
         public void writeToFile(ref StreamWriter output) 
         {
+            output.WriteLine(secretId);
             output.WriteLine(name);
             output.WriteLine(surname);
             output.WriteLine(patronymic);
@@ -165,6 +167,7 @@ namespace Family_Tree
         }
         public void readFromFile(ref StreamReader input) 
         {
+            secretId = input.ReadLine();
             name = input.ReadLine();
             surname = input.ReadLine();
             patronymic = input.ReadLine();

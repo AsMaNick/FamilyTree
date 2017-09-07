@@ -29,6 +29,17 @@ namespace Family_Tree
             deleted = false;
         }
 
+        public Photo(Photo p)
+        {
+            img = (Image)new Bitmap(p.img);
+            zones = new List<Rectangle>(p.zones);
+            peopleIds = new List<int>(p.peopleIds);
+            pathToFile = p.pathToFile;
+            additionalInfo = p.additionalInfo;
+            id = p.id;
+            deleted = p.deleted;
+        }
+
         public static Image Scale(Image img, double k)
         {
             int w = Convert.ToInt32(img.Width * k);

@@ -17,14 +17,19 @@ namespace Family_Tree
 
         public const string pathToAvatarss = "../../images/avatars/";
         public const string pathToGroupPhotos = "../../images/group_photos/";
+        public const string pathToDocuments = "../../documents/";
+        public const string pathToDocumentsToStart = "..\\..\\documents/";
         public List<Person> allPeople;
         public List<string> allAvatars;
         public List<Photo> allPhotos;
+        public SortedDictionary<string, bool> allSecretIds;
 
         public DataBase()
         {
             allPeople = new List<Person>();
             allPhotos = new List<Photo>();
+            allAvatars = new List<string>();
+            allSecretIds = new SortedDictionary<string, bool>();
             readFromFile(pathToDataBase);
             readPhotosFromFile(pathToPhotoDataBase);
             addPhotosToPeople();
@@ -45,6 +50,7 @@ namespace Family_Tree
         public void AddPerson(Person p)
         {
             allPeople.Add(p);
+            allSecretIds.Add(p.secretId, true);
             Debug.WriteLine(p.BasicInfo());
         }
 
@@ -69,6 +75,41 @@ namespace Family_Tree
             allPhotos.Add(p);
         }
 
+        public string genRandomString(int len = 15)
+        {
+            Random rand = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            string res = "";
+            for (int i = 0; i < len; ++i)
+            {
+                int tp = rand.Next(3);
+                if (tp == 0)
+                {
+                    res += (Char) ('0' + rand.Next(10));
+                }
+                else if (tp == 1)
+                {
+                    res += (Char)('a' + rand.Next(26));
+                }
+                else
+                {
+                    res += (Char)('A' + rand.Next(26));
+                }
+            }
+            return res;
+        }
+
+        public string genSecretId()
+        {
+            while (true)
+            {
+                string s = this.genRandomString();
+                if (!allSecretIds.ContainsKey(s))
+                {
+                    return s;
+                }
+            }
+        }
+
         public void readFromFile(string file)
         {
             StreamReader input = new StreamReader(file);
@@ -79,6 +120,7 @@ namespace Family_Tree
                 p.readFromFile(ref input);
                 p.id = i;
                 allPeople.Add(p);
+                allSecretIds.Add(p.secretId, true);
                 Debug.WriteLine(p.BasicInfo());
             }
             n = Convert.ToInt32(input.ReadLine());

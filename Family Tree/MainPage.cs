@@ -271,6 +271,7 @@ namespace Family_Tree
             pb.Left = x;
             pb.Top = y;
             pb.Tag = p;
+            pb.MouseDoubleClick += pb_MouseDoubleClick;
             Label l = new Label();
             l.Text = p.ShortName;
             l.Left = x - 10;
@@ -291,6 +292,21 @@ namespace Family_Tree
             this.treePanel.Controls.Add(pb);
             this.treePanel.Controls.Add(l);
             return l.Left + l.Width;
+        }
+
+        void pb_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+            Person pers = (Person)pb.Tag;
+            if (pers.incognito)
+            {
+                return;
+            }
+            Pair<bool, Person> p = tryAddPerson(pers.id);
+            if (p.First == true)
+            {
+                buildTree();
+            }
         }
 
         //Метод, рисующий основную информацию о родителях при построении дерева
@@ -969,7 +985,7 @@ namespace Family_Tree
             }
         }
 
-        private void добавитьФотографиюToolStripMenuItem_Click(object sender, EventArgs e)
+        public bool tryAddPhoto()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png";
@@ -982,8 +998,15 @@ namespace Family_Tree
                 if (res2 == DialogResult.OK)
                 {
                     data.addPhoto(addPhoto.result);
+                    return true;
                 }
             }
+            return false;
+        }
+
+        private void добавитьФотографиюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tryAddPhoto();
         }
 
         private void просмотрФотографийToolStripMenuItem_Click(object sender, EventArgs e)

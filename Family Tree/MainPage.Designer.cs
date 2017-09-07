@@ -37,6 +37,7 @@
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.базаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.поискToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.просмотрФотографийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьФотографиюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.деревоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +81,6 @@
             this.descendantsRadioButton = new System.Windows.Forms.RadioButton();
             this.hourglassRadioButton = new System.Windows.Forms.RadioButton();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.просмотрФотографийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.treeGroupBox.SuspendLayout();
@@ -153,6 +153,13 @@
             this.поискToolStripMenuItem.Text = "Просмотр персон";
             this.поискToolStripMenuItem.Click += new System.EventHandler(this.поискToolStripMenuItem_Click);
             // 
+            // просмотрФотографийToolStripMenuItem
+            // 
+            this.просмотрФотографийToolStripMenuItem.Name = "просмотрФотографийToolStripMenuItem";
+            this.просмотрФотографийToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.просмотрФотографийToolStripMenuItem.Text = "Просмотр фотографий";
+            this.просмотрФотографийToolStripMenuItem.Click += new System.EventHandler(this.просмотрФотографийToolStripMenuItem_Click);
+            // 
             // добавитьToolStripMenuItem
             // 
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
@@ -177,6 +184,9 @@
             // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnName,
@@ -185,7 +195,7 @@
             this.DeleteColumn});
             this.dataGridView.Location = new System.Drawing.Point(14, 29);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(523, 342);
+            this.dataGridView.Size = new System.Drawing.Size(631, 370);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
@@ -562,13 +572,6 @@
             this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewImageColumn1.Width = 23;
-            // 
-            // просмотрФотографийToolStripMenuItem
-            // 
-            this.просмотрФотографийToolStripMenuItem.Name = "просмотрФотографийToolStripMenuItem";
-            this.просмотрФотографийToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.просмотрФотографийToolStripMenuItem.Text = "Просмотр фотографий";
-            this.просмотрФотографийToolStripMenuItem.Click += new System.EventHandler(this.просмотрФотографийToolStripMenuItem_Click);
             // 
             // MainPage
             // 
