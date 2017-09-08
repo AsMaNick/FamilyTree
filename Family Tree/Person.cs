@@ -64,6 +64,7 @@ namespace Family_Tree
             children = new List<int>();
             incognito = false;
         }
+
         public string FullName
         {
             get 
@@ -80,6 +81,44 @@ namespace Family_Tree
                 //return name + " " + surname;
             }
         }
+
+        public string Year(int y)
+        {
+            if (y == 0)
+            {
+                return "?";
+            }
+            return Convert.ToString(y);
+        }
+
+        public string YearsLife()
+        {
+            string res = Year(birthDate.Year);
+            if (!alive)
+            {
+                res += "-" + Year(deathDate.Year);
+            }
+            return res;
+        }
+
+        public string FullNameYears
+        {
+            get
+            {
+                if (incognito)
+                {
+                    return "Неизвестно";
+                }
+                string years = " (" + YearsLife() + ")";
+                if (patronymic == "")
+                {
+                    return surname + " " + name + years;
+                }
+                return surname + " " + name + " " + patronymic + years;
+                //return name + " " + surname;
+            }
+        }
+
         public string ShortName
         {
             get
@@ -209,5 +248,16 @@ namespace Family_Tree
                 children.Add(Int32.Parse(input.ReadLine()));
             }
         }
+
+        public static bool operator < (Person p1, Person p2)
+        {
+            return p1.birthDate < p2.birthDate;
+        }
+
+        public static bool operator > (Person p1, Person p2)
+        {
+            return p1.birthDate > p2.birthDate;
+        }
+
     }
 }

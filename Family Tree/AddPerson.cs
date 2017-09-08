@@ -174,11 +174,6 @@ namespace Family_Tree
             return int.TryParse(s, out x);
         }
 
-        private bool leapYear(int y)
-        {
-            return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
-        }
-
         private bool dateExists(int y, int m, int d)
         {
             if (d == 0)
@@ -190,8 +185,8 @@ namespace Family_Tree
                 return 1 <= d && d <= 31;
             }
             --m;
-            int[] days = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-            if (leapYear(y))
+            int[] days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+            if (Date.leapYear(y))
             {
                 ++days[1];
             }
@@ -247,6 +242,11 @@ namespace Family_Tree
                 DialogResult res = MessageBox.Show("Неверно заполнено поле \"Дата смерти\".", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (Date.dateMinimize(BirthDate) > Date.dateMaximize(DeathDate))
+            {
+                DialogResult res = MessageBox.Show("Дата рождения должна быть раньше даты смерти.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, BirthDate, DeathDate, additionalInfoRichTextBox.Lines, fileAvatar, nid);
             if (addedPerson != null)
             {
@@ -263,10 +263,42 @@ namespace Family_Tree
                 {
                     p.children.Add(addedPerson.children[i]);
                 }
+                p.secretId = addedPerson.secretId;
+            }
+            if (p.partner != -1 && parent.data.allPeople[p.partner].man == p.man)
+            {
+                string error;
+                if (p.man)
+                {
+                    error = "Данная персона не может быть мужчиной, т.к. у нее есть муж.";
+                }
+                else
+                {
+                    error = "Данная персона не может быть женщиной, т.к. у нее есть жена.";
+                }
+                DialogResult res = MessageBox.Show(error, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            for (int i = 0; i < p.children.Count; ++i)
+            {
+                if (parent.data.allPeople[p.children[i]].father == p.id && !p.man)
+                {
+                    string error = "Данная персона не может быть женщиной, т.к. она является отцом для другой персоны.";
+                    DialogResult res = MessageBox.Show(error, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (parent.data.allPeople[p.children[i]].mother == p.id && p.man)
+                {
+                    string error = "Данная персона не может быть мужчиной, т.к. она является матерью для другой персоны.";
+                    DialogResult res = MessageBox.Show(error, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             addedPerson = p;
-            addedPerson.secretId = parent.data.genSecretId();
-            Debug.WriteLine(p.BasicInfo());
+            if (id == -1)
+            {
+                addedPerson.secretId = parent.data.genSecretId();
+            }
             for (int i = 0; i < additionalInfoRichTextBox.Lines.Length; ++i)
             {
                 Debug.WriteLine(additionalInfoRichTextBox.Lines[i]);
@@ -278,6 +310,14 @@ namespace Family_Tree
             else
             {
                 parent.data.allPeople[id] = p;
+            }
+            if (p.mother != -1)
+            {
+                parent.data.sortChildrenList(parent.data.allPeople[p.mother]);
+            }
+            if (p.father != -1)
+            {
+                parent.data.sortChildrenList(parent.data.allPeople[p.father]);
             }
             this.DialogResult = DialogResult.OK;
         }

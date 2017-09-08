@@ -202,7 +202,7 @@ namespace Family_Tree
             newPersonComboBox.Items.Clear();
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
-                newPersonComboBox.Items.Add(data.allPeople[i].FullName);
+                newPersonComboBox.Items.Add(data.allPeople[i].FullNameYears);
             }
             newPersonComboBox.Text = "";
             newPersonComboBox.Visible = true;
@@ -301,11 +301,11 @@ namespace Family_Tree
             updateZone(id);
         }
 
-        private int getPersonId(string fullName)
+        private int getPersonId(string fullNameYears)
         {
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
-                if (data.allPeople[i].FullName == fullName)
+                if (data.allPeople[i].FullNameYears == fullNameYears)
                 {
                     return i;
                 }

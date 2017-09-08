@@ -10,6 +10,50 @@ using System.Diagnostics;
 
 namespace Family_Tree
 {
+    public class PersonComparer : IComparer<int>
+    {
+        private DataBase data;
+
+        public PersonComparer(DataBase d)
+        {
+            data = d;
+        }
+
+        public int Compare(int x, int y)
+        {
+            if (x == null)
+            {
+                if (y == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                if (y == null)
+                {
+                    return 1;
+                }
+                else
+                {
+                    if (data.allPeople[x] < data.allPeople[y])
+                    {
+                        return -1;
+                    }
+                    else if (data.allPeople[x] > data.allPeople[y])
+                    {
+                        return 1;
+                    }
+                    return 0;
+                }
+            }
+        }
+    }
+
     public class DataBase
     {
         const string pathToDataBase = "data.txt";
@@ -264,6 +308,13 @@ namespace Family_Tree
             }
             return res;
         }
+
+        public void sortChildrenList(Person p)
+        {
+            PersonComparer pCmp = new PersonComparer(this);
+            p.children.Sort(pCmp);
+        }
+
         private void updateConnections(Person p)
         {
             if (p.father != -1)
@@ -317,7 +368,9 @@ namespace Family_Tree
                     allPeople[p.siblings[i]].father = p.father;
                 }
             }
+            sortChildrenList(p);
         }
+
         public void updateConnections()
         {
             for (int i = 0; i < allPeople.Count; ++i)

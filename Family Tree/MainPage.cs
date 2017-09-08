@@ -123,13 +123,14 @@ namespace Family_Tree
         //Метод, перерисовывающий список всех персон из базы
         private void DrawGridView()
         {
+            updateSizeGridView();
             treePanel.Controls.Clear();
             dataGridView.Rows.Clear();
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
                 dataGridView.Rows.Add(new DataGridViewRow());
                 dataGridView.Rows[i].Cells[0].Value = Number(i + 1, 4);
-                dataGridView.Rows[i].Cells[1].Value = data.allPeople[i].FullName;
+                dataGridView.Rows[i].Cells[1].Value = data.allPeople[i].FullNameYears;
                 dataGridView.Rows[i].Cells[2].Value = data.allPeople[i].birthPlace;
                 dataGridView.Rows[i].Cells[0].Tag = new ID(i);
                 dataGridView.Rows[i].ReadOnly = true;
@@ -181,7 +182,7 @@ namespace Family_Tree
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.ColumnIndex < 2)
             {
                 Pair<bool, Person> p = tryAddPerson(getId(e.RowIndex));
-                DrawGridView();
+                //DrawGridView();
             }
         }
 
@@ -501,7 +502,6 @@ namespace Family_Tree
             }
             if (areChildren)
             {
-                //Debug.WriteLine(father.FullName + " " + mother.FullName + " " + Convert.ToString(father.id) + " " + Convert.ToString(mother.id));
                 PictureBox cur = getPbById(father.id);
                 for (int i = 0; i < p.children.Count; ++i)
                 {
@@ -509,6 +509,20 @@ namespace Family_Tree
                 }
             }
             return new Pair<int, int> (x, Math.Max(startX, x + pWidth));
+        }
+
+        private int getStartId(string s)
+        {
+            int startId = -1;
+            for (int i = 0; i < data.allPeople.Count; ++i)
+            {
+                if (data.allPeople[i].FullNameYears == s)
+                {
+                    startId = i;
+                    break;
+                }
+            }
+            return startId;
         }
 
         //Метод загрузки параметров дерева с формы
@@ -528,15 +542,7 @@ namespace Family_Tree
             }
             string s = startPersonComboBox.Text;
             Debug.WriteLine(s);
-            startId = -1;
-            for (int i = 0; i < data.allPeople.Count; ++i)
-            {
-                if (data.allPeople[i].FullName == s)
-                {
-                    startId = i;
-                    break;
-                }
-            }
+            startId = getStartId(s);
             if (allGenerationsRadioButton.Checked)
             {
                 maxH = 100;
@@ -571,6 +577,12 @@ namespace Family_Tree
             if (error != "")
             {
                 MessageBox.Show(error, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (startId == -1)
+                {
+                    turnOffPanels();
+                    treeSettingsPanel.Visible = true;
+                    fillStartPersonComboBox();
+                }
                 return;
             }
             turnOffPanels();
@@ -646,12 +658,16 @@ namespace Family_Tree
             startPersonComboBox.Items.Clear();
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
-                Debug.WriteLine(i);
-                startPersonComboBox.Items.Add(data.allPeople[i].FullName);
+                Debug.WriteLine(i + " " + data.allPeople[i].FullNameYears);
+                startPersonComboBox.Items.Add(data.allPeople[i].FullNameYears);
             }
-            if (startPersonComboBox.Text == "")
+            if (getStartId(startPersonComboBox.Text) == -1)
             {
-                startPersonComboBox.Text = data.allPeople[0].FullName;
+                startPersonComboBox.Text = "";
+                if (startPersonComboBox.Items.Count > 0)
+                {
+                    startPersonComboBox.Text = (string)startPersonComboBox.Items[0];
+                }
             }
         }
 
@@ -703,14 +719,18 @@ namespace Family_Tree
             Person p = data.allPeople[v1];
             bool res = dfs(p.father, v2, used);
             res |= dfs(p.mother, v2, used);
+            if (res) { Debug.WriteLine(p.FullNameYears); return true; }
             res |= dfs(p.partner, v2, used);
+            if (res) { Debug.WriteLine(p.FullNameYears); return true; }
             for (int i = 0; i < p.children.Count; ++i)
             {
                 res |= dfs(p.children[i], v2, used);
+                if (res) { Debug.WriteLine(p.FullNameYears); return true; }
             }
             for (int i = 0; i < p.siblings.Count; ++i)
             {
                 res |= dfs(p.siblings[i], v2, used);
+                if (res) { Debug.WriteLine(p.FullNameYears); return true; }
             }
             return res;
         }
@@ -1012,7 +1032,20 @@ namespace Family_Tree
         private void просмотрФотографийToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Pair<bool, Person> p = tryAddPerson(-2);
-            DrawGridView();
+        }
+
+        private void updateSizeGridView()
+        {
+            int len = dataGridView.Width - dataGridView.Columns[0].Width - dataGridView.Columns[3].Width;
+            len -= 60;
+            len /= 2;
+            dataGridView.Columns[1].Width = len;
+            dataGridView.Columns[2].Width = len;
+        }
+
+        private void MainPage_SizeChanged(object sender, EventArgs e)
+        {
+            updateSizeGridView();
         }
     }
 
