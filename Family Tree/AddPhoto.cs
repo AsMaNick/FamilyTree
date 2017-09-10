@@ -24,6 +24,7 @@ namespace Family_Tree
         List<Label> labeledPeople;
         private int lastLabeledPeopleCount = 0, szScroll = 0;
         private Label choosenLabel;
+        private bool newPhoto;
 
         public AddPhoto()
         {
@@ -37,6 +38,7 @@ namespace Family_Tree
             newPersonComboBox.Size = new Size(238, 22);
             newPersonComboBox.Font = new System.Drawing.Font("Georgia", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             newPersonComboBox.KeyDown += newPersonComboBox_KeyDown;
+            newPersonComboBox.Sorted = true;
             pb = new TransparentPictureBox(Color.FromArgb(50, 0, 0, 0));
             pb.Visible = false;
             this.photo.Controls.Add(pb);
@@ -54,6 +56,7 @@ namespace Family_Tree
             result = new Photo();
             result.img = (Image)(new Bitmap(Image.FromFile(fileName)));
             scale = Math.Min(9.99, 500.0 / result.img.Height);
+            newPhoto = true;
             InitializeForm();
         }
 
@@ -64,6 +67,7 @@ namespace Family_Tree
             result = new Photo(p);
             additionalInfo.Text = p.additionalInfo;
             scale = Math.Min(9.99, 500.0 / result.img.Height);
+            newPhoto = false;
             InitializeForm();
             updateInformation();
         }
@@ -343,6 +347,20 @@ namespace Family_Tree
 
         private void okButton_Click(object sender, EventArgs e)
         {
+            if (newPersonComboBox.Visible == true)
+            {
+                DialogResult res = MessageBox.Show("Пожалуйста, закончите операцию отметки персоны.", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                newPersonComboBox.Focus();
+                return;
+            }
+            if (result.peopleIds.Count == 0 && newPhoto)
+            {
+                DialogResult res = MessageBox.Show("Вы не отметили ни одну персону. Точно хотите добавить фотографию?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.No)
+                {
+                    return;
+                }
+            }
             result.additionalInfo = this.additionalInfo.Text;
             DialogResult = DialogResult.OK;
         }

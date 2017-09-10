@@ -15,6 +15,7 @@ namespace Family_Tree
 {
     public class Photo
     {
+        public const string Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png;*.tif;*tiff";
         public Image img;
         public List<Rectangle> zones;
         public List<int> peopleIds;

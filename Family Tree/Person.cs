@@ -11,8 +11,6 @@ namespace Family_Tree
     public class Person
     {
         public int mother, father, partner, id;
-        public List<int> children;
-        public List<int> siblings;
         public bool man, alive;
         public string name, surname, patronymic, maidenName, birthPlace, contacts, burialPlace;
         public string fileAvatar;
@@ -20,6 +18,9 @@ namespace Family_Tree
         public Date birthDate, deathDate;
         //public DateTime birthDate, deathDate;
         public bool incognito;
+
+        public List<int> children;
+        public List<int> siblings;
         public List<int> allPhotosIds;
         public string secretId;
 
@@ -62,6 +63,7 @@ namespace Family_Tree
             partner = -1;
             siblings = new List<int>();
             children = new List<int>();
+            allPhotosIds = new List<int>();
             incognito = false;
         }
 

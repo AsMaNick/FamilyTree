@@ -133,16 +133,9 @@ namespace Family_Tree
             addedPerson.mother = p.mother;
             addedPerson.father = p.father;
             addedPerson.partner = p.partner;
-            addedPerson.siblings = new List<int> ();
-            for (int i = 0; i < p.siblings.Count; ++i)
-            {
-                addedPerson.siblings.Add(p.siblings[i]);
-            }
-            addedPerson.children = new List<int>();
-            for (int i = 0; i < p.children.Count; ++i)
-            {
-                addedPerson.children.Add(p.children[i]);
-            }
+            addedPerson.siblings = new List<int> (p.siblings);
+            addedPerson.children = new List<int> (p.children);
+            addedPerson.allPhotosIds = new List<int> (p.allPhotosIds);
             addedPerson.secretId = p.secretId;
             fillAliveMenu(p.alive);
             fillDeadMenu(!p.alive);
@@ -253,16 +246,9 @@ namespace Family_Tree
                 p.mother = addedPerson.mother;
                 p.father = addedPerson.father;
                 p.partner = addedPerson.partner;
-                p.siblings = new List<int>();
-                for (int i = 0; i < addedPerson.siblings.Count; ++i)
-                {
-                    p.siblings.Add(addedPerson.siblings[i]);
-                }
-                p.children = new List<int>();
-                for (int i = 0; i < addedPerson.children.Count; ++i)
-                {
-                    p.children.Add(addedPerson.children[i]);
-                }
+                p.siblings = new List<int> (addedPerson.siblings);
+                p.children = new List<int> (addedPerson.children);
+                p.allPhotosIds = new List<int> (addedPerson.allPhotosIds);
                 p.secretId = addedPerson.secretId;
             }
             if (p.partner != -1 && parent.data.allPeople[p.partner].man == p.man)
@@ -409,7 +395,7 @@ namespace Family_Tree
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png";
+            fileDialog.Filter = Photo.Filter;
             DialogResult res = fileDialog.ShowDialog();
             if (res == DialogResult.OK)
             {
@@ -434,6 +420,7 @@ namespace Family_Tree
 
         private void placeAllPhotos(Person p, List<Photo> allPhotos)
         {
+            Cursor = Cursors.WaitCursor;
             List<int> allIds = new List<int> ();
             for (int i = 0; i < p.allPhotosIds.Count; ++i)
             {
@@ -471,10 +458,11 @@ namespace Family_Tree
                     pb.Size = pb.Image.Size;
                     pb.Left = (j - i) * distanceBetweenPhotos + sum;
                     pb.Top = h;
-                    pb.MouseDoubleClick += photo_MouseDoubleClick;
+                    pb.MouseClick += photo_MouseClick;
+                    pb.MouseEnter += photo_MouseEnter;
+                    pb.MouseLeave += photo_MouseLeave;
                     pb.Tag = id;
                     plH = pb.Height;
-                    pb.MouseClick += photo_MouseClick;
                     allPb.Add(pb);
                     sum += pb.Width;
                 }
@@ -486,6 +474,17 @@ namespace Family_Tree
             {
                 this.photoPanel.Controls.Add(allPb[i]);
             }
+            Cursor = Cursors.Default;
+        }
+
+        void photo_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
+        }
+
+        void photo_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Hand;
         }
 
         void photo_MouseClick(object sender, MouseEventArgs e)
@@ -495,77 +494,40 @@ namespace Family_Tree
                 choosenPhoto = (PictureBox)sender;
                 deletePhotoMenuStrip.Show(MousePosition, ToolStripDropDownDirection.Right);
             }
-        }
-
-        void photo_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Left)
             {
-                return;
-            }
-            PictureBox pb = (PictureBox)(sender);
-            int idPhoto = (int)pb.Tag;
-            Photo ph = parent.data.allPhotos[idPhoto];
-            for (int i = 0; i < ph.peopleIds.Count; ++i)
-            {
-                parent.data.allPeople[ph.peopleIds[i]].allPhotosIds.Remove(idPhoto);
-            }
-            AddPhoto addPhoto = new AddPhoto(ph, parent.data);
-            DialogResult res2 = addPhoto.ShowDialog();
-            if (res2 == DialogResult.OK)
-            {
-                parent.data.allPhotos[idPhoto] = addPhoto.result;
-                ph = parent.data.allPhotos[idPhoto];
-            }
-            bool thisPhotoPresent = false;
-            for (int i = 0; i < ph.peopleIds.Count; ++i)
-            {
-                parent.data.allPeople[ph.peopleIds[i]].allPhotosIds.Add(idPhoto);
-                if (ph.peopleIds[i] == id)
-                {
-                    thisPhotoPresent = true;
-                }
-            }
-            if (!thisPhotoPresent && id != -2)
-            {
-                placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
-            }
-        }
-
-        private bool photoClick = false;
-
-        private void фотографииToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (id == -2)
-            {
-                photoPanel.Focus();
-                return;
-            }
-            Debug.WriteLine(id);
-            if (id == -1 || parent.data.allPeople[id].allPhotosIds.Count == 0 || parent.data.allPhotos.Count == 0)
-            {
-                DialogResult res = MessageBox.Show("У данной персоны нет загруженных фотографий. Хотите добавить?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if (res == DialogResult.Yes)
-                {
-                    if (!parent.tryAddPhoto())
-                    {
-                        return;
-                    }
-                }
-                else
+                if (e.Button == MouseButtons.Right)
                 {
                     return;
                 }
+                PictureBox pb = (PictureBox)(sender);
+                int idPhoto = (int)pb.Tag;
+                Photo ph = parent.data.allPhotos[idPhoto];
+                for (int i = 0; i < ph.peopleIds.Count; ++i)
+                {
+                    parent.data.allPeople[ph.peopleIds[i]].allPhotosIds.Remove(idPhoto);
+                }
+                AddPhoto addPhoto = new AddPhoto(ph, parent.data);
+                DialogResult res2 = addPhoto.ShowDialog();
+                if (res2 == DialogResult.OK)
+                {
+                    parent.data.allPhotos[idPhoto] = addPhoto.result;
+                    ph = parent.data.allPhotos[idPhoto];
+                }
+                bool thisPhotoPresent = false;
+                for (int i = 0; i < ph.peopleIds.Count; ++i)
+                {
+                    parent.data.allPeople[ph.peopleIds[i]].allPhotosIds.Add(idPhoto);
+                    if (ph.peopleIds[i] == id)
+                    {
+                        thisPhotoPresent = true;
+                    }
+                }
+                if (!thisPhotoPresent && id != -2)
+                {
+                    placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+                }
             }
-            photoPanel.BringToFront();
-            photoPanel.Visible = true;
-            photoPanel.Focus();
-            if (photoClick)
-            {
-                return;
-            }
-            photoClick = true;
-            placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
         }
 
         private void AddPerson_Activated(object sender, EventArgs e)
@@ -608,6 +570,73 @@ namespace Family_Tree
             }
             System.Diagnostics.Process.Start(DataBase.pathToDocumentsToStart + addedPerson.secretId);
             //System.Diagnostics.Process.Start("..\\..\\images/avatars/26.jpg");
+        }
+        
+        private bool photoClick = false;
+
+        private void добавитьФотографиюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            parent.tryAddPhoto();
+            photoClick = false;
+            if (photoPanel.Visible)
+            {
+                if (id == -2)
+                {
+                    Person p = new Person();
+                    for (int i = 0; i < parent.data.allPhotos.Count; ++i)
+                    {
+                        p.allPhotosIds.Add(i);
+                    }
+                    placeAllPhotos(p, parent.data.allPhotos);
+                }
+                else
+                {
+                    placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+                }
+                photoClick = true;
+                photoPanel.Focus();
+            }
+        }
+
+        private void просмотрФотографийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (id == -2)
+            {
+                photoPanel.Focus();
+                return;
+            }
+            Debug.WriteLine(id);
+            if (id == -1 || parent.data.allPeople[id].allPhotosIds.Count == 0 || parent.data.allPhotos.Count == 0)
+            {
+                DialogResult res = MessageBox.Show("У данной персоны нет загруженных фотографий. Хотите добавить?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (res == DialogResult.Yes)
+                {
+                    if (!parent.tryAddPhoto())
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            photoPanel.BringToFront();
+            photoPanel.Visible = true;
+            photoPanel.Focus();
+            if (photoClick)
+            {
+                return;
+            }
+            photoClick = true;
+            placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+        }
+
+        private void показатьВПапкеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PictureBox pb = choosenPhoto;
+            int photoId = (int)pb.Tag;
+            Process.Start(new ProcessStartInfo("explorer.exe", "/select, " + System.IO.Path.GetFullPath(DataBase.pathToGroupPhotosToStart + parent.data.allPhotos[photoId].pathToFile)));
         }
     }
 }

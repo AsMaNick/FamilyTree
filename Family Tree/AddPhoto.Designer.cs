@@ -190,7 +190,7 @@
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
@@ -208,7 +208,7 @@
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(700, 456);
             this.Name = "AddPhoto";
-            this.Text = "AddPhoto";
+            this.Text = "Фотография";
             this.Activated += new System.EventHandler(this.AddPhoto_Activated);
             this.SizeChanged += new System.EventHandler(this.AddPhoto_SizeChanged);
             this.photoPanel.ResumeLayout(false);

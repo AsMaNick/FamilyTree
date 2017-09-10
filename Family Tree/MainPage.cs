@@ -28,7 +28,8 @@ namespace Family_Tree
         public DataBase data;//База всех персон
         private Person chosenPerson;//Выбранный человек для дальнейшого редактирования
         private Graphics g;
-        
+        private Scroll treeScroll;
+
         //Конструктор, вызываемый при создании формы
         public MainPage()
         {
@@ -38,6 +39,11 @@ namespace Family_Tree
             dataGridView.Visible = true;
             DrawGridView();
             enableSavingTree(false);
+
+            treeScroll = new Scroll();
+            treePanel.MouseDown += treeScroll.MouseDown;
+            treePanel.MouseMove += treeScroll.MouseMove;
+            treePanel.MouseUp += treeScroll.MouseUp;
             //System.Diagnostics.Process.Start("..\\..\\images/avatars/26.jpg");
         }
 
@@ -107,6 +113,12 @@ namespace Family_Tree
         //Метод, срабатывающий при закрытии окна; сохраняет данные
         private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
         {
+            DialogResult res = MessageBox.Show("Вы уверены, что хотите выйти?\nВсе изменения будут сохранены.", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.No)
+            {
+                e.Cancel = true;
+                return;
+            }
             data.save();
         }
 
@@ -182,7 +194,7 @@ namespace Family_Tree
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.ColumnIndex < 2)
             {
                 Pair<bool, Person> p = tryAddPerson(getId(e.RowIndex));
-                //DrawGridView();
+                DrawGridView();
             }
         }
 
@@ -272,7 +284,12 @@ namespace Family_Tree
             pb.Left = x;
             pb.Top = y;
             pb.Tag = p;
-            pb.MouseDoubleClick += pb_MouseDoubleClick;
+            if (!p.incognito)
+            {
+                pb.MouseEnter += photo_MouseEnter;
+                pb.MouseLeave += photo_MouseLeave;
+                pb.MouseClick += pb_MouseClick;
+            }
             Label l = new Label();
             l.Text = p.ShortName;
             l.Left = x - 10;
@@ -295,18 +312,36 @@ namespace Family_Tree
             return l.Left + l.Width;
         }
 
-        void pb_MouseDoubleClick(object sender, MouseEventArgs e)
+        void photo_MouseLeave(object sender, EventArgs e)
         {
-            PictureBox pb = (PictureBox)sender;
-            Person pers = (Person)pb.Tag;
-            if (pers.incognito)
+            Cursor = Cursors.Default;
+        }
+
+        void photo_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        void pb_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
             {
-                return;
-            }
-            Pair<bool, Person> p = tryAddPerson(pers.id);
-            if (p.First == true)
-            {
-                buildTree();
+                PictureBox pb = (PictureBox)sender;
+                Person pers = (Person)pb.Tag;
+                if (pers.incognito)
+                {
+                    return;
+                }
+                string oldStartPerson = pers.FullNameYears;
+                Pair<bool, Person> p = tryAddPerson(pers.id);
+                if (oldStartPerson == startPersonComboBox.Text)
+                {
+                    startPersonComboBox.Text = data.allPeople[pers.id].FullNameYears;
+                }
+                if (p.First == true)
+                {
+                    buildTree();
+                }
             }
         }
 
@@ -598,6 +633,7 @@ namespace Family_Tree
                 tp = "Песочные часы";
             }
             treeGroupBox.Text = data.allPeople[startId].ShortName + ": " + tp;
+            Cursor = Cursors.WaitCursor;
             if (typeOfTree == ANCESTORS)
             {
                 h = Math.Min(maxH - 1, getHeightOfAncestors(data.allPeople[startId], 0));
@@ -610,14 +646,17 @@ namespace Family_Tree
             }
             else if (typeOfTree == HOURGLASS)
             {
+                Cursor = Cursors.Default;
                 MessageBox.Show("Not implemented yet", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else
             {
+                Cursor = Cursors.Default;
                 MessageBox.Show("Неизвестный тип дерева", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            Cursor = Cursors.Default;
             treeGroupBox.Visible = true;
             treePanel.Visible = true;
             enableSavingTree(true);
@@ -1008,7 +1047,7 @@ namespace Family_Tree
         public bool tryAddPhoto()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png";
+            fileDialog.Filter = Photo.Filter;
             DialogResult res = fileDialog.ShowDialog();
             if (res == DialogResult.OK)
             {

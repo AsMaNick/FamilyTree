@@ -66,10 +66,13 @@
             this.addPersonMenuStrip = new System.Windows.Forms.MenuStrip();
             this.mainInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.photosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.просмотрФотографийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.добавитьФотографиюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.photoPanel = new System.Windows.Forms.Panel();
             this.deletePhotoMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.показатьВПапкеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
@@ -143,7 +146,7 @@
             // surnameTextBox
             // 
             this.surnameTextBox.Location = new System.Drawing.Point(7, 71);
-            this.surnameTextBox.MaxLength = 20;
+            this.surnameTextBox.MaxLength = 30;
             this.surnameTextBox.Name = "surnameTextBox";
             this.surnameTextBox.Size = new System.Drawing.Size(116, 20);
             this.surnameTextBox.TabIndex = 2;
@@ -151,7 +154,7 @@
             // nameTextBox
             // 
             this.nameTextBox.Location = new System.Drawing.Point(198, 71);
-            this.nameTextBox.MaxLength = 20;
+            this.nameTextBox.MaxLength = 30;
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(135, 20);
             this.nameTextBox.TabIndex = 3;
@@ -159,7 +162,7 @@
             // patronomicTextBox
             // 
             this.patronomicTextBox.Location = new System.Drawing.Point(7, 125);
-            this.patronomicTextBox.MaxLength = 20;
+            this.patronomicTextBox.MaxLength = 30;
             this.patronomicTextBox.Name = "patronomicTextBox";
             this.patronomicTextBox.Size = new System.Drawing.Size(116, 20);
             this.patronomicTextBox.TabIndex = 4;
@@ -167,7 +170,7 @@
             // birthPlaceTextBox
             // 
             this.birthPlaceTextBox.Location = new System.Drawing.Point(198, 184);
-            this.birthPlaceTextBox.MaxLength = 50;
+            this.birthPlaceTextBox.MaxLength = 100;
             this.birthPlaceTextBox.Name = "birthPlaceTextBox";
             this.birthPlaceTextBox.Size = new System.Drawing.Size(135, 20);
             this.birthPlaceTextBox.TabIndex = 7;
@@ -484,10 +487,26 @@
             // 
             // photosToolStripMenuItem
             // 
+            this.photosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.просмотрФотографийToolStripMenuItem,
+            this.добавитьФотографиюToolStripMenuItem});
             this.photosToolStripMenuItem.Name = "photosToolStripMenuItem";
             this.photosToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
             this.photosToolStripMenuItem.Text = "Фотографии";
-            this.photosToolStripMenuItem.Click += new System.EventHandler(this.фотографииToolStripMenuItem_Click);
+            // 
+            // просмотрФотографийToolStripMenuItem
+            // 
+            this.просмотрФотографийToolStripMenuItem.Name = "просмотрФотографийToolStripMenuItem";
+            this.просмотрФотографийToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.просмотрФотографийToolStripMenuItem.Text = "Просмотр фотографий";
+            this.просмотрФотографийToolStripMenuItem.Click += new System.EventHandler(this.просмотрФотографийToolStripMenuItem_Click);
+            // 
+            // добавитьФотографиюToolStripMenuItem
+            // 
+            this.добавитьФотографиюToolStripMenuItem.Name = "добавитьФотографиюToolStripMenuItem";
+            this.добавитьФотографиюToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.добавитьФотографиюToolStripMenuItem.Text = "Добавить фотографию";
+            this.добавитьФотографиюToolStripMenuItem.Click += new System.EventHandler(this.добавитьФотографиюToolStripMenuItem_Click);
             // 
             // documentsToolStripMenuItem
             // 
@@ -508,16 +527,24 @@
             // deletePhotoMenuStrip
             // 
             this.deletePhotoMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.удалитьToolStripMenuItem});
+            this.удалитьToolStripMenuItem,
+            this.показатьВПапкеToolStripMenuItem});
             this.deletePhotoMenuStrip.Name = "deletePhotoMenuStrip";
-            this.deletePhotoMenuStrip.Size = new System.Drawing.Size(119, 26);
+            this.deletePhotoMenuStrip.Size = new System.Drawing.Size(169, 70);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
+            // 
+            // показатьВПапкеToolStripMenuItem
+            // 
+            this.показатьВПапкеToolStripMenuItem.Name = "показатьВПапкеToolStripMenuItem";
+            this.показатьВПапкеToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.показатьВПапкеToolStripMenuItem.Text = "Показать в папке";
+            this.показатьВПапкеToolStripMenuItem.Click += new System.EventHandler(this.показатьВПапкеToolStripMenuItem_Click);
             // 
             // AddPerson
             // 
@@ -596,6 +623,9 @@
         private System.Windows.Forms.ContextMenuStrip deletePhotoMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem documentsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem добавитьФотографиюToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem просмотрФотографийToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem показатьВПапкеToolStripMenuItem;
 
 
     }

@@ -21,36 +21,15 @@ namespace Family_Tree
 
         public int Compare(int x, int y)
         {
-            if (x == null)
+            if (data.allPeople[x] < data.allPeople[y])
             {
-                if (y == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                return -1;
             }
-            else
+            else if (data.allPeople[x] > data.allPeople[y])
             {
-                if (y == null)
-                {
-                    return 1;
-                }
-                else
-                {
-                    if (data.allPeople[x] < data.allPeople[y])
-                    {
-                        return -1;
-                    }
-                    else if (data.allPeople[x] > data.allPeople[y])
-                    {
-                        return 1;
-                    }
-                    return 0;
-                }
+                return 1;
             }
+            return 0;
         }
     }
 
@@ -61,6 +40,7 @@ namespace Family_Tree
 
         public const string pathToAvatarss = "../../images/avatars/";
         public const string pathToGroupPhotos = "../../images/group_photos/";
+        public const string pathToGroupPhotosToStart = "..\\..\\images/group_photos/";
         public const string pathToDocuments = "../../documents/";
         public const string pathToDocumentsToStart = "..\\..\\documents/";
         public List<Person> allPeople;
@@ -290,6 +270,7 @@ namespace Family_Tree
 
         public void deletePhoto(int id)
         {
+            System.IO.File.Delete(pathToGroupPhotos + allPhotos[id].pathToFile);
             for (int i = 0; i < this.allPhotos[id].peopleIds.Count; ++i)
             {
                 int personId = this.allPhotos[id].peopleIds[i];

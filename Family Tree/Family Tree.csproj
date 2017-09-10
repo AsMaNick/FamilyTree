@@ -75,12 +75,14 @@
     <Compile Include="Photo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scroll.cs" />
     <Compile Include="SearchPerson.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SearchPerson.Designer.cs">
       <DependentUpon>SearchPerson.cs</DependentUpon>
     </Compile>
+    <Compile Include="Timer.cs" />
     <Compile Include="TransparentPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>

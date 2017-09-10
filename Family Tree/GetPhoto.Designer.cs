@@ -41,7 +41,7 @@
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button1.Font = new System.Drawing.Font("Georgia", 9.75F);
-            this.button1.Location = new System.Drawing.Point(213, 434);
+            this.button1.Location = new System.Drawing.Point(202, 511);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -58,14 +58,14 @@
             this.photoPanel.Controls.Add(this.photo);
             this.photoPanel.Location = new System.Drawing.Point(6, 19);
             this.photoPanel.Name = "photoPanel";
-            this.photoPanel.Size = new System.Drawing.Size(469, 380);
+            this.photoPanel.Size = new System.Drawing.Size(447, 457);
             this.photoPanel.TabIndex = 2;
             // 
             // photo
             // 
             this.photo.Location = new System.Drawing.Point(4, 4);
             this.photo.Name = "photo";
-            this.photo.Size = new System.Drawing.Size(462, 373);
+            this.photo.Size = new System.Drawing.Size(438, 450);
             this.photo.TabIndex = 0;
             this.photo.TabStop = false;
             // 
@@ -78,7 +78,7 @@
             this.photoGroupBox.Font = new System.Drawing.Font("Georgia", 9.75F);
             this.photoGroupBox.Location = new System.Drawing.Point(13, 13);
             this.photoGroupBox.Name = "photoGroupBox";
-            this.photoGroupBox.Size = new System.Drawing.Size(481, 415);
+            this.photoGroupBox.Size = new System.Drawing.Size(459, 492);
             this.photoGroupBox.TabIndex = 3;
             this.photoGroupBox.TabStop = false;
             // 
@@ -87,11 +87,11 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(506, 460);
+            this.ClientSize = new System.Drawing.Size(484, 537);
             this.Controls.Add(this.photoGroupBox);
             this.Controls.Add(this.button1);
             this.Name = "GetPhoto";
-            this.Text = "getPhoto";
+            this.Text = "Выбор фотографии";
             this.Activated += new System.EventHandler(this.GetPhoto_Activated);
             this.photoPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();
