@@ -16,10 +16,10 @@ namespace Family_Tree
     public class Photo
     {
         public const string Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png;*.tif;*tiff";
-        public Image img;
         public List<Rectangle> zones;
         public List<int> peopleIds;
-        public string pathToFile, additionalInfo;
+        public string pathToFile;
+        public List<string> additionalInfo;
         public int id;
         public bool deleted;
 
@@ -27,16 +27,17 @@ namespace Family_Tree
         {
             zones = new List<Rectangle>();
             peopleIds = new List<int>();
+            additionalInfo = new List<string>();
             deleted = false;
         }
 
         public Photo(Photo p)
         {
-            img = (Image)new Bitmap(p.img);
+            //img = (Image)new Bitmap(p.img);
             zones = new List<Rectangle>(p.zones);
             peopleIds = new List<int>(p.peopleIds);
             pathToFile = p.pathToFile;
-            additionalInfo = p.additionalInfo;
+            additionalInfo = new List<string> (p.additionalInfo);
             id = p.id;
             deleted = p.deleted;
         }
@@ -51,9 +52,14 @@ namespace Family_Tree
         public void readFromFile(ref StreamReader file)
         {
             pathToFile = file.ReadLine();
-            additionalInfo = file.ReadLine();
-            deleted = Convert.ToBoolean(file.ReadLine());
             int n = int.Parse(file.ReadLine());
+            additionalInfo = new List<string>();
+            for (int i = 0; i < n; ++i)
+            {
+                additionalInfo.Add(file.ReadLine());
+            }
+            deleted = Convert.ToBoolean(file.ReadLine());
+            n = int.Parse(file.ReadLine());
             for (int i = 0; i < n; ++i)
             {
                 int x, y, w, h, personId;
@@ -67,18 +73,22 @@ namespace Family_Tree
             }
             if (!deleted)
             {
-                img = (Image)(new Bitmap(DataBase.pathToGroupPhotos + pathToFile));
+                //img = (Image)(new Bitmap(DataBase.pathToGroupPhotos + pathToFile));
             }
             else
             {
-                img = null;
+                //img = null;
             }
         }
 
         public void writeToFile(ref StreamWriter file)
         {
             file.WriteLine(pathToFile);
-            file.WriteLine(additionalInfo);
+            file.WriteLine(additionalInfo.Count);
+            for (int i = 0; i < additionalInfo.Count; ++i)
+            {
+                file.WriteLine(additionalInfo[i]);
+            }
             file.WriteLine(deleted);
             int n = zones.Count;
             file.WriteLine(n);
@@ -101,7 +111,7 @@ namespace Family_Tree
         public void delete()
         {
             this.deleted = true;
-            this.img = null;
+            //this.img = null;
             this.peopleIds.Clear();
             this.zones.Clear();
         }

@@ -439,13 +439,13 @@ namespace Family_Tree
                 for (int j = i; j < allIds.Count; ++j)
                 {
                     int id = allIds[j];
-                    int totalWidth = (cnt + 2) * distanceBetweenPhotos + sum + (allPhotos[id].img.Width * minPhotoHeight) / allPhotos[id].img.Height;
+                    int totalWidth = (cnt + 2) * distanceBetweenPhotos + sum + (parent.data.img(id).Width * minPhotoHeight) / parent.data.img(id).Height;
                     if (totalWidth >= photoPanel.Width)
                     {
                         break;
                     }
                     ++cnt;
-                    sum += (allPhotos[id].img.Width * minPhotoHeight) / allPhotos[id].img.Height;
+                    sum += (parent.data.img(id).Width * minPhotoHeight) / parent.data.img(id).Height;
                 }
                 cnt = Math.Max(cnt, 1);
                 double k = 1.0 * (photoPanel.Width - 15 - (cnt + 1) * distanceBetweenPhotos) / sum;
@@ -456,7 +456,7 @@ namespace Family_Tree
                 {
                     int id = allIds[j];
                     PictureBox pb = new PictureBox();
-                    pb.Image = Photo.Scale(allPhotos[id].img, k * minPhotoHeight / allPhotos[id].img.Height);
+                    pb.Image = Photo.Scale(parent.data.img(id), k * minPhotoHeight / parent.data.img(id).Height);
                     pb.Size = pb.Image.Size;
                     pb.Left = (j - i) * distanceBetweenPhotos + sum;
                     pb.Top = h;

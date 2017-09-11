@@ -56,7 +56,7 @@ namespace Family_Tree
             result = new Photo();
             result.pathToFile = fileName;
             //result.img = (Image)(new Bitmap(Image.FromFile(fileName)));
-            scale = Math.Min(9.99, 500.0 / result.img.Height);
+            scale = Math.Min(9.99, 500.0 / data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height);
             newPhoto = true;
             InitializeForm();
         }
@@ -66,8 +66,15 @@ namespace Family_Tree
             InitializeComponent();
             data = Data;
             result = new Photo(p);
-            additionalInfo.Text = p.additionalInfo;
-            scale = Math.Min(9.99, 500.0 / result.img.Height);
+            //additionalInfo.Lines = new string[p.additionalInfo.Count + 1];
+            additionalInfo.Text = "";
+            //Debug.WriteLine(additionalInfo.Lines.Length);
+            for (int i = 0; i < p.additionalInfo.Count; ++i)
+            {
+                additionalInfo.Text += p.additionalInfo[i] + "\n";
+                //additionalInfo.Lines[i] = p.additionalInfo[i];
+            }
+            scale = Math.Min(9.99, 500.0 / data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height);
             newPhoto = false;
             InitializeForm();
             updateInformation();
@@ -75,9 +82,9 @@ namespace Family_Tree
 
         private void updatePhoto()
         {
-            int w = Convert.ToInt32(scale * result.img.Width);
-            int h = Convert.ToInt32(scale * result.img.Height);
-            this.photo.Image = (Image) (new Bitmap(result.img, w, h));
+            int w = Convert.ToInt32(scale * data.img(DataBase.pathToGroupPhotos + result.pathToFile).Width);
+            int h = Convert.ToInt32(scale * data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height);
+            this.photo.Image = (Image)(new Bitmap(data.img(DataBase.pathToGroupPhotos + result.pathToFile), w, h));
             this.photo.Size = this.photo.Image.Size;
             this.scaleLabel.Text = Convert.ToString(Convert.ToInt32(scale * 100)) + "%";
         }
@@ -89,7 +96,7 @@ namespace Family_Tree
 
         private bool okS(double scale)
         {
-            double s = this.result.img.Width * this.result.img.Height * scale * scale;
+            double s = data.img(DataBase.pathToGroupPhotos + result.pathToFile).Width * data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height * scale * scale;
             return 5000 <= s && s <= 25000000 && scale < 10;
         }
 
@@ -160,10 +167,10 @@ namespace Family_Tree
             int mnY = result.zones[id].Top;
             int mxX = result.zones[id].Left + result.zones[id].Width - 1;
             int mxY = result.zones[id].Top + result.zones[id].Height - 1;
-            updateCoordinates(ref mnX, this.result.img.Width, this.photo.Width);
-            updateCoordinates(ref mxX, this.result.img.Width, this.photo.Width);
-            updateCoordinates(ref mnY, this.result.img.Height, this.photo.Height);
-            updateCoordinates(ref mxY, this.result.img.Height, this.photo.Height);
+            updateCoordinates(ref mnX, data.img(DataBase.pathToGroupPhotos + result.pathToFile).Width, this.photo.Width);
+            updateCoordinates(ref mxX, data.img(DataBase.pathToGroupPhotos + result.pathToFile).Width, this.photo.Width);
+            updateCoordinates(ref mnY, data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height, this.photo.Height);
+            updateCoordinates(ref mxY, data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height, this.photo.Height);
             pb.Left = mnX;
             pb.Top = mnY;
             pb.Size = new Size(mxX - mnX + 1, mxY - mnY + 1);
@@ -188,8 +195,8 @@ namespace Family_Tree
             else
             {
                 int x = e.X, y = e.Y, id = -1;
-                updateCoordinates(ref x, this.photo.Width, result.img.Width);
-                updateCoordinates(ref y, this.photo.Height, result.img.Height);
+                updateCoordinates(ref x, this.photo.Width, data.img(DataBase.pathToGroupPhotos + result.pathToFile).Width);
+                updateCoordinates(ref y, this.photo.Height, data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height);
                 for (int i = 0; i < result.peopleIds.Count; ++i)
                 {
                     Rectangle r = result.zones[i];
@@ -238,10 +245,10 @@ namespace Family_Tree
                     newPersonComboBox.Left = Math.Min(photo.Width - 5 - newPersonComboBox.Width, newPersonComboBox.Left);
                     newPersonComboBox.Left = Math.Max(5, newPersonComboBox.Left);
                     newPersonComboBox.Top = Math.Min(photo.Height - 5 - newPersonComboBox.Height, mxY + 5);
-                    updateCoordinates(ref mnX, this.photo.Width, this.result.img.Width);
-                    updateCoordinates(ref mxX, this.photo.Width, this.result.img.Width);
-                    updateCoordinates(ref mnY, this.photo.Height, this.result.img.Height);
-                    updateCoordinates(ref mxY, this.photo.Height, this.result.img.Height);
+                    updateCoordinates(ref mnX, this.photo.Width, this.data.img(DataBase.pathToGroupPhotos + result.pathToFile).Width);
+                    updateCoordinates(ref mxX, this.photo.Width, this.data.img(DataBase.pathToGroupPhotos + result.pathToFile).Width);
+                    updateCoordinates(ref mnY, this.photo.Height, this.data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height);
+                    updateCoordinates(ref mxY, this.photo.Height, this.data.img(DataBase.pathToGroupPhotos + result.pathToFile).Height);
                     choosenRectangle = new Rectangle(mnX, mnY, mxX - mnX + 1, mxY - mnY + 1);
                     //pb.Visible = false;
                     newPersonComboBox.Focus();
@@ -365,7 +372,11 @@ namespace Family_Tree
                     return;
                 }
             }
-            result.additionalInfo = this.additionalInfo.Text;
+            result.additionalInfo = new List<string>();
+            for (int i = 0; i < this.additionalInfo.Lines.Length; ++i)
+            {
+                result.additionalInfo.Add(this.additionalInfo.Lines[i]);
+            }
             DialogResult = DialogResult.OK;
         }
 

@@ -37,6 +37,7 @@ namespace Family_Tree
     {
         const string pathToDataBase = "data.txt";
         const string pathToPhotoDataBase = "photoData.txt";
+        const string settingsFile = "settings.txt";
 
         public const string pathToAvatarss = "../../images/avatars/";
         public const string pathToGroupPhotos = "../../images/group_photos/";
@@ -47,6 +48,33 @@ namespace Family_Tree
         public List<string> allAvatars;
         public List<Photo> allPhotos;
         public SortedDictionary<string, bool> allSecretIds;
+        private int cacheSize;
+        private int cachePos;
+        private string[] lastImageFiles;
+        private Image[] lastImages;
+
+        public Image img(string file)
+        {
+            for (int i = 0; i < cacheSize; ++i)
+            {
+                if (lastImageFiles[i] == file)
+                {
+                    return lastImages[i];
+                }
+            }
+            Debug.WriteLine("Loading " + file + "...");
+            lastImages[cachePos] = null;
+            lastImages[cachePos] = (Image)new Bitmap(file);
+            lastImageFiles[cachePos] = file;
+            int res = cachePos;
+            cachePos = (cachePos + 1) % cacheSize;
+            return lastImages[res];
+        }
+
+        public Image img(int id)
+        {
+            return img(pathToGroupPhotos + allPhotos[id].pathToFile);
+        }
 
         public DataBase()
         {
@@ -54,9 +82,20 @@ namespace Family_Tree
             allPhotos = new List<Photo>();
             allAvatars = new List<string>();
             allSecretIds = new SortedDictionary<string, bool>();
+            readSettings();
+            lastImageFiles = new string[cacheSize];
+            lastImages = new Image[cacheSize];
+            cachePos = 0;
             readFromFile(pathToDataBase);
             readPhotosFromFile(pathToPhotoDataBase);
             addPhotosToPeople();
+        }
+
+        private void readSettings()
+        {
+            StreamReader input = new StreamReader(settingsFile);
+            cacheSize = int.Parse(input.ReadLine());
+            input.Close();
         }
 
         private void addPhotosToPeople()
@@ -89,7 +128,7 @@ namespace Family_Tree
         public void addPhoto(Photo p)
         {
             string fileName = "GroupPhoto" + Convert.ToString(allPhotos.Count) + ".jpg";
-            p.img.Save(pathToGroupPhotos + fileName);
+            img(p.pathToFile).Save(pathToGroupPhotos + fileName);
             p.pathToFile = fileName;
             p.id = allPhotos.Count;
             for (int i = 0; i < p.peopleIds.Count; ++i)

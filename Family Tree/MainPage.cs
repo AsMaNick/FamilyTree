@@ -166,7 +166,9 @@ namespace Family_Tree
         //Метод, создающий новую форму добавления нового человека; возвращает true если новый человек успешно добавлен
         private Pair<bool, Person> tryAddPerson(int id = -1, bool man = true, bool fixedGender = false)
         {
+            Cursor = Cursors.WaitCursor;
             AddPerson myForm = new AddPerson(this, id);
+            Cursor = Cursors.Default;
             if (!man)
             {
                 myForm.enableWoman();
