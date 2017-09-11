@@ -25,12 +25,11 @@ namespace Family_Tree
             Bitmap bmp = new Bitmap(this.Image);
             e.Graphics.DrawImage(bmp, new Point(0, 0));
 
-            int x;
-            int y;
-
             System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
             Color mask = Color.FromArgb(0x00000000);
-            /*for (x = 0; x <= bmp.Width - 1; x++)
+            /*int x;
+            int y;
+            for (x = 0; x <= bmp.Width - 1; x++)
             {
                 for (y = 0; y <= bmp.Height - 1; y++)
                 {

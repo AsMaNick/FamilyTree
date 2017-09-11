@@ -228,11 +228,15 @@ namespace Family_Tree
                 {
                     fromDataBase.DropDownItems[6].Text = "Жену";
                     newPerson.DropDownItems[6].Text = "Жену";
+                    fromDataBase.DropDownItems[7].Text = "Бывшую жену";
+                    newPerson.DropDownItems[7].Text = "Бывшую жену";
                 }
                 else
                 {
                     fromDataBase.DropDownItems[6].Text = "Мужа";
                     newPerson.DropDownItems[6].Text = "Мужа";
+                    fromDataBase.DropDownItems[7].Text = "Бывшего мужа";
+                    newPerson.DropDownItems[7].Text = "Бывшего мужа";
                 }
                 addConneсtionStrip.Show(MousePosition, ToolStripDropDownDirection.Right);
             }
@@ -262,6 +266,34 @@ namespace Family_Tree
                 pb.Top = minY;
                 pb.Size = new Size(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
                 pb.BackColor = Color.Gray;
+                treePanel.Controls.Add(pb);
+            }
+        }
+
+        private void drawLightLine(params Point[] p)
+        {
+            if (p.Length == 0)
+            {
+                Debug.WriteLine("FAIL, array is empty");
+                return;
+            }
+            Pen pen = new Pen(Color.Gray, 2);
+            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            for (int i = 0; i + 1 < p.Length; ++i)
+            {
+                int minX = Math.Min(p[i].X, p[i + 1].X);
+                int minY = Math.Min(p[i].Y, p[i + 1].Y);
+                Bitmap bitmap = new Bitmap(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
+                using (Graphics g = Graphics.FromImage(bitmap))
+                {
+                    g.DrawLine(pen, new Point(p[i].X - minX + 1, p[i].Y - minY + 1), new Point(p[i + 1].X - minX + 1, p[i + 1].Y - minY + 1));
+                }
+                PictureBox pb = new PictureBox();
+                pb.Image = bitmap;
+                pb.Left = minX;
+                pb.Top = minY;
+                pb.Size = new Size(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
+                pb.BackColor = Color.Transparent;
                 treePanel.Controls.Add(pb);
             }
         }
@@ -312,7 +344,12 @@ namespace Family_Tree
             return l.Left + l.Width;
         }
 
-        void photo_MouseLeave(object sender, EventArgs e)
+        void treePanel_MouseEnter(object sender, EventArgs e)
+        {
+            Cursor = Cursors.SizeAll;
+        }
+
+        void treePanel_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
         }
@@ -320,6 +357,11 @@ namespace Family_Tree
         void photo_MouseEnter(object sender, EventArgs e)
         {
             Cursor = Cursors.Hand;
+        }
+
+        void photo_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
         }
 
         void pb_MouseClick(object sender, MouseEventArgs e)
@@ -371,7 +413,7 @@ namespace Family_Tree
         }
 
         //Метод, рисующий связь между двумя задаными людьми
-        private void drawConnection(PictureBox p1, PictureBox p2, bool rev, int distToCouple = 0)
+        private void drawConnection(PictureBox p1, PictureBox p2, bool rev, int distToCouple, int typeOfConnection = 0)
         {
             Pen pen = new Pen(Color.Gray, 2);
             int x1 = (p1.Left + p1.Right) / 2;
@@ -383,10 +425,18 @@ namespace Family_Tree
                 if (distToCouple != 0)
                 {
                     x1 = (p1.Right + p1.Right + distToCouple) / 2;
+                    Debug.WriteLine("x1 = {0} {1}", x1, "!");
                     f = p1.Height / 2 + dText;
                     y1 -= f;
                 }
-                drawLine(new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));                
+                if (typeOfConnection == 0)
+                {
+                    drawLine(new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));
+                }
+                else
+                {
+                    drawLightLine(new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));
+                }
             }
             else
             {
@@ -398,7 +448,14 @@ namespace Family_Tree
                     f = p1.Height / 2 + 5;
                     y1 += f;
                 }
-                drawLine(new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));                
+                if (typeOfConnection == 0)
+                {
+                    drawLine(new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));
+                }
+                else
+                {
+                    drawLightLine(new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));
+                }
             }
         }
 
@@ -463,87 +520,397 @@ namespace Family_Tree
             PictureBox cur = getPbById(p.id);
             if (isFather)
             {
-                drawConnection(cur, getPbById(p.father), rev);
+                drawConnection(cur, getPbById(p.father), rev, 0);
             }
             if (isMother)
             {
-                drawConnection(cur, getPbById(p.mother), rev);
+                drawConnection(cur, getPbById(p.mother), rev, 0);
             }
             return new Pair<int, int> (x, Math.Max(res1.Second, Math.Max(res2.Second, nX)));
         }
 
+        private Person getPerson(int id, Person p)
+        {
+            if (id < 0)
+            {
+                Person res = new Person(true, !p.man);
+                res.id = int.MaxValue - p.id;
+                return res;
+            }
+            return data.allPeople[id];
+        }
         //Метод, стрящий дерево потомков
         private Pair<int, int> buildTreeOfDescendants(Person p, int level, int x, int maxLevel, int height, bool rev)
         {
-            List<Pair<int, int> > res = new List<Pair<int, int>>();
-            int startX = x;
-            bool areChildren = (p.children.Count > 0 && level + 1 < maxLevel);
-            if (areChildren)
-            {
-                for (int i = 0; i < p.children.Count; ++i)
-                {
-                    res.Add(buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev));
-                    startX = res[i].Second;
-                }
-            }
-            if (areChildren)
-            {
-                int last = p.children.Count - 1;
-                x = (res[0].First + res[last].First) / 2;
-            }
-            int realLevel = level;
-            if (rev)
-            {
-                realLevel = height - level;
-            }
-            Person father, mother;
             if (p.man)
             {
-                father = p;
-                if (p.partner == -1)
+                int realLevel = level;
+                if (rev)
                 {
-                    mother = new Person(true, false);
-                    mother.id = int.MaxValue - father.id;
+                    realLevel = height - level;
+                }
+                List<Pair<int, int>> res = new List<Pair<int, int>>();
+                int startX = x, lastPartner = -2, firstX = -1, lastX = x - dWidth;
+                bool areChildren = false;
+                bool[] shownPartners = new bool[p.allPartners.Count];
+                SortedDictionary<int, int> nextX = new SortedDictionary<int, int>();
+                List<int> allPartners = new List<int>();
+                List<int> allXs = new List<int>();
+                for (int i = 0; i <= p.children.Count; ++i)
+                {
+                    int pPartner = -2;
+                    if (i < p.children.Count)
+                    {
+                        pPartner = data.allPeople[p.children[i]].father;
+                        if (p.man)
+                        {
+                            pPartner = data.allPeople[p.children[i]].mother;
+                        }
+                        if (pPartner == p.partner)
+                        {
+                            areChildren = true;
+                            continue;
+                        }
+                    }
+                    if (pPartner != lastPartner)
+                    {
+                        if (firstX != -1)
+                        {
+                            lastX = Math.Max(lastX + dWidth, (firstX + startX) / 2);
+                            allPartners.Add(lastPartner);
+                            allXs.Add(lastX);
+                            showPerson(getPerson(lastPartner, p), lastX, 10 + realLevel * dHeight);
+                            for (int j = 0; j < p.allPartners.Count; ++j)
+                            {
+                                if (lastPartner == p.allPartners[j])
+                                {
+                                    shownPartners[j] = true;
+                                }
+                            }
+                        }
+                        firstX = -1;
+                    }
+                    startX = Math.Max(startX, lastX + dWidth);
+                    if (i == p.children.Count)
+                    {
+                        break;
+                    }
+                    lastPartner = pPartner;
+                    Pair<int, int> ch = buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev);
+                    startX = ch.Second;
+                    if (firstX == -1)
+                    {
+                        firstX = ch.First;
+                    }
+                }
+                for (int i = 0; i + 1 < allPartners.Count; ++i)
+                {
+                    nextX[allPartners[i]] = allXs[i + 1];
+                }
+                for (int i = 0; i < p.allPartners.Count; ++i)
+                {
+                    if (!shownPartners[i] && p.allPartners[i] != p.partner)
+                    {
+                        lastX = Math.Max(40, lastX + dWidth);
+                        nextX[lastPartner] = lastX;
+                        lastPartner = p.allPartners[i];
+                        showPerson(getPerson(p.allPartners[i], p), lastX, 10 + realLevel * dHeight);
+                    }
+                }
+                areChildren &= (p.children.Count > 0 && level + 1 < maxLevel);
+                if (areChildren)
+                {
+                    for (int i = 0; i < p.children.Count; ++i)
+                    {
+                        int pPartner = data.allPeople[p.children[i]].father;
+                        if (p.man)
+                        {
+                            pPartner = data.allPeople[p.children[i]].mother;
+                        }
+                        if (pPartner == p.partner)
+                        {
+                            res.Add(buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev));
+                            startX = res[res.Count - 1].Second;
+                        }
+                    }
+                }
+                if (areChildren)
+                {
+                    int last = res.Count - 1;
+                    x = (res[0].First + res[last].First) / 2;
+                }
+                Person father, mother;
+                if (p.man)
+                {
+                    father = p;
+                    if (p.partner == -1)
+                    {
+                        mother = new Person(true, false);
+                        mother.id = int.MaxValue - father.id;
+                    }
+                    else
+                    {
+                        mother = data.allPeople[p.partner];
+                    }
                 }
                 else
                 {
-                    mother = data.allPeople[p.partner];
+                    mother = p;
+                    if (p.partner == -1)
+                    {
+                        father = new Person(true, true);
+                        father.id = int.MaxValue - mother.id;
+                    }
+                    else
+                    {
+                        father = data.allPeople[p.partner];
+                    }
                 }
-            }
-            else
-            {
-                mother = p;
-                if (p.partner == -1)
+                int pWidth = dWidth, distToCouple = 0;
+                x = Math.Max(x, lastX + dWidth);
+                PictureBox cur;
+                if (p.partner != -1 || areChildren)
                 {
-                    father = new Person(true, true);
-                    father.id = int.MaxValue - mother.id;
+                    distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight);
+                    pWidth += distToCouple;
+                    cur = getPbById(father.id);
+                    pWidth += cur.Width;
                 }
                 else
                 {
-                    father = data.allPeople[p.partner];
+                    showPerson(p, x, 10 + realLevel * dHeight);
+                    if (p.man)
+                    {
+                        cur = getPbById(father.id);
+                    }
+                    else
+                    {
+                        cur = getPbById(mother.id);
+                    }
                 }
-            }
-            int pWidth = dWidth, distToCouple = 0;
-            if (p.partner != -1 || areChildren)
-            {
-                distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight);
-                pWidth += distToCouple;
-                PictureBox cur = getPbById(father.id);
-                pWidth += cur.Width;
-            }
-            else
-            {
-                showPerson(p, x, 10 + realLevel * dHeight);
-            }
-            if (areChildren)
-            {
-                PictureBox cur = getPbById(father.id);
+                nextX[lastPartner] = cur.Left;
+                for (int i = 0; i < p.allPartners.Count; ++i)
+                {
+                    PictureBox to = getPbById(data.allPeople[p.allPartners[i]].id);
+                    if (p.allPartners[i] != p.partner)
+                    {
+                        drawLightLine(new Point(cur.Left, cur.Top + cur.Height / 2), new Point(to.Right, to.Top + to.Height / 2));
+                    }
+                }
                 for (int i = 0; i < p.children.Count; ++i)
                 {
-                    drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, distToCouple);
+                    int pPartner = data.allPeople[p.children[i]].father;
+                    if (p.man)
+                    {
+                        pPartner = data.allPeople[p.children[i]].mother;
+                    }
+                    if (pPartner == p.partner)
+                    {
+                        drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, distToCouple);
+                    }
+                    else
+                    {
+                        PictureBox to = getPbById(getPerson(pPartner, p).id);
+                        drawLightLine(new Point(cur.Left, cur.Top + cur.Height / 2), new Point(to.Right, to.Top + to.Height / 2));
+                        int dist = cur.Left - to.Right - (nextX[pPartner] - to.Right) / 2;
+                        dist += cur.Width;
+                        dist *= 2;
+                        drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, -dist, 1);
+                    }
                 }
+                return new Pair<int, int>(x, Math.Max(startX, x + pWidth));
             }
-            return new Pair<int, int> (x, Math.Max(startX, x + pWidth));
+            else // Copy Paste...
+            {
+                int realLevel = level;
+                if (rev)
+                {
+                    realLevel = height - level;
+                }
+                List<Pair<int, int>> res = new List<Pair<int, int>>();
+                int startX = x, lastPartner = -2, firstX = -1, lastX = x - dWidth;
+                bool areChildren = false;
+                bool[] shownPartners = new bool[p.allPartners.Count];
+                SortedDictionary<int, int> prevX = new SortedDictionary<int, int>();
+                for (int i = 0; i <= p.children.Count; ++i)
+                {
+                    int pPartner = -2;
+                    if (i < p.children.Count)
+                    {
+                        pPartner = data.allPeople[p.children[i]].father;
+                        if (p.man)
+                        {
+                            pPartner = data.allPeople[p.children[i]].mother;
+                        }
+                        if (pPartner == p.partner)
+                        {
+                            areChildren = true;
+                            continue;
+                        }
+                    }
+                }
+                areChildren &= (p.children.Count > 0 && level + 1 < maxLevel);
+                if (areChildren)
+                {
+                    for (int i = 0; i < p.children.Count; ++i)
+                    {
+                        int pPartner = data.allPeople[p.children[i]].father;
+                        if (p.man)
+                        {
+                            pPartner = data.allPeople[p.children[i]].mother;
+                        }
+                        if (pPartner == p.partner)
+                        {
+                            res.Add(buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev));
+                            startX = res[res.Count - 1].Second;
+                        }
+                    }
+                }
+                if (areChildren)
+                {
+                    int last = res.Count - 1;
+                    x = (res[0].First + res[last].First) / 2;
+                }
+                Person father, mother;
+                if (p.man)
+                {
+                    father = p;
+                    if (p.partner == -1)
+                    {
+                        mother = new Person(true, false);
+                        mother.id = int.MaxValue - father.id;
+                    }
+                    else
+                    {
+                        mother = data.allPeople[p.partner];
+                    }
+                }
+                else
+                {
+                    mother = p;
+                    if (p.partner == -1)
+                    {
+                        father = new Person(true, true);
+                        father.id = int.MaxValue - mother.id;
+                    }
+                    else
+                    {
+                        father = data.allPeople[p.partner];
+                    }
+                }
+                int pWidth = dWidth, distToCouple = 0;
+                PictureBox cur, curM;
+                if (p.partner != -1 || areChildren)
+                {
+                    distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight);
+                    pWidth += distToCouple;
+                    cur = getPbById(father.id);
+                    pWidth += cur.Width;
+                }
+                else
+                {
+                    showPerson(p, x, 10 + realLevel * dHeight);
+                    if (p.man)
+                    {
+                        cur = getPbById(father.id);
+                    }
+                    else
+                    {
+                        cur = getPbById(mother.id);
+                    }
+                }
+
+                curM = getPbById(mother.id);
+                lastX = x + pWidth - dWidth;
+
+                for (int i = 0; i <= p.children.Count; ++i)
+                {
+                    int pPartner = -2;
+                    if (i < p.children.Count)
+                    {
+                        pPartner = data.allPeople[p.children[i]].father;
+                        if (p.man)
+                        {
+                            pPartner = data.allPeople[p.children[i]].mother;
+                        }
+                        if (pPartner == p.partner)
+                        {
+                            areChildren = true;
+                            continue;
+                        }
+                    }
+                    if (pPartner != lastPartner)
+                    {
+                        if (firstX != -1)
+                        {
+                            prevX[lastPartner] = lastX;
+                            lastX = Math.Max(lastX, startX - dWidth);
+                            lastX = Math.Max(lastX + dWidth, (firstX + startX) / 2);
+                            showPerson(getPerson(lastPartner, p), lastX, 10 + realLevel * dHeight);
+                            for (int j = 0; j < p.allPartners.Count; ++j)
+                            {
+                                if (lastPartner == p.allPartners[j])
+                                {
+                                    shownPartners[j] = true;
+                                }
+                            }
+                        }
+                        firstX = -1;
+                    }
+                    startX = Math.Max(startX, lastX + dWidth);
+                    if (i == p.children.Count)
+                    {
+                        break;
+                    }
+                    lastPartner = pPartner;
+                    Pair<int, int> ch = buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev);
+                    startX = ch.Second;
+                    if (firstX == -1)
+                    {
+                        firstX = ch.First;
+                    }
+                }
+                for (int i = 0; i < p.allPartners.Count; ++i)
+                {
+                    if (!shownPartners[i] && p.allPartners[i] != p.partner)
+                    {
+                        prevX[p.allPartners[i]] = lastX;
+                        lastX = Math.Max(40, lastX + dWidth);
+                        lastPartner = p.allPartners[i];
+                        showPerson(getPerson(p.allPartners[i], p), lastX, 10 + realLevel * dHeight);
+                    }
+                }
+                for (int i = 0; i < p.allPartners.Count; ++i)
+                {
+                    PictureBox to = getPbById(data.allPeople[p.allPartners[i]].id);
+                    if (p.allPartners[i] != p.partner)
+                    {
+                        drawLightLine(new Point(curM.Right, curM.Top + curM.Height / 2), new Point(to.Left, to.Top + to.Height / 2));
+                    }
+                }
+                for (int i = 0; i < p.children.Count; ++i)
+                {
+                    int pPartner = data.allPeople[p.children[i]].father;
+                    if (p.man)
+                    {
+                        pPartner = data.allPeople[p.children[i]].mother;
+                    }
+                    if (pPartner == p.partner)
+                    {
+                        drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, distToCouple);
+                    }
+                    else
+                    {
+                        PictureBox to = getPbById(getPerson(pPartner, p).id);
+                        drawLightLine(new Point(curM.Right, curM.Top + curM.Height / 2), new Point(to.Left, to.Top + to.Height / 2));
+                        int dist = to.Left - curM.Right - (to.Left - prevX[pPartner] - curM.Width) / 2;
+                        Debug.WriteLine("{0} {1} {2} {3} !!!", to.Left, prevX[pPartner], curM.Width, dist);
+                        dist *= 2;
+                        drawConnection(curM, getPbById(data.allPeople[p.children[i]].id), rev, dist, 1);
+                    }
+                }
+                return new Pair<int, int>(x, Math.Max(startX, x + pWidth));
+            }
         }
 
         private int getStartId(string s)
@@ -740,7 +1107,7 @@ namespace Family_Tree
         //Метод, определяющий пол человека в зависимости от типа связи
         private bool isMale(string s, bool male)
         {
-            return s == "father" || s == "son" || s == "brother" || (s == "partner" && !male);
+            return s == "father" || s == "son" || s == "brother" || (s == "partner" && !male) || (s == "formerPartner" && !male);
         }
 
         //Метод проверки связи двух персон; возвращает, true если персоны связаны
@@ -769,6 +1136,11 @@ namespace Family_Tree
             for (int i = 0; i < p.siblings.Count; ++i)
             {
                 res |= dfs(p.siblings[i], v2, used);
+                if (res) { Debug.WriteLine(p.FullNameYears); return true; }
+            }
+            for (int i = 0; i < p.allPartners.Count; ++i)
+            {
+                res |= dfs(p.allPartners[i], v2, used);
                 if (res) { Debug.WriteLine(p.FullNameYears); return true; }
             }
             return res;
@@ -831,21 +1203,51 @@ namespace Family_Tree
             {
                 return;
             }
-            if (pathExists(chosenPerson.id, addedId))
+            bool connected = pathExists(chosenPerson.id, addedId);
+            if (connected)
             {
-                DialogResult res = MessageBox.Show("Невозможно добавить связь, т.к. данные персоны уже косвенно связаны между собой", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                bool ok = false;
+                if (typeOfConnection == "father")
+                {
+                    if (chosenPerson.mother != -1 && data.allPeople[chosenPerson.mother].allPartners.Contains(addedId))
+                    {
+                        ok = true;
+                    }
+                }
+                else if (typeOfConnection == "mother")
+                {
+                    if (chosenPerson.father != -1 && data.allPeople[chosenPerson.father].allPartners.Contains(addedId))
+                    {
+                        ok = true;
+                    }
+                }
+                if (!ok)
+                {
+                    DialogResult res = MessageBox.Show("Невозможно добавить связь, т.к. данные персоны уже косвенно связаны между собой", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
             }
             switch (typeOfConnection)
             {
                 case "father":
+                    if (chosenPerson.father != -1)
+                    {
+                        data.allPeople[chosenPerson.father].children.Remove(chosenPerson.id);
+                    }
                     chosenPerson.father = addedId;
                     break;
                 case "mother":
+                    if (chosenPerson.mother != -1)
+                    {
+                        data.allPeople[chosenPerson.mother].children.Remove(chosenPerson.id);
+                    }
                     chosenPerson.mother = addedId;
                     break;
                 case "partner":
                     chosenPerson.partner = addedId;
+                    chosenPerson.allPartners.Add(addedId);
+                    data.allPeople[addedId].allPartners.Add(chosenPerson.id);
+                    data.allPeople[addedId].partner = chosenPerson.id;
                     break;
                 case "son":
                     chosenPerson.children.Add(addedId);
@@ -859,6 +1261,10 @@ namespace Family_Tree
                 case "sister":
                     chosenPerson.siblings.Add(addedId);
                     break;
+                case "formerPartner":
+                    chosenPerson.allPartners.Add(addedId);
+                    data.allPeople[addedId].allPartners.Add(chosenPerson.id);
+                    break;
                 default:
                     Debug.WriteLine("FAIL, unknown type of connection: " + typeOfConnection);
                     break;
@@ -868,89 +1274,105 @@ namespace Family_Tree
             buildTree();
         }
 
-        //Обработчик события клика на пункт меню "добавить отца"
-        private void отцаToolStripMenuItem1_Click(object sender, EventArgs e)
+        //Обработчик события клика на пункт меню "из базы/добавить отца"
+        private void отцаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "father", true);
         }
 
-        //Обработчик события клика на пункт меню "добавить мать"
+        //Обработчик события клика на пункт меню "из базы/добавить мать"
         private void матьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "mother", true);
         }
 
-        //Обработчик события клика на пункт меню "добавить сына"
+        //Обработчик события клика на пункт меню "из базы/добавить сына"
         private void сынаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "son", true);
         }
 
-        //Обработчик события клика на пункт меню "добавить дочь"
+        //Обработчик события клика на пункт меню "из базы/добавить дочь"
         private void дочьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "daughter", true);
         }
 
-        //Обработчик события клика на пункт меню "добавить брата"
+        //Обработчик события клика на пункт меню "из базы/добавить брата"
         private void братаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "brother", true);
         }
 
-        //Обработчик события клика на пункт меню "добавить сестру"
+        //Обработчик события клика на пункт меню "из базы/добавить сестру"
         private void сеструToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "sister", true);
         }
 
-        //Обработчик события клика на пункт меню "добавить партнера"
+        //Обработчик события клика на пункт меню "из базы/добавить партнера"
         private void партнераToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "partner", true);
         }
 
-        //Обработчик события клика на пункт меню "добавить отца"
-        private void отцаToolStripMenuItem2_Click(object sender, EventArgs e)
+        //Обработчик события клика на пункт меню "из базы/добавить бывшего партнера"
+        private void бывшегоПартнераToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "formerPartner", true);
+        }
+
+
+
+        //Обработчик события клика на пункт меню "нового человека/добавить отца"
+        private void отцаToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "father", false);
         }
 
-        //Обработчик события клика на пункт меню "добавить мать"
+        //Обработчик события клика на пункт меню "нового человека/добавить мать"
         private void матьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "mother", false);
         }
 
-        //Обработчик события клика на пункт меню "добавить сына"
+        //Обработчик события клика на пункт меню "нового человека/добавить сына"
         private void сынаToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "son", false);
         }
 
-        //Обработчик события клика на пункт меню "добавить дочь"
+        //Обработчик события клика на пункт меню "нового человека/добавить дочь"
         private void дочьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "daughter", false);
         }
 
-        //Обработчик события клика на пункт меню "добавить брата"
+        //Обработчик события клика на пункт меню "нового человека/добавить брата"
         private void братаToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "brother", false);
         }
 
-        //Обработчик события клика на пункт меню "добавить сестру"
+        //Обработчик события клика на пункт меню "нового человека/добавить сестру"
         private void сеструToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "sister", false);
         }
 
-        //Обработчик события клика на пункт меню "добавить партнера"
+        //Обработчик события клика на пункт меню "нового человека/добавить партнера"
         private void партнераToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addConnection(chosenPerson, "partner", false);
         }
+
+        //Обработчик события клика на пункт меню "нового человека/добавить бывшего партнера"
+        private void бывшегоПартнераToolStripMenuItem_Click1(object sender, EventArgs e)
+        {
+            addConnection(chosenPerson, "formerPartner", false);
+        }
+
+
 
         //Обработчик события сохранения данных
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)

@@ -54,7 +54,8 @@ namespace Family_Tree
             InitializeComponent();
             data = Data;
             result = new Photo();
-            result.img = (Image)(new Bitmap(Image.FromFile(fileName)));
+            result.pathToFile = fileName;
+            //result.img = (Image)(new Bitmap(Image.FromFile(fileName)));
             scale = Math.Min(9.99, 500.0 / result.img.Height);
             newPhoto = true;
             InitializeForm();
@@ -233,8 +234,10 @@ namespace Family_Tree
                 if ((mxX - mnX + 1) * (mxY - mnY + 1) > 200 && mxX - mnX + 1 > 10 && mxY - mnY > 10)
                 {
                     fillNewPersonComboBox();
-                    newPersonComboBox.Left = mnX + (mxX - mnX + 1 - newPersonComboBox.Width) / 2;
-                    newPersonComboBox.Top = mxY + 5;
+                    newPersonComboBox.Left = Math.Max(5, mnX + (mxX - mnX + 1 - newPersonComboBox.Width) / 2);
+                    newPersonComboBox.Left = Math.Min(photo.Width - 5 - newPersonComboBox.Width, newPersonComboBox.Left);
+                    newPersonComboBox.Left = Math.Max(5, newPersonComboBox.Left);
+                    newPersonComboBox.Top = Math.Min(photo.Height - 5 - newPersonComboBox.Height, mxY + 5);
                     updateCoordinates(ref mnX, this.photo.Width, this.result.img.Width);
                     updateCoordinates(ref mxX, this.photo.Width, this.result.img.Width);
                     updateCoordinates(ref mnY, this.photo.Height, this.result.img.Height);
@@ -323,6 +326,7 @@ namespace Family_Tree
             {
                 pb.Visible = false;
                 newPersonComboBox.Visible = false;
+                photoPanel.Focus();
             }
             else if (e.KeyCode == Keys.Enter)
             {

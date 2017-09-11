@@ -58,6 +58,7 @@
             this.братаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сеструToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.партнераToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.бывшегоПартнераToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.новогоЧеловекаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отцаToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.матьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +67,7 @@
             this.братаToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.сеструToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.партнераToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.бывшегоПартнераToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.редактироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeSettingsPanel = new System.Windows.Forms.Panel();
@@ -251,6 +253,8 @@
             this.treePanel.Name = "treePanel";
             this.treePanel.Size = new System.Drawing.Size(616, 335);
             this.treePanel.TabIndex = 0;
+            this.treePanel.MouseEnter += new System.EventHandler(this.treePanel_MouseEnter);
+            this.treePanel.MouseLeave += new System.EventHandler(this.treePanel_MouseLeave);
             // 
             // addConneсtionStrip
             // 
@@ -279,7 +283,8 @@
             this.дочьToolStripMenuItem,
             this.братаToolStripMenuItem,
             this.сеструToolStripMenuItem,
-            this.партнераToolStripMenuItem});
+            this.партнераToolStripMenuItem,
+            this.бывшегоПартнераToolStripMenuItem});
             this.отцаToolStripMenuItem.Name = "отцаToolStripMenuItem";
             this.отцаToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.отцаToolStripMenuItem.Text = "Из базы";
@@ -287,51 +292,58 @@
             // отцаToolStripMenuItem1
             // 
             this.отцаToolStripMenuItem1.Name = "отцаToolStripMenuItem1";
-            this.отцаToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.отцаToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.отцаToolStripMenuItem1.Text = "Отца";
-            this.отцаToolStripMenuItem1.Click += new System.EventHandler(this.отцаToolStripMenuItem1_Click);
+            this.отцаToolStripMenuItem1.Click += new System.EventHandler(this.отцаToolStripMenuItem_Click);
             // 
             // матьToolStripMenuItem
             // 
             this.матьToolStripMenuItem.Name = "матьToolStripMenuItem";
-            this.матьToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.матьToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.матьToolStripMenuItem.Text = "Мать";
             this.матьToolStripMenuItem.Click += new System.EventHandler(this.матьToolStripMenuItem_Click);
             // 
             // сынаToolStripMenuItem
             // 
             this.сынаToolStripMenuItem.Name = "сынаToolStripMenuItem";
-            this.сынаToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.сынаToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.сынаToolStripMenuItem.Text = "Сына";
             this.сынаToolStripMenuItem.Click += new System.EventHandler(this.сынаToolStripMenuItem_Click);
             // 
             // дочьToolStripMenuItem
             // 
             this.дочьToolStripMenuItem.Name = "дочьToolStripMenuItem";
-            this.дочьToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.дочьToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.дочьToolStripMenuItem.Text = "Дочь";
             this.дочьToolStripMenuItem.Click += new System.EventHandler(this.дочьToolStripMenuItem_Click);
             // 
             // братаToolStripMenuItem
             // 
             this.братаToolStripMenuItem.Name = "братаToolStripMenuItem";
-            this.братаToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.братаToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.братаToolStripMenuItem.Text = "Брата";
             this.братаToolStripMenuItem.Click += new System.EventHandler(this.братаToolStripMenuItem_Click);
             // 
             // сеструToolStripMenuItem
             // 
             this.сеструToolStripMenuItem.Name = "сеструToolStripMenuItem";
-            this.сеструToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.сеструToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.сеструToolStripMenuItem.Text = "Сестру";
             this.сеструToolStripMenuItem.Click += new System.EventHandler(this.сеструToolStripMenuItem_Click);
             // 
             // партнераToolStripMenuItem
             // 
             this.партнераToolStripMenuItem.Name = "партнераToolStripMenuItem";
-            this.партнераToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.партнераToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.партнераToolStripMenuItem.Text = "Партнера";
             this.партнераToolStripMenuItem.Click += new System.EventHandler(this.партнераToolStripMenuItem_Click);
+            // 
+            // бывшегоПартнераToolStripMenuItem
+            // 
+            this.бывшегоПартнераToolStripMenuItem.Name = "бывшегоПартнераToolStripMenuItem";
+            this.бывшегоПартнераToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.бывшегоПартнераToolStripMenuItem.Text = "Бывшего партнера";
+            this.бывшегоПартнераToolStripMenuItem.Click += new System.EventHandler(this.бывшегоПартнераToolStripMenuItem_Click);
             // 
             // новогоЧеловекаToolStripMenuItem
             // 
@@ -342,7 +354,8 @@
             this.дочьToolStripMenuItem1,
             this.братаToolStripMenuItem1,
             this.сеструToolStripMenuItem1,
-            this.партнераToolStripMenuItem1});
+            this.партнераToolStripMenuItem1,
+            this.бывшегоПартнераToolStripMenuItem1});
             this.новогоЧеловекаToolStripMenuItem.Name = "новогоЧеловекаToolStripMenuItem";
             this.новогоЧеловекаToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.новогоЧеловекаToolStripMenuItem.Text = "Нового человека";
@@ -350,51 +363,58 @@
             // отцаToolStripMenuItem2
             // 
             this.отцаToolStripMenuItem2.Name = "отцаToolStripMenuItem2";
-            this.отцаToolStripMenuItem2.Size = new System.Drawing.Size(127, 22);
+            this.отцаToolStripMenuItem2.Size = new System.Drawing.Size(179, 22);
             this.отцаToolStripMenuItem2.Text = "Отца";
-            this.отцаToolStripMenuItem2.Click += new System.EventHandler(this.отцаToolStripMenuItem2_Click);
+            this.отцаToolStripMenuItem2.Click += new System.EventHandler(this.отцаToolStripMenuItem1_Click);
             // 
             // матьToolStripMenuItem1
             // 
             this.матьToolStripMenuItem1.Name = "матьToolStripMenuItem1";
-            this.матьToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.матьToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.матьToolStripMenuItem1.Text = "Мать";
             this.матьToolStripMenuItem1.Click += new System.EventHandler(this.матьToolStripMenuItem1_Click);
             // 
             // сынаToolStripMenuItem1
             // 
             this.сынаToolStripMenuItem1.Name = "сынаToolStripMenuItem1";
-            this.сынаToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.сынаToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.сынаToolStripMenuItem1.Text = "Сына";
             this.сынаToolStripMenuItem1.Click += new System.EventHandler(this.сынаToolStripMenuItem1_Click);
             // 
             // дочьToolStripMenuItem1
             // 
             this.дочьToolStripMenuItem1.Name = "дочьToolStripMenuItem1";
-            this.дочьToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.дочьToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.дочьToolStripMenuItem1.Text = "Дочь";
             this.дочьToolStripMenuItem1.Click += new System.EventHandler(this.дочьToolStripMenuItem1_Click);
             // 
             // братаToolStripMenuItem1
             // 
             this.братаToolStripMenuItem1.Name = "братаToolStripMenuItem1";
-            this.братаToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.братаToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.братаToolStripMenuItem1.Text = "Брата";
             this.братаToolStripMenuItem1.Click += new System.EventHandler(this.братаToolStripMenuItem1_Click);
             // 
             // сеструToolStripMenuItem1
             // 
             this.сеструToolStripMenuItem1.Name = "сеструToolStripMenuItem1";
-            this.сеструToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.сеструToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.сеструToolStripMenuItem1.Text = "Сестру";
             this.сеструToolStripMenuItem1.Click += new System.EventHandler(this.сеструToolStripMenuItem1_Click);
             // 
             // партнераToolStripMenuItem1
             // 
             this.партнераToolStripMenuItem1.Name = "партнераToolStripMenuItem1";
-            this.партнераToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.партнераToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
             this.партнераToolStripMenuItem1.Text = "Партнера";
             this.партнераToolStripMenuItem1.Click += new System.EventHandler(this.партнераToolStripMenuItem1_Click);
+            // 
+            // бывшегоПартнераToolStripMenuItem1
+            // 
+            this.бывшегоПартнераToolStripMenuItem1.Name = "бывшегоПартнераToolStripMenuItem1";
+            this.бывшегоПартнераToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
+            this.бывшегоПартнераToolStripMenuItem1.Text = "Бывшего партнера";
+            this.бывшегоПартнераToolStripMenuItem1.Click += new System.EventHandler(this.бывшегоПартнераToolStripMenuItem_Click1);
             // 
             // редактироватьToolStripMenuItem
             // 
@@ -660,6 +680,8 @@
         private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
         private System.Windows.Forms.ToolStripMenuItem добавитьФотографиюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem просмотрФотографийToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem бывшегоПартнераToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem бывшегоПартнераToolStripMenuItem1;
 
     }
 }

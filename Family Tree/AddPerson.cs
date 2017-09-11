@@ -135,6 +135,7 @@ namespace Family_Tree
             addedPerson.partner = p.partner;
             addedPerson.siblings = new List<int> (p.siblings);
             addedPerson.children = new List<int> (p.children);
+            addedPerson.allPartners = new List<int> (p.allPartners);
             addedPerson.allPhotosIds = new List<int> (p.allPhotosIds);
             addedPerson.secretId = p.secretId;
             fillAliveMenu(p.alive);
@@ -248,6 +249,7 @@ namespace Family_Tree
                 p.partner = addedPerson.partner;
                 p.siblings = new List<int> (addedPerson.siblings);
                 p.children = new List<int> (addedPerson.children);
+                p.allPartners = new List<int> (addedPerson.allPartners);
                 p.allPhotosIds = new List<int> (addedPerson.allPhotosIds);
                 p.secretId = addedPerson.secretId;
             }

@@ -260,6 +260,28 @@ namespace Family_Tree
                             --j;
                         }
                     }
+                    for (int j = 0; j < allPeople[i].allPartners.Count; ++j)
+                    {
+                        allPeople[i].allPartners[j] = updateLink(allPeople[i].allPartners[j], id);
+                        if (allPeople[i].allPartners[j] == -1)
+                        {
+                            allPeople[i].allPartners.RemoveAt(j);
+                            --j;
+                        }
+                    }
+                }
+                for (int i = 0; i < allPhotos.Count; ++i)
+                {
+                    for (int j = 0; j < allPhotos[i].peopleIds.Count; ++j)
+                    {
+                        allPhotos[i].peopleIds[j] = updateLink(allPhotos[i].peopleIds[j], id);
+                        if (allPhotos[i].peopleIds[j] == -1)
+                        {
+                            allPhotos[i].peopleIds.RemoveAt(j);
+                            allPhotos[i].zones.RemoveAt(j);
+                            --j;
+                        }
+                    }
                 }
             }
             else
@@ -296,6 +318,12 @@ namespace Family_Tree
             p.children.Sort(pCmp);
         }
 
+        private bool canBePartners(Person f, Person m)
+        {
+            return (f.allPartners.Count == 0 || (f.allPartners.Count == 1 && f.allPartners[0] == m.id)) &&
+                   (m.allPartners.Count == 0 || (m.allPartners.Count == 1 && m.allPartners[0] == f.id));
+        }
+
         private void updateConnections(Person p)
         {
             if (p.father != -1)
@@ -306,7 +334,7 @@ namespace Family_Tree
             {
                 allPeople[p.mother].children.Add(p.id);
             }
-            if (p.father != -1 && p.mother != -1)
+            if (p.father != -1 && p.mother != -1 && canBePartners(allPeople[p.father], allPeople[p.mother]))
             {
                 allPeople[p.father].partner = p.mother;
                 allPeople[p.mother].partner = p.father;
@@ -314,6 +342,7 @@ namespace Family_Tree
             if (p.partner != -1)
             {
                 allPeople[p.partner].partner = p.id;
+                p.allPartners.Add(p.partner);
             }
             for (int i = 0; i < p.children.Count; ++i)
             {
@@ -325,7 +354,7 @@ namespace Family_Tree
                 {
                     allPeople[p.children[i]].mother = p.id;
                 }
-                if (p.partner != -1)
+                if (p.partner != -1 && p.allPartners.Count == 1 && allPeople[p.partner].allPartners.Count == 1)
                 {
                     allPeople[p.partner].children.Add(p.children[i]);
                 }
@@ -362,6 +391,7 @@ namespace Family_Tree
             {
                 allPeople[i].children = distinct(allPeople[i].children);
                 allPeople[i].siblings = distinct(allPeople[i].siblings);
+                allPeople[i].allPartners = distinct(allPeople[i].allPartners);
             }
         }
     }

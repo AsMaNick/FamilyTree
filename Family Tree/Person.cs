@@ -21,6 +21,7 @@ namespace Family_Tree
 
         public List<int> children;
         public List<int> siblings;
+        public List<int> allPartners;
         public List<int> allPhotosIds;
         public string secretId;
 
@@ -32,6 +33,7 @@ namespace Family_Tree
             alive = true;
             siblings = new List<int> ();
             children = new List<int> ();
+            allPartners = new List<int> ();
             allPhotosIds = new List<int>();
             incognito = Incognito;
             man = Male;
@@ -64,6 +66,7 @@ namespace Family_Tree
             siblings = new List<int>();
             children = new List<int>();
             allPhotosIds = new List<int>();
+            allPartners = new List<int>();
             incognito = false;
         }
 
@@ -205,6 +208,11 @@ namespace Family_Tree
             {
                 output.WriteLine(children[i]);
             }
+            output.WriteLine(allPartners.Count);
+            for (int i = 0; i < allPartners.Count; ++i)
+            {
+                output.WriteLine(allPartners[i]);
+            }
         }
         public void readFromFile(ref StreamReader input) 
         {
@@ -249,16 +257,24 @@ namespace Family_Tree
             {
                 children.Add(Int32.Parse(input.ReadLine()));
             }
+            n = Int32.Parse(input.ReadLine());
+            allPartners = new List<int>();
+            for (int i = 0; i < n; ++i)
+            {
+                allPartners.Add(Int32.Parse(input.ReadLine()));
+            }
         }
 
         public static bool operator < (Person p1, Person p2)
         {
-            return p1.birthDate < p2.birthDate;
+            return (p1.mother < p2.mother) || 
+                   (p1.mother == p2.mother && p1.father < p2.father) ||
+                   (p1.mother == p2.mother && p1.father == p2.father && p1.birthDate < p2.birthDate);
         }
 
         public static bool operator > (Person p1, Person p2)
         {
-            return p1.birthDate > p2.birthDate;
+            return p2 < p1;
         }
 
     }
