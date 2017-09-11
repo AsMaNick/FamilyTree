@@ -17,6 +17,7 @@ namespace Family_Tree
         public string[] additionalInfo;
         public Date birthDate, deathDate;
         //public DateTime birthDate, deathDate;
+        public bool divorced;
         public bool incognito;
 
         public List<int> children;
@@ -31,6 +32,7 @@ namespace Family_Tree
             father = -1;
             partner = -1;
             alive = true;
+            divorced = false;
             siblings = new List<int> ();
             children = new List<int> ();
             allPartners = new List<int> ();
@@ -53,6 +55,7 @@ namespace Family_Tree
             burialPlace = BurialPlace;
             birthDate = BirthDate;
             deathDate = DeathDate;
+            divorced = false;
             additionalInfo = new string[AdditionalInfo.Length];
             for (int i = 0; i < AdditionalInfo.Length; ++i)
             {
@@ -174,6 +177,7 @@ namespace Family_Tree
         }
         public void writeToFile(ref StreamWriter output) 
         {
+            output.WriteLine(divorced);
             output.WriteLine(secretId);
             output.WriteLine(name);
             output.WriteLine(surname);
@@ -216,6 +220,7 @@ namespace Family_Tree
         }
         public void readFromFile(ref StreamReader input) 
         {
+            divorced = bool.Parse(input.ReadLine());
             secretId = input.ReadLine();
             name = input.ReadLine();
             surname = input.ReadLine();

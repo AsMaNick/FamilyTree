@@ -530,7 +530,7 @@
             this.удалитьToolStripMenuItem,
             this.показатьВПапкеToolStripMenuItem});
             this.deletePhotoMenuStrip.Name = "deletePhotoMenuStrip";
-            this.deletePhotoMenuStrip.Size = new System.Drawing.Size(169, 70);
+            this.deletePhotoMenuStrip.Size = new System.Drawing.Size(169, 48);
             // 
             // удалитьToolStripMenuItem
             // 
@@ -565,6 +565,7 @@
             this.Name = "AddPerson";
             this.Text = "Профиль";
             this.Activated += new System.EventHandler(this.AddPerson_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddPerson_FormClosing);
             this.mainInfoGroupBox.ResumeLayout(false);
             this.mainInfoGroupBox.PerformLayout();
             this.aliveInfo.ResumeLayout(false);

@@ -240,12 +240,20 @@ namespace Family_Tree
                     fromDataBase.DropDownItems[7].Text = "Бывшего мужа";
                     newPerson.DropDownItems[7].Text = "Бывшего мужа";
                 }
+                if (chosenPerson.divorced)
+                {
+                    addConneсtionStrip.Items[3].Text = "Заключить брак";
+                }
+                else
+                {
+                    addConneсtionStrip.Items[3].Text = "Рассторгнуть брак";
+                }
                 addConneсtionStrip.Show(MousePosition, ToolStripDropDownDirection.Right);
             }
         }
 
         //Метод рисующий соединение между людьми при отображении дерева
-        private void drawLine(params Point[] p)
+        private void drawLine(int typeOfConnection, params Point[] p)
         {
             if (p.Length == 0)
             {
@@ -253,6 +261,14 @@ namespace Family_Tree
                 return;
             }
             Pen pen = new Pen(Color.Gray, 2);
+            if (typeOfConnection == 1)
+            {
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            }
+            else
+            {
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            }
             for (int i = 0; i + 1 < p.Length; ++i)
             {
                 int minX = Math.Min(p[i].X, p[i + 1].X);
@@ -267,35 +283,14 @@ namespace Family_Tree
                 pb.Left = minX;
                 pb.Top = minY;
                 pb.Size = new Size(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
-                pb.BackColor = Color.Gray;
-                treePanel.Controls.Add(pb);
-            }
-        }
-
-        private void drawLightLine(params Point[] p)
-        {
-            if (p.Length == 0)
-            {
-                Debug.WriteLine("FAIL, array is empty");
-                return;
-            }
-            Pen pen = new Pen(Color.Gray, 2);
-            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-            for (int i = 0; i + 1 < p.Length; ++i)
-            {
-                int minX = Math.Min(p[i].X, p[i + 1].X);
-                int minY = Math.Min(p[i].Y, p[i + 1].Y);
-                Bitmap bitmap = new Bitmap(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
-                using (Graphics g = Graphics.FromImage(bitmap))
+                if (typeOfConnection == 0)
                 {
-                    g.DrawLine(pen, new Point(p[i].X - minX + 1, p[i].Y - minY + 1), new Point(p[i + 1].X - minX + 1, p[i + 1].Y - minY + 1));
+                    pb.BackColor = Color.Gray;
                 }
-                PictureBox pb = new PictureBox();
-                pb.Image = bitmap;
-                pb.Left = minX;
-                pb.Top = minY;
-                pb.Size = new Size(Math.Abs(p[i].X - p[i + 1].X) + 2, Math.Abs(p[i].Y - p[i + 1].Y) + 2);
-                pb.BackColor = Color.Transparent;
+                else
+                {
+                    pb.BackColor = Color.Transparent;
+                }
                 treePanel.Controls.Add(pb);
             }
         }
@@ -390,7 +385,7 @@ namespace Family_Tree
         }
 
         //Метод, рисующий основную информацию о родителях при построении дерева
-        private int showCouple(Person father, Person mother, int x, int y)
+        private int showCouple(Person father, Person mother, int x, int y, bool divorced)
         {
             int pos = showPerson(father, x, y);
             PictureBox p1 = getPbById(father.id);
@@ -398,7 +393,7 @@ namespace Family_Tree
             showPerson(mother, posX, y, (posX - p1.Right) / 2);
             PictureBox p2 = getPbById(mother.id);
             int y1 = (p1.Top + p2.Bottom) / 2;
-            drawLine(new Point(p1.Right, y1), new Point(p2.Left, y1));
+            drawLine(Convert.ToInt32(divorced), new Point(p1.Right, y1), new Point(p2.Left, y1));
             return p2.Left - p1.Right;
         }
 
@@ -431,14 +426,7 @@ namespace Family_Tree
                     f = p1.Height / 2 + dText;
                     y1 -= f;
                 }
-                if (typeOfConnection == 0)
-                {
-                    drawLine(new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));
-                }
-                else
-                {
-                    drawLightLine(new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));
-                }
+                drawLine(typeOfConnection, new Point(x1, y1), new Point(x1, y1 + f + hLine), new Point(x2, y1 + f + hLine), new Point(x2, y2 - 1));
             }
             else
             {
@@ -450,14 +438,7 @@ namespace Family_Tree
                     f = p1.Height / 2 + 5;
                     y1 += f;
                 }
-                if (typeOfConnection == 0)
-                {
-                    drawLine(new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));
-                }
-                else
-                {
-                    drawLightLine(new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));
-                }
+                drawLine(typeOfConnection, new Point(x1, y1), new Point(x1, y1 - hLine - f), new Point(x2, y1 - hLine - f), new Point(x2, y2));
             }
         }
 
@@ -673,7 +654,7 @@ namespace Family_Tree
                 PictureBox cur;
                 if (p.partner != -1 || areChildren)
                 {
-                    distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight);
+                    distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight, p.divorced);
                     pWidth += distToCouple;
                     cur = getPbById(father.id);
                     pWidth += cur.Width;
@@ -696,7 +677,7 @@ namespace Family_Tree
                     PictureBox to = getPbById(data.allPeople[p.allPartners[i]].id);
                     if (p.allPartners[i] != p.partner)
                     {
-                        drawLightLine(new Point(cur.Left, cur.Top + cur.Height / 2), new Point(to.Right, to.Top + to.Height / 2));
+                        drawLine(1, new Point(cur.Left, cur.Top + cur.Height / 2), new Point(to.Right, to.Top + to.Height / 2));
                     }
                 }
                 for (int i = 0; i < p.children.Count; ++i)
@@ -713,11 +694,11 @@ namespace Family_Tree
                     else
                     {
                         PictureBox to = getPbById(getPerson(pPartner, p).id);
-                        drawLightLine(new Point(cur.Left, cur.Top + cur.Height / 2), new Point(to.Right, to.Top + to.Height / 2));
+                        drawLine(1, new Point(cur.Left, cur.Top + cur.Height / 2), new Point(to.Right, to.Top + to.Height / 2));
                         int dist = cur.Left - to.Right - (nextX[pPartner] - to.Right) / 2;
                         dist += cur.Width;
                         dist *= 2;
-                        drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, -dist, 1);
+                        drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, -dist, 0);
                     }
                 }
                 return new Pair<int, int>(x, Math.Max(startX, x + pWidth));
@@ -804,7 +785,7 @@ namespace Family_Tree
                 PictureBox cur, curM;
                 if (p.partner != -1 || areChildren)
                 {
-                    distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight);
+                    distToCouple = showCouple(father, mother, x, 10 + realLevel * dHeight, p.divorced);
                     pWidth += distToCouple;
                     cur = getPbById(father.id);
                     pWidth += cur.Width;
@@ -887,7 +868,7 @@ namespace Family_Tree
                     PictureBox to = getPbById(data.allPeople[p.allPartners[i]].id);
                     if (p.allPartners[i] != p.partner)
                     {
-                        drawLightLine(new Point(curM.Right, curM.Top + curM.Height / 2), new Point(to.Left, to.Top + to.Height / 2));
+                        drawLine(1, new Point(curM.Right, curM.Top + curM.Height / 2), new Point(to.Left, to.Top + to.Height / 2));
                     }
                 }
                 for (int i = 0; i < p.children.Count; ++i)
@@ -904,11 +885,11 @@ namespace Family_Tree
                     else
                     {
                         PictureBox to = getPbById(getPerson(pPartner, p).id);
-                        drawLightLine(new Point(curM.Right, curM.Top + curM.Height / 2), new Point(to.Left, to.Top + to.Height / 2));
+                        drawLine(1, new Point(curM.Right, curM.Top + curM.Height / 2), new Point(to.Left, to.Top + to.Height / 2));
                         int dist = to.Left - curM.Right - (to.Left - prevX[pPartner] - curM.Width) / 2;
                         Debug.WriteLine("{0} {1} {2} {3} !!!", to.Left, prevX[pPartner], curM.Width, dist);
                         dist *= 2;
-                        drawConnection(curM, getPbById(data.allPeople[p.children[i]].id), rev, dist, 1);
+                        drawConnection(curM, getPbById(data.allPeople[p.children[i]].id), rev, dist, 0);
                     }
                 }
                 return new Pair<int, int>(x, Math.Max(startX, x + pWidth));
@@ -1246,6 +1227,10 @@ namespace Family_Tree
                     chosenPerson.mother = addedId;
                     break;
                 case "partner":
+                    if (chosenPerson.partner != -1)
+                    {
+                        data.allPeople[chosenPerson.partner].partner = -1;
+                    }
                     chosenPerson.partner = addedId;
                     chosenPerson.allPartners.Add(addedId);
                     data.allPeople[addedId].allPartners.Add(chosenPerson.id);
@@ -1509,6 +1494,16 @@ namespace Family_Tree
         private void MainPage_SizeChanged(object sender, EventArgs e)
         {
             updateSizeGridView();
+        }
+
+        private void рассторгнутьБракToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (chosenPerson.partner != -1)
+            {
+                chosenPerson.divorced = !chosenPerson.divorced;
+                data.allPeople[chosenPerson.partner].divorced = !data.allPeople[chosenPerson.partner].divorced;
+                buildTree();
+            }
         }
     }
 

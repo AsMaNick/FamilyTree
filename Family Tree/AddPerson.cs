@@ -138,6 +138,7 @@ namespace Family_Tree
             addedPerson.allPartners = new List<int> (p.allPartners);
             addedPerson.allPhotosIds = new List<int> (p.allPhotosIds);
             addedPerson.secretId = p.secretId;
+            addedPerson.divorced = p.divorced;
             fillAliveMenu(p.alive);
             fillDeadMenu(!p.alive);
         }
@@ -251,6 +252,7 @@ namespace Family_Tree
                 p.children = new List<int> (addedPerson.children);
                 p.allPartners = new List<int> (addedPerson.allPartners);
                 p.allPhotosIds = new List<int> (addedPerson.allPhotosIds);
+                p.divorced = addedPerson.divorced;
                 p.secretId = addedPerson.secretId;
             }
             if (p.partner != -1 && parent.data.allPeople[p.partner].man == p.man)
@@ -307,6 +309,7 @@ namespace Family_Tree
             {
                 parent.data.sortChildrenList(parent.data.allPeople[p.father]);
             }
+            Dispose();
             this.DialogResult = DialogResult.OK;
         }
 
@@ -420,6 +423,15 @@ namespace Family_Tree
             photoPanel.Visible = false;
         }
 
+        private void Dispose()
+        {
+            for (int i = 0; i < photoPanel.Controls.Count; ++i)
+            {
+                PictureBox pb = (PictureBox)photoPanel.Controls[i];
+                pb.Image.Dispose();
+            }
+        }
+
         private void placeAllPhotos(Person p, List<Photo> allPhotos)
         {
             Cursor = Cursors.WaitCursor;
@@ -449,7 +461,7 @@ namespace Family_Tree
                 }
                 cnt = Math.Max(cnt, 1);
                 double k = 1.0 * (photoPanel.Width - 15 - (cnt + 1) * distanceBetweenPhotos) / sum;
-                Debug.WriteLine("{0} {1}", i, k);
+                Debug.WriteLine("{0} {1}, cnt = {2}", i, k, cnt);
                 sum = 0;
                 int plH = 0;
                 for (int j = i; j < i + cnt; ++j)
@@ -457,6 +469,7 @@ namespace Family_Tree
                     int id = allIds[j];
                     PictureBox pb = new PictureBox();
                     pb.Image = Photo.Scale(parent.data.img(id), k * minPhotoHeight / parent.data.img(id).Height);
+                    //pb.Image = parent.data.img(id, k * minPhotoHeight / parent.data.img(id).Height);
                     pb.Size = pb.Image.Size;
                     pb.Left = (j - i) * distanceBetweenPhotos + sum;
                     pb.Top = h;
@@ -471,6 +484,7 @@ namespace Family_Tree
                 h += plH + distanceBetweenPhotos;
                 i += cnt;
             }
+            Dispose();
             this.photoPanel.Controls.Clear();
             for (int i = 0; i < allPb.Count; ++i)
             {
@@ -639,6 +653,11 @@ namespace Family_Tree
             PictureBox pb = choosenPhoto;
             int photoId = (int)pb.Tag;
             Process.Start(new ProcessStartInfo("explorer.exe", "/select, " + System.IO.Path.GetFullPath(DataBase.pathToGroupPhotosToStart + parent.data.allPhotos[photoId].pathToFile)));
+        }
+
+        private void AddPerson_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Dispose();
         }
     }
 }

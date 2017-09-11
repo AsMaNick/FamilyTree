@@ -51,29 +51,60 @@ namespace Family_Tree
         private int cacheSize;
         private int cachePos;
         private string[] lastImageFiles;
+        private int[] lastW, lastH;
+        private double[] lastK;
         private Image[] lastImages;
 
-        public Image img(string file)
+        public Image img(string file, int w = -1, int h = -1, double k = 1)
         {
             for (int i = 0; i < cacheSize; ++i)
             {
-                if (lastImageFiles[i] == file)
+                if (lastImageFiles[i] == file && lastW[i] == w && lastH[i] == h && Math.Abs(k - lastK[i]) < 0.0001)
                 {
                     return lastImages[i];
                 }
             }
-            Debug.WriteLine("Loading " + file + "...");
-            lastImages[cachePos] = null;
-            lastImages[cachePos] = (Image)new Bitmap(file);
+            //Debug.WriteLine("Loading " + file + "...");
+            if (lastImages[cachePos] != null)
+            {
+                lastImages[cachePos].Dispose();
+            }
+            Image resIm = (Image)new Bitmap(file);
+            lastImages[cachePos] = resIm;
+            if (Math.Abs(k - 1) > 0.0001)
+            {
+                w = Convert.ToInt32(lastImages[cachePos].Width * k);
+                h = Convert.ToInt32(lastImages[cachePos].Height * k);
+            }
+            if (w != -1)
+            {
+                //Debug.WriteLine("{0} {1}   Original size: {2} {3}", w, h, lastImages[cachePos].Width, lastImages[cachePos].Height);
+                lastImages[cachePos] = (Image)(new Bitmap(resIm, w, h));
+                resIm.Dispose();
+            }
             lastImageFiles[cachePos] = file;
+            lastW[cachePos] = w;
+            lastH[cachePos] = h;
+            lastK[cachePos] = k;
             int res = cachePos;
             cachePos = (cachePos + 1) % cacheSize;
             return lastImages[res];
         }
 
-        public Image img(int id)
+        public Image img(int id, int w = -1, int h = -1)
         {
-            return img(pathToGroupPhotos + allPhotos[id].pathToFile);
+            return img(allPhotos[id].pathToFile, w, h);
+        }
+
+        public Image img(int id, double k)
+        {
+            Debug.WriteLine("id = {0}, coef = {1}", id, k);
+            return img(allPhotos[id].pathToFile, -1, -1, k);
+        }
+
+        public Image img(string file, double k)
+        {
+            return img(file, -1, -1, k);
         }
 
         public DataBase()
@@ -85,6 +116,13 @@ namespace Family_Tree
             readSettings();
             lastImageFiles = new string[cacheSize];
             lastImages = new Image[cacheSize];
+            lastW = new int[cacheSize];
+            lastH = new int[cacheSize];
+            lastK = new double[cacheSize];
+            for (int i = 0; i < cacheSize; ++i)
+            {
+                lastK[i] = 1;
+            }
             cachePos = 0;
             readFromFile(pathToDataBase);
             readPhotosFromFile(pathToPhotoDataBase);
@@ -129,7 +167,7 @@ namespace Family_Tree
         {
             string fileName = "GroupPhoto" + Convert.ToString(allPhotos.Count) + ".jpg";
             img(p.pathToFile).Save(pathToGroupPhotos + fileName);
-            p.pathToFile = fileName;
+            p.pathToFile = pathToGroupPhotos + fileName;
             p.id = allPhotos.Count;
             for (int i = 0; i < p.peopleIds.Count; ++i)
             {
@@ -382,6 +420,7 @@ namespace Family_Tree
             {
                 allPeople[p.partner].partner = p.id;
                 p.allPartners.Add(p.partner);
+                p.allPartners = distinct(p.allPartners);
             }
             for (int i = 0; i < p.children.Count; ++i)
             {

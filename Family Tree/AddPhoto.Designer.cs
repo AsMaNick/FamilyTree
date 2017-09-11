@@ -210,6 +210,7 @@
             this.Name = "AddPhoto";
             this.Text = "Фотография";
             this.Activated += new System.EventHandler(this.AddPhoto_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddPhoto_FormClosing);
             this.SizeChanged += new System.EventHandler(this.AddPhoto_SizeChanged);
             this.photoPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();

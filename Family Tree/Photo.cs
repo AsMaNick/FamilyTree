@@ -42,16 +42,27 @@ namespace Family_Tree
             deleted = p.deleted;
         }
 
-        public static Image Scale(Image img, double k)
+        public static Image Scale(Image img, double k) //not recomended to use!!! High memery using
         {
             int w = Convert.ToInt32(img.Width * k);
             int h = Convert.ToInt32(img.Height * k);
             return (Image)(new Bitmap(img, w, h));
         }
 
+        public static void Dispose(Image img) {
+            if (img != null)
+            {
+                img.Dispose();
+            }
+        }
+
         public void readFromFile(ref StreamReader file)
         {
             pathToFile = file.ReadLine();
+            if (pathToFile.Length < DataBase.pathToGroupPhotos.Length || pathToFile.Substring(0, DataBase.pathToGroupPhotos.Length) != DataBase.pathToGroupPhotos)
+            {
+                pathToFile = DataBase.pathToGroupPhotos + pathToFile;
+            }
             int n = int.Parse(file.ReadLine());
             additionalInfo = new List<string>();
             for (int i = 0; i < n; ++i)
