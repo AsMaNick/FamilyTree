@@ -69,7 +69,7 @@ namespace Family_Tree
             {
                 lastImages[cachePos].Dispose();
             }
-            Image resIm = (Image)new Bitmap(file);
+            Image resIm = Image.FromFile(file);
             lastImages[cachePos] = resIm;
             if (Math.Abs(k - 1) > 0.0001)
             {
@@ -369,7 +369,25 @@ namespace Family_Tree
 
         public void deletePhoto(int id)
         {
-            System.IO.File.Delete(pathToGroupPhotos + allPhotos[id].pathToFile);
+            for (int i = 0; i < cacheSize; ++i)
+            {
+                if (lastImageFiles[i] == allPhotos[id].pathToFile)
+                {
+                    lastImages[i].Dispose();
+                }
+            }
+            try
+            {
+                System.IO.File.Delete(pathToGroupPhotos + allPhotos[id].pathToFile);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+
+            }
             for (int i = 0; i < this.allPhotos[id].peopleIds.Count; ++i)
             {
                 int personId = this.allPhotos[id].peopleIds[i];

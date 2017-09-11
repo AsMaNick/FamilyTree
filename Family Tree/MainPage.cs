@@ -240,6 +240,14 @@ namespace Family_Tree
                     fromDataBase.DropDownItems[7].Text = "Бывшего мужа";
                     newPerson.DropDownItems[7].Text = "Бывшего мужа";
                 }
+                if (chosenPerson.partner == -1)
+                {
+                    addConneсtionStrip.Items[3].Visible = false;
+                }
+                else
+                {
+                    addConneсtionStrip.Items[3].Visible = true;
+                }
                 if (chosenPerson.divorced)
                 {
                     addConneсtionStrip.Items[3].Text = "Заключить брак";

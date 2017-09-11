@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Family_Tree
 {
@@ -18,7 +19,9 @@ namespace Family_Tree
         private int id;
         private MainPage parent;
         public Person addedPerson;
-        private PictureBox choosenPhoto;        
+        private PictureBox choosenPhoto;
+        private Thread loadPhotos;
+        private int startBadPb;
 
         public AddPerson(MainPage mainPage, int Id = -1)
         {
@@ -310,6 +313,7 @@ namespace Family_Tree
                 parent.data.sortChildrenList(parent.data.allPeople[p.father]);
             }
             Dispose();
+            AbortThread();
             this.DialogResult = DialogResult.OK;
         }
 
@@ -428,7 +432,7 @@ namespace Family_Tree
             for (int i = 0; i < photoPanel.Controls.Count; ++i)
             {
                 PictureBox pb = (PictureBox)photoPanel.Controls[i];
-                pb.Image.Dispose();
+                Photo.Dispose(pb.Image);
             }
         }
 
@@ -451,13 +455,13 @@ namespace Family_Tree
                 for (int j = i; j < allIds.Count; ++j)
                 {
                     int id = allIds[j];
-                    int totalWidth = (cnt + 2) * distanceBetweenPhotos + sum + (parent.data.img(id).Width * minPhotoHeight) / parent.data.img(id).Height;
+                    int totalWidth = (cnt + 2) * distanceBetweenPhotos + sum + (allPhotos[id].width * minPhotoHeight) / allPhotos[id].height;
                     if (totalWidth >= photoPanel.Width)
                     {
                         break;
                     }
                     ++cnt;
-                    sum += (parent.data.img(id).Width * minPhotoHeight) / parent.data.img(id).Height;
+                    sum += (allPhotos[id].width * minPhotoHeight) / allPhotos[id].height;
                 }
                 cnt = Math.Max(cnt, 1);
                 double k = 1.0 * (photoPanel.Width - 15 - (cnt + 1) * distanceBetweenPhotos) / sum;
@@ -468,9 +472,14 @@ namespace Family_Tree
                 {
                     int id = allIds[j];
                     PictureBox pb = new PictureBox();
-                    pb.Image = Photo.Scale(parent.data.img(id), k * minPhotoHeight / parent.data.img(id).Height);
+                    double coef = k * minPhotoHeight / allPhotos[id].height;
+                    int nWidth = Convert.ToInt32(allPhotos[id].width * coef);
+                    int nHeight = Convert.ToInt32(allPhotos[id].height * coef);
+                    //pb.Image = Photo.Scale(parent.data.img(id), coef);
                     //pb.Image = parent.data.img(id, k * minPhotoHeight / parent.data.img(id).Height);
-                    pb.Size = pb.Image.Size;
+                    //pb.Image = (Image) (new Bitmap(nWidth, nHeight));
+                    pb.Size = new Size(nWidth, nHeight);
+                    //pb.BackColor = Color.Gray;
                     pb.Left = (j - i) * distanceBetweenPhotos + sum;
                     pb.Top = h;
                     pb.MouseClick += photo_MouseClick;
@@ -484,13 +493,78 @@ namespace Family_Tree
                 h += plH + distanceBetweenPhotos;
                 i += cnt;
             }
+            /*startBadPb = Math.Min(allPb.Count, photoPanel.Controls.Count);
+            for (int i = 0; i < Math.Min(allPb.Count, photoPanel.Controls.Count); ++i)
+            {
+                PictureBox pb = (PictureBox)(photoPanel.Controls[i]);
+                int id1 = (int)pb.Tag;
+                int id2 = (int)allPb[i].Tag;
+                if (id1 != id2)
+                {
+                    startBadPb = i;
+                    break;
+                }
+            }
+            for (int i = startBadPb; i < photoPanel.Controls.Count;)
+            {
+                PictureBox pb = (PictureBox)(photoPanel.Controls[i]);
+                Photo.Dispose(pb.Image);
+                photoPanel.Controls.RemoveAt(i);
+            }*/
+            for (int i = 0; i < this.photoPanel.Controls.Count; ++i)
+            {
+                this.photoPanel.Controls[i].Visible = false;
+            }
             Dispose();
             this.photoPanel.Controls.Clear();
-            for (int i = 0; i < allPb.Count; ++i)
+            startBadPb = 0;
+            for (int i = startBadPb; i < allPb.Count; ++i)
             {
                 this.photoPanel.Controls.Add(allPb[i]);
             }
             Cursor = Cursors.Default;
+            //fillAllPictureBoxes();
+            loadPhotos = new Thread(fillAllPictureBoxes);
+            loadPhotos.Start();
+        }
+
+        private void fillAllPictureBoxes()
+        {
+            List<int> badI = new List<int>();
+            for (int i = startBadPb; i < this.photoPanel.Controls.Count; ++i)
+            {
+                badI.Add(i);
+            }
+            while (badI.Count > 0)
+            {
+                List<int> nBad = new List<int>();
+                foreach (int i in badI)
+                {
+                    if (i >= this.photoPanel.Controls.Count)
+                    {
+                        break;
+                    }
+                    PictureBox pb = (PictureBox)this.photoPanel.Controls[i];
+                    int id = (int)pb.Tag;
+                    try
+                    {
+                        pb.Image = (Image)(new Bitmap(parent.data.img(id), pb.Width, pb.Height));
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    finally
+                    {
+                        if (pb.Image == null)
+                        {
+                            Debug.WriteLine("{0} {1}", "FAIL", i);
+                            nBad.Add(i);
+                        }
+                    }
+                }
+                badI = new List<int>(nBad);
+            }
         }
 
         void photo_MouseLeave(object sender, EventArgs e)
@@ -655,9 +729,21 @@ namespace Family_Tree
             Process.Start(new ProcessStartInfo("explorer.exe", "/select, " + System.IO.Path.GetFullPath(DataBase.pathToGroupPhotosToStart + parent.data.allPhotos[photoId].pathToFile)));
         }
 
+        private void AbortThread()
+        {
+            if (loadPhotos != null)
+            {
+                while (loadPhotos.IsAlive)
+                {
+                    loadPhotos.Abort();
+                }
+            }
+        }
+
         private void AddPerson_FormClosing(object sender, FormClosingEventArgs e)
         {
             Dispose();
+            AbortThread();
         }
     }
 }

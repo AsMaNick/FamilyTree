@@ -22,6 +22,7 @@ namespace Family_Tree
         public List<string> additionalInfo;
         public int id;
         public bool deleted;
+        public int width, height;
 
         public Photo()
         {
@@ -29,6 +30,7 @@ namespace Family_Tree
             peopleIds = new List<int>();
             additionalInfo = new List<string>();
             deleted = false;
+            width = height = 0;
         }
 
         public Photo(Photo p)
@@ -40,6 +42,8 @@ namespace Family_Tree
             additionalInfo = new List<string> (p.additionalInfo);
             id = p.id;
             deleted = p.deleted;
+            width = p.width;
+            height = p.height;
         }
 
         public static Image Scale(Image img, double k) //not recomended to use!!! High memery using
@@ -58,6 +62,8 @@ namespace Family_Tree
 
         public void readFromFile(ref StreamReader file)
         {
+            width = int.Parse(file.ReadLine());
+            height = int.Parse(file.ReadLine());
             pathToFile = file.ReadLine();
             if (pathToFile.Length < DataBase.pathToGroupPhotos.Length || pathToFile.Substring(0, DataBase.pathToGroupPhotos.Length) != DataBase.pathToGroupPhotos)
             {
@@ -94,6 +100,8 @@ namespace Family_Tree
 
         public void writeToFile(ref StreamWriter file)
         {
+            file.WriteLine(width);
+            file.WriteLine(height);
             file.WriteLine(pathToFile);
             file.WriteLine(additionalInfo.Count);
             for (int i = 0; i < additionalInfo.Count; ++i)
