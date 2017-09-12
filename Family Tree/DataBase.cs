@@ -44,6 +44,8 @@ namespace Family_Tree
         public const string pathToGroupPhotosToStart = "..\\..\\images/group_photos/";
         public const string pathToDocuments = "../../documents/";
         public const string pathToDocumentsToStart = "..\\..\\documents/";
+        private const double maxS = 160000;
+
         public List<Person> allPeople;
         public List<string> allAvatars;
         public List<Photo> allPhotos;
@@ -166,8 +168,13 @@ namespace Family_Tree
         public void addPhoto(Photo p)
         {
             string fileName = "GroupPhoto" + Convert.ToString(allPhotos.Count) + ".jpg";
-            img(p.pathToFile).Save(pathToGroupPhotos + fileName);
+            Image im = Image.FromFile(p.pathToFile);
             p.pathToFile = pathToGroupPhotos + fileName;
+            p.pathToLightFile = p.pathToFile.Substring(0, p.pathToFile.Length - 4) + "Light" + ".jpg";
+            im.Save(p.pathToFile);
+            double coef = Math.Max(Math.Sqrt((p.width * p.height) / maxS), 1);
+            im = Photo.Resize(im, Convert.ToInt32(p.width / coef), Convert.ToInt32(p.height / coef));
+            im.Save(p.pathToLightFile);
             p.id = allPhotos.Count;
             for (int i = 0; i < p.peopleIds.Count; ++i)
             {
@@ -261,6 +268,14 @@ namespace Family_Tree
                 Photo p = new Photo();
                 p.readFromFile(ref input);
                 p.id = i;
+                /*double coef = Math.Max(Math.Sqrt((p.width * p.height) / maxS), 1);
+                if (!p.deleted)
+                {
+                    Image im = Photo.Resize(Image.FromFile(p.pathToFile), Convert.ToInt32(p.width / coef), Convert.ToInt32(p.height / coef));
+                    p.pathToLightFile = p.pathToFile.Substring(0, p.pathToFile.Length - 4) + "Light" + ".jpg";
+                    im.Save(p.pathToLightFile);
+                    im.Dispose();
+                }*/
                 allPhotos.Add(p);
             }
             input.Close();
@@ -371,7 +386,7 @@ namespace Family_Tree
         {
             for (int i = 0; i < cacheSize; ++i)
             {
-                if (lastImageFiles[i] == allPhotos[id].pathToFile)
+                if (lastImageFiles[i] == allPhotos[id].pathToFile || lastImageFiles[i] == allPhotos[id].pathToLightFile)
                 {
                     lastImages[i].Dispose();
                 }
@@ -379,6 +394,7 @@ namespace Family_Tree
             try
             {
                 System.IO.File.Delete(pathToGroupPhotos + allPhotos[id].pathToFile);
+                System.IO.File.Delete(pathToGroupPhotos + allPhotos[id].pathToLightFile);
             }
             catch (Exception e)
             {

@@ -190,7 +190,7 @@ namespace Family_Tree
             pb.Left = mnX;
             pb.Top = mnY;
             pb.Size = new Size(mxX - mnX + 1, mxY - mnY + 1);
-            pb.Image = GetPhoto.drawBorder(pb.Height, pb.Width);
+            pb.Image = GetPhoto.drawBorder(pb.Image, pb.Height, pb.Width);
             pb.Visible = true;
         }
 
@@ -206,7 +206,7 @@ namespace Family_Tree
                 pb.Left = mnX;
                 pb.Top = mnY;
                 pb.Size = new Size(mxX - mnX + 1, mxY - mnY + 1);
-                pb.Image = GetPhoto.drawBorder(pb.Height, pb.Width);
+                pb.Image = GetPhoto.drawBorder(pb.Image, pb.Height, pb.Width);
             }
             else
             {
@@ -395,6 +395,7 @@ namespace Family_Tree
             }
             Photo.Dispose(original);
             Photo.Dispose(photo.Image);
+            Photo.Dispose(pb.Image);
             DialogResult = DialogResult.OK;
         }
 
@@ -440,6 +441,7 @@ namespace Family_Tree
         {
             Photo.Dispose(original);
             Photo.Dispose(photo.Image);
+            Photo.Dispose(pb.Image);
         }
     }
 }

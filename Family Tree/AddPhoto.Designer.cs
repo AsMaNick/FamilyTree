@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPhoto));
             this.photoPanel = new System.Windows.Forms.Panel();
             this.photo = new System.Windows.Forms.PictureBox();
             this.additionalInfo = new System.Windows.Forms.RichTextBox();
@@ -206,6 +207,7 @@
             this.Controls.Add(this.plusButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(700, 456);
             this.Name = "AddPhoto";
             this.Text = "Фотография";

@@ -18,7 +18,7 @@ namespace Family_Tree
         public const string Filter = "Все изображения|*.jpg;*.bmp;*.gif;*.png;*.tif;*tiff";
         public List<Rectangle> zones;
         public List<int> peopleIds;
-        public string pathToFile;
+        public string pathToFile, pathToLightFile;
         public List<string> additionalInfo;
         public int id;
         public bool deleted;
@@ -46,11 +46,18 @@ namespace Family_Tree
             height = p.height;
         }
 
-        public static Image Scale(Image img, double k) //not recomended to use!!! High memery using
+        /*public static Image Scale(Image img, double k) //not recomended to use!!! High memery using
         {
             int w = Convert.ToInt32(img.Width * k);
             int h = Convert.ToInt32(img.Height * k);
             return (Image)(new Bitmap(img, w, h));
+        }*/
+
+        public static Image Resize(Image img, int w, int h)
+        {
+            Image res = (Image)(new Bitmap(img, w, h));
+            Photo.Dispose(img);
+            return res;
         }
 
         public static void Dispose(Image img) {
@@ -65,6 +72,7 @@ namespace Family_Tree
             width = int.Parse(file.ReadLine());
             height = int.Parse(file.ReadLine());
             pathToFile = file.ReadLine();
+            pathToLightFile = file.ReadLine();
             if (pathToFile.Length < DataBase.pathToGroupPhotos.Length || pathToFile.Substring(0, DataBase.pathToGroupPhotos.Length) != DataBase.pathToGroupPhotos)
             {
                 pathToFile = DataBase.pathToGroupPhotos + pathToFile;
@@ -103,6 +111,7 @@ namespace Family_Tree
             file.WriteLine(width);
             file.WriteLine(height);
             file.WriteLine(pathToFile);
+            file.WriteLine(pathToLightFile);
             file.WriteLine(additionalInfo.Count);
             for (int i = 0; i < additionalInfo.Count; ++i)
             {

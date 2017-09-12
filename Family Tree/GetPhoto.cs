@@ -23,8 +23,9 @@ namespace Family_Tree
             InitializeComponent();
         }
 
-        public static Image drawBorder(int h, int w)
+        public static Image drawBorder(Image im, int h, int w)
         {
+            Photo.Dispose(im);
             Bitmap bitmap = new Bitmap(w, h);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
@@ -41,20 +42,17 @@ namespace Family_Tree
             lastX = lastY = -1;
             int h = this.photo.Height;
             int w = this.photo.Width;
-            //this.photo.Image = (Image) (new Bitmap(Image.FromFile(s), new Size(w, h)));
-            this.photo.Image = (Image)(new Bitmap(Image.FromFile(s)));
             Result = (Image)(new Bitmap(Image.FromFile(s)));
             if (Result.Height > photo.Height)
             {
                 double k = 1.0 * Result.Height / photo.Height;
-                Size nsz = new Size(Convert.ToInt32(this.photo.Image.Width / k), Convert.ToInt32(this.photo.Image.Height / k));
-                this.photo.Image = (Image)(new Bitmap(this.photo.Image, nsz));
+                Size nsz = new Size(Convert.ToInt32(this.Result.Width / k), Convert.ToInt32(this.Result.Height / k));
+                this.photo.Image = (Image)(new Bitmap(Result, nsz));
             }
-            /*while (this.photo.Image.Height > 1000 || this.photo.Image.Width > 1000)
+            else
             {
-                Size nsz = new Size(this.photo.Image.Width / 2, this.photo.Image.Height / 2);
-                this.photo.Image = (Image)(new Bitmap(this.photo.Image, nsz));
-            }*/
+                this.photo.Image = (Image)(new Bitmap(Image.FromFile(s)));
+            }
             this.photo.Size = this.photo.Image.Size;
             this.MaximumSize = new Size(this.photo.Width + 70, this.photo.Height + 125);
             this.choosenRegion = new TransparentPictureBox(Color.FromArgb(50, 0, 0, 0));
@@ -64,7 +62,7 @@ namespace Family_Tree
             this.choosenRegion.MouseDoubleClick += choosenRegion_MouseDoubleClick;
             this.choosenRegion.MouseClick += choosenRegion_MouseClick;
             this.choosenRegion.Size = new Size(AddPerson.widthAvatar, AddPerson.heightAvatar);
-            this.choosenRegion.Image = drawBorder(this.choosenRegion.Height, this.choosenRegion.Width);
+            this.choosenRegion.Image = drawBorder(this.choosenRegion.Image, this.choosenRegion.Height, this.choosenRegion.Width);
             this.photo.Controls.Add(this.choosenRegion);
         }
 
@@ -88,8 +86,13 @@ namespace Family_Tree
             AddPhoto.updateCoordinates(ref width, this.photo.Width, this.Result.Width);
             AddPhoto.updateCoordinates(ref top, this.photo.Height, this.Result.Height);
             AddPhoto.updateCoordinates(ref height, this.photo.Height, this.Result.Height);
-            Result = Crop(this.Result, new Rectangle(left, top, width, height));
-            Result = (Image)(new Bitmap(Result, AddPerson.widthAvatar, AddPerson.heightAvatar));
+            Photo.Dispose(photo.Image);
+            Photo.Dispose(choosenRegion.Image);
+            Debug.WriteLine("res = {0} {1}", Result.Width, Result.Height);
+            Result = Crop(Result, new Rectangle(left, top, width, height));
+            Debug.WriteLine("res = {0} {1}", Result.Width, Result.Height);
+            Result = Photo.Resize(Result, AddPerson.widthAvatar, AddPerson.heightAvatar);
+            Debug.WriteLine("res = {0} {1}", Result.Width, Result.Height);
             this.DialogResult = DialogResult.OK;
         }
 
@@ -144,14 +147,14 @@ namespace Family_Tree
             if (w >= 20)
             {
                 this.choosenRegion.Size = new Size(w, h);
-                this.choosenRegion.Image = drawBorder(this.choosenRegion.Height, this.choosenRegion.Width);
+                this.choosenRegion.Image = drawBorder(this.choosenRegion.Image, this.choosenRegion.Height, this.choosenRegion.Width);
             }
             if (!isIn(0, 0))
             {
                 w = Convert.ToInt32(this.choosenRegion.Width / pw);
                 h = Convert.ToInt32(this.choosenRegion.Height / pw);
                 this.choosenRegion.Size = new Size(w, h);
-                this.choosenRegion.Image = drawBorder(this.choosenRegion.Height, this.choosenRegion.Width);
+                this.choosenRegion.Image = drawBorder(this.choosenRegion.Image, this.choosenRegion.Height, this.choosenRegion.Width);
             }
         }
 
@@ -186,6 +189,17 @@ namespace Family_Tree
         private void GetPhoto_Activated(object sender, EventArgs e)
         {
             this.photoPanel.Focus();
+        }
+
+        private void GetPhoto_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Debug.WriteLine(DialogResult);
+            if (DialogResult != DialogResult.OK)
+            {
+                Photo.Dispose(Result);
+            }
+            Photo.Dispose(photo.Image);
+            Photo.Dispose(choosenRegion.Image);
         }
     }
 }

@@ -414,7 +414,7 @@ namespace Family_Tree
                 if (res2 == DialogResult.OK) {
                     int w = this.avatarPictureBox.Image.Width;
                     int h = this.avatarPictureBox.Image.Height;
-                    this.avatarPictureBox.Image = (Image) (new Bitmap(getPhoto.Result, new Size(w, h)));
+                    this.avatarPictureBox.Image = Photo.Resize(getPhoto.Result, w, h);
                     this.avatarPictureBox.Tag = new ID(parent.data.AddAvatar(this.avatarPictureBox.Image));
                     this.avatarPictureBox.Image = MainPage.drawBorder(this.avatarPictureBox.Image);
                     Debug.WriteLine(this.avatarPictureBox.Tag.ToString());
@@ -548,7 +548,7 @@ namespace Family_Tree
                     int id = (int)pb.Tag;
                     try
                     {
-                        pb.Image = (Image)(new Bitmap(parent.data.img(id), pb.Width, pb.Height));
+                        pb.Image = (Image)(new Bitmap(parent.data.img(parent.data.allPhotos[id].pathToLightFile), pb.Width, pb.Height));
                     }
                     catch (Exception e)
                     {
@@ -636,19 +636,19 @@ namespace Family_Tree
             if (res == DialogResult.Yes)
             {
                 parent.data.deletePhoto(delId);
-            }
-            if (id == -2)
-            {
-                Person p = new Person();
-                for (int i = 0; i < parent.data.allPhotos.Count; ++i)
+                if (id == -2)
                 {
-                    p.allPhotosIds.Add(i);
+                    Person p = new Person();
+                    for (int i = 0; i < parent.data.allPhotos.Count; ++i)
+                    {
+                        p.allPhotosIds.Add(i);
+                    }
+                    placeAllPhotos(p, parent.data.allPhotos);
                 }
-                placeAllPhotos(p, parent.data.allPhotos);
-            }
-            else
-            {
-                placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+                else
+                {
+                    placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+                }
             }
         }
 

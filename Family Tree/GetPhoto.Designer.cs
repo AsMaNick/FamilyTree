@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GetPhoto));
             this.button1 = new System.Windows.Forms.Button();
             this.photoPanel = new System.Windows.Forms.Panel();
             this.photo = new System.Windows.Forms.PictureBox();
@@ -90,9 +91,11 @@
             this.ClientSize = new System.Drawing.Size(484, 537);
             this.Controls.Add(this.photoGroupBox);
             this.Controls.Add(this.button1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GetPhoto";
             this.Text = "Выбор фотографии";
             this.Activated += new System.EventHandler(this.GetPhoto_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GetPhoto_FormClosing);
             this.photoPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.photo)).EndInit();
             this.photoGroupBox.ResumeLayout(false);
