@@ -39,6 +39,7 @@ namespace Family_Tree
             zones = new List<Rectangle>(p.zones);
             peopleIds = new List<int>(p.peopleIds);
             pathToFile = p.pathToFile;
+            pathToLightFile = p.pathToLightFile;
             additionalInfo = new List<string> (p.additionalInfo);
             id = p.id;
             deleted = p.deleted;

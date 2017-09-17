@@ -559,6 +559,7 @@ namespace Family_Tree
                         if (pb.Image == null)
                         {
                             Debug.WriteLine("{0} {1}", "FAIL", i);
+                            Debug.WriteLine("{0} {1}", id, parent.data.allPhotos[id].pathToLightFile);
                             nBad.Add(i);
                         }
                     }

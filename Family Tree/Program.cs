@@ -16,7 +16,12 @@ namespace Family_Tree
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainPage());
+            MainPage mainPage = new MainPage();
+            if (mainPage.DialogResult == DialogResult.OK)
+            {
+                return;
+            }
+            Application.Run(mainPage);
         }
     }
 }

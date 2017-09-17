@@ -268,6 +268,10 @@ namespace Family_Tree
                 Photo p = new Photo();
                 p.readFromFile(ref input);
                 p.id = i;
+                if (p.pathToLightFile == "")
+                {
+                    p.pathToLightFile = p.pathToFile.Substring(0, p.pathToFile.Length - 4) + "Light" + ".jpg";
+                }
                 /*double coef = Math.Max(Math.Sqrt((p.width * p.height) / maxS), 1);
                 if (!p.deleted)
                 {

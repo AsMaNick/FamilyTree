@@ -24,7 +24,8 @@ namespace Family_Tree
         const int DESCENDANTS = 2;//Тип дерева потомков
         const int HOURGLASS = 3;//Тип дерева песочные часы
         const bool ancestorsToUp = true;//Константа, указывающая в какую сторону отображать дерево предков (вверх/вниз)
-        
+        const string runningFile = "running.txt";
+
         public DataBase data;//База всех персон
         private Person chosenPerson;//Выбранный человек для дальнейшого редактирования
         private Graphics g;
@@ -34,6 +35,13 @@ namespace Family_Tree
         public MainPage()
         {
             InitializeComponent();
+            if (System.IO.File.Exists(runningFile))
+            {
+                MessageBox.Show("Другая программа уже запущена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult = DialogResult.OK;
+                return;
+            }
+            System.IO.File.Create(runningFile).Close();
             data = new DataBase();
             turnOffPanels();
             dataGridView.Visible = true;
@@ -110,6 +118,12 @@ namespace Family_Tree
             showActivePanel();
         }
 
+        private void processBeforeExiting()
+        {
+            data.save();
+            System.IO.File.Delete(runningFile);
+        }
+
         //Метод, срабатывающий при закрытии окна; сохраняет данные
         private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -119,7 +133,7 @@ namespace Family_Tree
                 e.Cancel = true;
                 return;
             }
-            data.save();
+            processBeforeExiting();
         }
 
         private string Number(int x, int len)
@@ -1379,11 +1393,12 @@ namespace Family_Tree
         //Обработчик события выхода из программы
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Вы уверены, что хотите выйти?\nВсе изменения будут сохранены.", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            Close();
+            /*DialogResult res = MessageBox.Show("Вы уверены, что хотите выйти?\nВсе изменения будут сохранены.", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (res == DialogResult.Yes)
             {
                 Close();
-            }
+            }*/
         }
 
         //Метод вывода текста на элемент
