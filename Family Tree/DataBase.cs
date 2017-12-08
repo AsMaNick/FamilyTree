@@ -439,16 +439,20 @@ namespace Family_Tree
                    (m.allPartners.Count == 0 || (m.allPartners.Count == 1 && m.allPartners[0] == f.id));
         }
 
-        private void updateConnections(Person p)
+        private void updateParent(Person p, Person child)
         {
-            if (p.father != -1)
+            if (p.man)
             {
-                allPeople[p.father].children.Add(p.id);
+                child.father = p.id;
             }
-            if (p.mother != -1)
+            else
             {
-                allPeople[p.mother].children.Add(p.id);
+                child.mother = p.id;
             }
+        }
+
+        private void updateConnectionsPartners(Person p)
+        {
             if (p.father != -1 && p.mother != -1 && canBePartners(allPeople[p.father], allPeople[p.mother]))
             {
                 allPeople[p.father].partner = p.mother;
@@ -460,19 +464,25 @@ namespace Family_Tree
                 p.allPartners.Add(p.partner);
                 p.allPartners = distinct(p.allPartners);
             }
+        }
+
+        private void updateConnectionsChildren(Person p)
+        {
+            if (p.father != -1)
+            {
+                allPeople[p.father].children.Add(p.id);
+            }
+            if (p.mother != -1)
+            {
+                allPeople[p.mother].children.Add(p.id);
+            }
             for (int i = 0; i < p.children.Count; ++i)
             {
-                if (p.man)
-                {
-                    allPeople[p.children[i]].father = p.id;
-                }
-                else
-                {
-                    allPeople[p.children[i]].mother = p.id;
-                }
+                updateParent(p, allPeople[p.children[i]]);
                 if (p.partner != -1 && p.allPartners.Count == 1 && allPeople[p.partner].allPartners.Count == 1)
                 {
                     allPeople[p.partner].children.Add(p.children[i]);
+                    updateParent(allPeople[p.partner], allPeople[p.children[i]]);
                 }
             }
             for (int i = 0; i < p.siblings.Count; ++i)
@@ -494,21 +504,39 @@ namespace Family_Tree
                     allPeople[p.siblings[i]].father = p.father;
                 }
             }
-            sortChildrenList(p);
         }
 
-        public void updateConnections()
+        public void updateConnectionsPartners()
         {
             for (int i = 0; i < allPeople.Count; ++i)
             {
-                updateConnections(allPeople[i]);
+                updateConnectionsPartners(allPeople[i]);
+            }
+            for (int i = 0; i < allPeople.Count; ++i)
+            {
+                allPeople[i].allPartners = distinct(allPeople[i].allPartners);
+            }
+        }
+
+        public void updateConnectionsChildren()
+        {
+            for (int i = 0; i < allPeople.Count; ++i)
+            {
+                updateConnectionsChildren(allPeople[i]);
             }
             for (int i = 0; i < allPeople.Count; ++i)
             {
                 allPeople[i].children = distinct(allPeople[i].children);
                 allPeople[i].siblings = distinct(allPeople[i].siblings);
-                allPeople[i].allPartners = distinct(allPeople[i].allPartners);
+                sortChildrenList(allPeople[i]);
             }
+        }
+
+        public void updateConnections()
+        {
+            updateConnectionsPartners();
+            updateConnectionsChildren();
+            updateConnectionsChildren();
         }
     }
 }

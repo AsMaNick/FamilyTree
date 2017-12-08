@@ -19,7 +19,7 @@ namespace Family_Tree
         const int dWidthCouple = 150;//Растояние между родителями при отображении дерева потомков
         const int dHeight = 150;//Высота одного уровня
         const int dText = 20;//Высота текста ФИО при отображении дерева
-        const int hLine = 10;//Вертикальный отступ линии от изображения
+        const int hLine = 30 - dText;//Вертикальный отступ линии от изображения
         const int ANCESTORS = 1;//Тип дерева предков
         const int DESCENDANTS = 2;//Тип дерева потомков
         const int HOURGLASS = 3;//Тип дерева песочные часы
@@ -401,7 +401,9 @@ namespace Family_Tree
                 }
                 if (p.First == true)
                 {
+                    Point pos = new Point(treePanel.AutoScrollPosition.X, treePanel.AutoScrollPosition.Y);
                     buildTree();
+                    treePanel.AutoScrollPosition = new Point(-pos.X, -pos.Y);
                 }
             }
         }
@@ -623,6 +625,7 @@ namespace Family_Tree
                     }
                 }
                 areChildren &= (p.children.Count > 0 && level + 1 < maxLevel);
+                int firstChildrenX = int.MaxValue;
                 if (areChildren)
                 {
                     for (int i = 0; i < p.children.Count; ++i)
@@ -634,6 +637,7 @@ namespace Family_Tree
                         }
                         if (pPartner == p.partner)
                         {
+                            firstChildrenX = Math.Min(firstChildrenX, startX);
                             res.Add(buildTreeOfDescendants(data.allPeople[p.children[i]], level + 1, startX, maxLevel, height, rev));
                             startX = res[res.Count - 1].Second;
                         }
@@ -719,6 +723,8 @@ namespace Family_Tree
                         drawLine(1, new Point(cur.Left, cur.Top + cur.Height / 2), new Point(to.Right, to.Top + to.Height / 2));
                         int dist = cur.Left - to.Right - (nextX[pPartner] - to.Right) / 2;
                         dist += cur.Width;
+                        Debug.WriteLine("{0} {1}", dist, -firstChildrenX + cur.Left + dWidth / 2);
+                        dist = Math.Max(dist, -firstChildrenX + cur.Left + dWidth / 2);
                         dist *= 2;
                         drawConnection(cur, getPbById(data.allPeople[p.children[i]].id), rev, -dist, 0);
                     }
@@ -771,6 +777,7 @@ namespace Family_Tree
                         }
                     }
                 }
+                int minXForConnection = startX;
                 if (areChildren)
                 {
                     int last = res.Count - 1;
@@ -909,18 +916,19 @@ namespace Family_Tree
                         PictureBox to = getPbById(getPerson(pPartner, p).id);
                         drawLine(1, new Point(curM.Right, curM.Top + curM.Height / 2), new Point(to.Left, to.Top + to.Height / 2));
                         int dist = to.Left - curM.Right - (to.Left - prevX[pPartner] - curM.Width) / 2;
-                        Debug.WriteLine("{0} {1} {2} {3} !!!", to.Left, prevX[pPartner], curM.Width, dist);
+                        //Debug.WriteLine("{0} {1} {2} {3} !!!", to.Left, prevX[pPartner], curM.Width, dist);
+                        dist = Math.Max(dist, minXForConnection - dWidth / 2 + curM.Width / 2 - curM.Right);
                         dist *= 2;
                         drawConnection(curM, getPbById(data.allPeople[p.children[i]].id), rev, dist, 0);
                     }
                 }
-                return new Pair<int, int>(x, Math.Max(startX, x + pWidth));
+                return new Pair<int, int>(x, Math.Max(lastX + dWidth, Math.Max(startX, x + pWidth)));
             }
         }
 
         private int getStartId(string s)
         {
-            int startId = -1;
+            int startId = -1;   
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
                 if (data.allPeople[i].FullNameYears == s)
@@ -1044,22 +1052,27 @@ namespace Family_Tree
         //Обработчик события редактирования персоны
         private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Point pos = new Point(treePanel.AutoScrollPosition.X, treePanel.AutoScrollPosition.Y);
             Pair<bool, Person> p = tryAddPerson(chosenPerson.id);
             if (p.First == true)
             {
                 buildTree();
+                treePanel.AutoScrollPosition = new Point(-pos.X, -pos.Y);
             }
         }
 
         //Обработчик события удаления персоны
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Point pos = new Point(treePanel.AutoScrollPosition.X, treePanel.AutoScrollPosition.Y);
             int id = chosenPerson.id;
             DialogResult res = MessageBox.Show("Вы уверены, что хотите удалить информацию о данном человеке?", "Подтверждение операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (res == DialogResult.Yes)
             {
+                treePanel.AutoScrollPosition = pos;
                 data.DeletePerson(id);
                 buildTree();
+                treePanel.AutoScrollPosition = new Point(-pos.X, -pos.Y);
             }
         }
 
@@ -1280,7 +1293,9 @@ namespace Family_Tree
             }
             Debug.WriteLine(string.Format("added id = {0}", addedId));
             data.updateConnections();
+            Point pos = new Point(treePanel.AutoScrollPosition.X, treePanel.AutoScrollPosition.Y);
             buildTree();
+            treePanel.AutoScrollPosition = new Point(-pos.X, -pos.Y);
         }
 
         //Обработчик события клика на пункт меню "из базы/добавить отца"
@@ -1525,7 +1540,9 @@ namespace Family_Tree
             {
                 chosenPerson.divorced = !chosenPerson.divorced;
                 data.allPeople[chosenPerson.partner].divorced = !data.allPeople[chosenPerson.partner].divorced;
+                Point pos = new Point(treePanel.AutoScrollPosition.X, treePanel.AutoScrollPosition.Y);
                 buildTree();
+                treePanel.AutoScrollPosition = new Point(-pos.X, -pos.Y);
             }
         }
     }
