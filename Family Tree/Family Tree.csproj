@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,8 +60,21 @@
     <Compile Include="AddPhoto.Designer.cs">
       <DependentUpon>AddPhoto.cs</DependentUpon>
     </Compile>
+    <Compile Include="AgeStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AgeStatistic.Designer.cs">
+      <DependentUpon>AgeStatistic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comparators.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="Date.cs" />
+    <Compile Include="GenericStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenericStatistic.Designer.cs">
+      <DependentUpon>GenericStatistic.cs</DependentUpon>
+    </Compile>
     <Compile Include="GetPhoto.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,14 +100,27 @@
       <DependentUpon>SearchPerson.cs</DependentUpon>
     </Compile>
     <Compile Include="Timer.cs" />
+    <Compile Include="TotalReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TotalReport.Designer.cs">
+      <DependentUpon>TotalReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransparentPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utilites.cs" />
     <EmbeddedResource Include="AddPerson.resx">
       <DependentUpon>AddPerson.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddPhoto.resx">
       <DependentUpon>AddPhoto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AgeStatistic.resx">
+      <DependentUpon>AgeStatistic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericStatistic.resx">
+      <DependentUpon>GenericStatistic.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GetPhoto.resx">
       <DependentUpon>GetPhoto.cs</DependentUpon>
@@ -113,6 +140,9 @@
     </Compile>
     <EmbeddedResource Include="SearchPerson.resx">
       <DependentUpon>SearchPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TotalReport.resx">
+      <DependentUpon>TotalReport.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">

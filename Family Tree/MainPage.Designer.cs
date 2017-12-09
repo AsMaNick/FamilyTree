@@ -41,6 +41,10 @@
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьФотографиюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.деревоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.статистикаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.общаяИнформацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,6 +74,7 @@
             this.бывшегоПартнераToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.редактироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.рассторгнутьБракToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeSettingsPanel = new System.Windows.Forms.Panel();
             this.buildButton = new System.Windows.Forms.Button();
             this.numberOfGenerationsGroupBox = new System.Windows.Forms.GroupBox();
@@ -82,8 +87,23 @@
             this.ancestorsRadioButton = new System.Windows.Forms.RadioButton();
             this.descendantsRadioButton = new System.Windows.Forms.RadioButton();
             this.hourglassRadioButton = new System.Windows.Forms.RadioButton();
+            this.SearchParameters = new System.Windows.Forms.GroupBox();
+            this.ClearParametersButton = new System.Windows.Forms.Button();
+            this.SearchButton = new System.Windows.Forms.Button();
+            this.AnyRadioButton = new System.Windows.Forms.RadioButton();
+            this.WomanRadioButton = new System.Windows.Forms.RadioButton();
+            this.ManRadioButton = new System.Windows.Forms.RadioButton();
+            this.GenderParameterLabel = new System.Windows.Forms.Label();
+            this.BirthYearParameter = new System.Windows.Forms.TextBox();
+            this.BirthMonthParameter = new System.Windows.Forms.ComboBox();
+            this.BirthDayParameter = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BirthPlaceParameter = new System.Windows.Forms.ComboBox();
+            this.BirthPlaceParameterLabel = new System.Windows.Forms.Label();
+            this.FullNameParameter = new System.Windows.Forms.TextBox();
+            this.FullNameParameterLabel = new System.Windows.Forms.Label();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.рассторгнутьБракToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GenericStatisticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.treeGroupBox.SuspendLayout();
@@ -92,6 +112,7 @@
             this.numberOfGenerationsGroupBox.SuspendLayout();
             this.startPersonGroupBox.SuspendLayout();
             this.typeOfTreeGroupBox.SuspendLayout();
+            this.SearchParameters.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenuStrip
@@ -99,11 +120,13 @@
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
             this.базаToolStripMenuItem,
-            this.деревоToolStripMenuItem});
+            this.деревоToolStripMenuItem,
+            this.статистикаToolStripMenuItem,
+            this.отчетыToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.mainMenuStrip.Size = new System.Drawing.Size(659, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(770, 24);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -184,6 +207,37 @@
             this.деревоToolStripMenuItem.Text = "Дерево";
             this.деревоToolStripMenuItem.Click += new System.EventHandler(this.деревоToolStripMenuItem_Click);
             // 
+            // статистикаToolStripMenuItem
+            // 
+            this.статистикаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ageToolStripMenuItem,
+            this.GenericStatisticToolStripMenuItem});
+            this.статистикаToolStripMenuItem.Name = "статистикаToolStripMenuItem";
+            this.статистикаToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.статистикаToolStripMenuItem.Text = "Статистика";
+            // 
+            // ageToolStripMenuItem
+            // 
+            this.ageToolStripMenuItem.Name = "ageToolStripMenuItem";
+            this.ageToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.ageToolStripMenuItem.Text = "Возраст";
+            this.ageToolStripMenuItem.Click += new System.EventHandler(this.ageToolStripMenuItem_Click);
+            // 
+            // отчетыToolStripMenuItem
+            // 
+            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.общаяИнформацияToolStripMenuItem});
+            this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
+            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.отчетыToolStripMenuItem.Text = "Отчеты";
+            // 
+            // общаяИнформацияToolStripMenuItem
+            // 
+            this.общаяИнформацияToolStripMenuItem.Name = "общаяИнформацияToolStripMenuItem";
+            this.общаяИнформацияToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.общаяИнформацияToolStripMenuItem.Text = "Общая информация";
+            this.общаяИнформацияToolStripMenuItem.Click += new System.EventHandler(this.общаяИнформацияToolStripMenuItem_Click);
+            // 
             // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
@@ -198,7 +252,7 @@
             this.DeleteColumn});
             this.dataGridView.Location = new System.Drawing.Point(14, 29);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(631, 370);
+            this.dataGridView.Size = new System.Drawing.Size(530, 370);
             this.dataGridView.TabIndex = 1;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
             this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
@@ -217,7 +271,7 @@
             // 
             // ColumnExtraInfo
             // 
-            this.ColumnExtraInfo.HeaderText = "Доп. инфо";
+            this.ColumnExtraInfo.HeaderText = "Место рождения";
             this.ColumnExtraInfo.Name = "ColumnExtraInfo";
             this.ColumnExtraInfo.Width = 200;
             // 
@@ -239,7 +293,7 @@
             this.treeGroupBox.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.treeGroupBox.Location = new System.Drawing.Point(14, 30);
             this.treeGroupBox.Name = "treeGroupBox";
-            this.treeGroupBox.Size = new System.Drawing.Size(631, 369);
+            this.treeGroupBox.Size = new System.Drawing.Size(742, 369);
             this.treeGroupBox.TabIndex = 2;
             this.treeGroupBox.TabStop = false;
             this.treeGroupBox.Visible = false;
@@ -252,7 +306,7 @@
             this.treePanel.AutoScroll = true;
             this.treePanel.Location = new System.Drawing.Point(9, 28);
             this.treePanel.Name = "treePanel";
-            this.treePanel.Size = new System.Drawing.Size(616, 335);
+            this.treePanel.Size = new System.Drawing.Size(727, 335);
             this.treePanel.TabIndex = 0;
             this.treePanel.MouseEnter += new System.EventHandler(this.treePanel_MouseEnter);
             this.treePanel.MouseLeave += new System.EventHandler(this.treePanel_MouseLeave);
@@ -265,7 +319,7 @@
             this.удалитьToolStripMenuItem,
             this.рассторгнутьБракToolStripMenuItem});
             this.addConneсtionStrip.Name = "addConneсtionStrip";
-            this.addConneсtionStrip.Size = new System.Drawing.Size(177, 114);
+            this.addConneсtionStrip.Size = new System.Drawing.Size(177, 92);
             // 
             // добавитьСвязьToolStripMenuItem
             // 
@@ -432,6 +486,13 @@
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
+            // рассторгнутьБракToolStripMenuItem
+            // 
+            this.рассторгнутьБракToolStripMenuItem.Name = "рассторгнутьБракToolStripMenuItem";
+            this.рассторгнутьБракToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.рассторгнутьБракToolStripMenuItem.Text = "Рассторгнуть брак";
+            this.рассторгнутьБракToolStripMenuItem.Click += new System.EventHandler(this.рассторгнутьБракToolStripMenuItem_Click);
+            // 
             // treeSettingsPanel
             // 
             this.treeSettingsPanel.Controls.Add(this.buildButton);
@@ -586,6 +647,175 @@
             this.hourglassRadioButton.Text = "Песочные часы";
             this.hourglassRadioButton.UseVisualStyleBackColor = true;
             // 
+            // SearchParameters
+            // 
+            this.SearchParameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SearchParameters.Controls.Add(this.ClearParametersButton);
+            this.SearchParameters.Controls.Add(this.SearchButton);
+            this.SearchParameters.Controls.Add(this.AnyRadioButton);
+            this.SearchParameters.Controls.Add(this.WomanRadioButton);
+            this.SearchParameters.Controls.Add(this.ManRadioButton);
+            this.SearchParameters.Controls.Add(this.GenderParameterLabel);
+            this.SearchParameters.Controls.Add(this.BirthYearParameter);
+            this.SearchParameters.Controls.Add(this.BirthMonthParameter);
+            this.SearchParameters.Controls.Add(this.BirthDayParameter);
+            this.SearchParameters.Controls.Add(this.label1);
+            this.SearchParameters.Controls.Add(this.BirthPlaceParameter);
+            this.SearchParameters.Controls.Add(this.BirthPlaceParameterLabel);
+            this.SearchParameters.Controls.Add(this.FullNameParameter);
+            this.SearchParameters.Controls.Add(this.FullNameParameterLabel);
+            this.SearchParameters.Location = new System.Drawing.Point(550, 29);
+            this.SearchParameters.Name = "SearchParameters";
+            this.SearchParameters.Size = new System.Drawing.Size(200, 371);
+            this.SearchParameters.TabIndex = 1;
+            this.SearchParameters.TabStop = false;
+            this.SearchParameters.Text = "Параметры поиска";
+            // 
+            // ClearParametersButton
+            // 
+            this.ClearParametersButton.Location = new System.Drawing.Point(7, 249);
+            this.ClearParametersButton.Name = "ClearParametersButton";
+            this.ClearParametersButton.Size = new System.Drawing.Size(80, 23);
+            this.ClearParametersButton.TabIndex = 134;
+            this.ClearParametersButton.Text = "Сбросить";
+            this.ClearParametersButton.UseVisualStyleBackColor = true;
+            this.ClearParametersButton.Click += new System.EventHandler(this.ClearParametersButton_Click);
+            // 
+            // SearchButton
+            // 
+            this.SearchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SearchButton.Location = new System.Drawing.Point(61, 338);
+            this.SearchButton.Name = "SearchButton";
+            this.SearchButton.Size = new System.Drawing.Size(75, 23);
+            this.SearchButton.TabIndex = 133;
+            this.SearchButton.Text = "Поиск";
+            this.SearchButton.UseVisualStyleBackColor = true;
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
+            // 
+            // AnyRadioButton
+            // 
+            this.AnyRadioButton.AutoSize = true;
+            this.AnyRadioButton.Checked = true;
+            this.AnyRadioButton.Location = new System.Drawing.Point(7, 224);
+            this.AnyRadioButton.Name = "AnyRadioButton";
+            this.AnyRadioButton.Size = new System.Drawing.Size(64, 18);
+            this.AnyRadioButton.TabIndex = 132;
+            this.AnyRadioButton.TabStop = true;
+            this.AnyRadioButton.Text = "Любой";
+            this.AnyRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // WomanRadioButton
+            // 
+            this.WomanRadioButton.AutoSize = true;
+            this.WomanRadioButton.Location = new System.Drawing.Point(7, 199);
+            this.WomanRadioButton.Name = "WomanRadioButton";
+            this.WomanRadioButton.Size = new System.Drawing.Size(80, 18);
+            this.WomanRadioButton.TabIndex = 131;
+            this.WomanRadioButton.Text = "Женский";
+            this.WomanRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // ManRadioButton
+            // 
+            this.ManRadioButton.AutoSize = true;
+            this.ManRadioButton.Location = new System.Drawing.Point(7, 176);
+            this.ManRadioButton.Name = "ManRadioButton";
+            this.ManRadioButton.Size = new System.Drawing.Size(80, 18);
+            this.ManRadioButton.TabIndex = 130;
+            this.ManRadioButton.Text = "Мужской";
+            this.ManRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // GenderParameterLabel
+            // 
+            this.GenderParameterLabel.AutoSize = true;
+            this.GenderParameterLabel.Location = new System.Drawing.Point(7, 158);
+            this.GenderParameterLabel.Name = "GenderParameterLabel";
+            this.GenderParameterLabel.Size = new System.Drawing.Size(31, 14);
+            this.GenderParameterLabel.TabIndex = 129;
+            this.GenderParameterLabel.Text = "Пол";
+            // 
+            // BirthYearParameter
+            // 
+            this.BirthYearParameter.Location = new System.Drawing.Point(142, 131);
+            this.BirthYearParameter.MaxLength = 4;
+            this.BirthYearParameter.Name = "BirthYearParameter";
+            this.BirthYearParameter.Size = new System.Drawing.Size(52, 20);
+            this.BirthYearParameter.TabIndex = 128;
+            // 
+            // BirthMonthParameter
+            // 
+            this.BirthMonthParameter.FormattingEnabled = true;
+            this.BirthMonthParameter.Items.AddRange(new object[] {
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"});
+            this.BirthMonthParameter.Location = new System.Drawing.Point(37, 131);
+            this.BirthMonthParameter.MaxLength = 8;
+            this.BirthMonthParameter.Name = "BirthMonthParameter";
+            this.BirthMonthParameter.Size = new System.Drawing.Size(99, 22);
+            this.BirthMonthParameter.TabIndex = 127;
+            // 
+            // BirthDayParameter
+            // 
+            this.BirthDayParameter.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.BirthDayParameter.Location = new System.Drawing.Point(7, 131);
+            this.BirthDayParameter.MaxLength = 2;
+            this.BirthDayParameter.Name = "BirthDayParameter";
+            this.BirthDayParameter.Size = new System.Drawing.Size(24, 20);
+            this.BirthDayParameter.TabIndex = 126;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 114);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(98, 14);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Дата рождения";
+            // 
+            // BirthPlaceParameter
+            // 
+            this.BirthPlaceParameter.FormattingEnabled = true;
+            this.BirthPlaceParameter.Location = new System.Drawing.Point(7, 85);
+            this.BirthPlaceParameter.Name = "BirthPlaceParameter";
+            this.BirthPlaceParameter.Size = new System.Drawing.Size(187, 22);
+            this.BirthPlaceParameter.Sorted = true;
+            this.BirthPlaceParameter.TabIndex = 3;
+            // 
+            // BirthPlaceParameterLabel
+            // 
+            this.BirthPlaceParameterLabel.AutoSize = true;
+            this.BirthPlaceParameterLabel.Location = new System.Drawing.Point(7, 67);
+            this.BirthPlaceParameterLabel.Name = "BirthPlaceParameterLabel";
+            this.BirthPlaceParameterLabel.Size = new System.Drawing.Size(103, 14);
+            this.BirthPlaceParameterLabel.TabIndex = 2;
+            this.BirthPlaceParameterLabel.Text = "Место рождения";
+            // 
+            // FullNameParameter
+            // 
+            this.FullNameParameter.Location = new System.Drawing.Point(7, 40);
+            this.FullNameParameter.Name = "FullNameParameter";
+            this.FullNameParameter.Size = new System.Drawing.Size(187, 20);
+            this.FullNameParameter.TabIndex = 1;
+            // 
+            // FullNameParameterLabel
+            // 
+            this.FullNameParameterLabel.AutoSize = true;
+            this.FullNameParameterLabel.Location = new System.Drawing.Point(7, 22);
+            this.FullNameParameterLabel.Name = "FullNameParameterLabel";
+            this.FullNameParameterLabel.Size = new System.Drawing.Size(33, 14);
+            this.FullNameParameterLabel.TabIndex = 0;
+            this.FullNameParameterLabel.Text = "ФИО";
+            // 
             // dataGridViewImageColumn1
             // 
             this.dataGridViewImageColumn1.HeaderText = "";
@@ -595,22 +825,23 @@
             this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewImageColumn1.Width = 23;
             // 
-            // рассторгнутьБракToolStripMenuItem
+            // GenericStatisticToolStripMenuItem
             // 
-            this.рассторгнутьБракToolStripMenuItem.Name = "рассторгнутьБракToolStripMenuItem";
-            this.рассторгнутьБракToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
-            this.рассторгнутьБракToolStripMenuItem.Text = "Рассторгнуть брак";
-            this.рассторгнутьБракToolStripMenuItem.Click += new System.EventHandler(this.рассторгнутьБракToolStripMenuItem_Click);
+            this.GenericStatisticToolStripMenuItem.Name = "GenericStatisticToolStripMenuItem";
+            this.GenericStatisticToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.GenericStatisticToolStripMenuItem.Text = "Родовая статистика";
+            this.GenericStatisticToolStripMenuItem.Click += new System.EventHandler(this.GenericStatisticToolStripMenuItem_Click);
             // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(659, 412);
+            this.ClientSize = new System.Drawing.Size(770, 412);
+            this.Controls.Add(this.SearchParameters);
             this.Controls.Add(this.mainMenuStrip);
             this.Controls.Add(this.treeSettingsPanel);
-            this.Controls.Add(this.treeGroupBox);
             this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.treeGroupBox);
             this.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
@@ -631,6 +862,8 @@
             this.startPersonGroupBox.ResumeLayout(false);
             this.typeOfTreeGroupBox.ResumeLayout(false);
             this.typeOfTreeGroupBox.PerformLayout();
+            this.SearchParameters.ResumeLayout(false);
+            this.SearchParameters.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -683,15 +916,36 @@
         private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
         private System.Windows.Forms.Panel treePanel;
         private System.Windows.Forms.ToolStripMenuItem сохранитьДеревоВФайлToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
-        private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
         private System.Windows.Forms.ToolStripMenuItem добавитьФотографиюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem просмотрФотографийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem бывшегоПартнераToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem бывшегоПартнераToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem рассторгнутьБракToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtraInfo;
+        private System.Windows.Forms.DataGridViewImageColumn DeleteColumn;
+        private System.Windows.Forms.GroupBox SearchParameters;
+        private System.Windows.Forms.TextBox FullNameParameter;
+        private System.Windows.Forms.Label FullNameParameterLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox BirthPlaceParameter;
+        private System.Windows.Forms.Label BirthPlaceParameterLabel;
+        private System.Windows.Forms.TextBox BirthYearParameter;
+        private System.Windows.Forms.ComboBox BirthMonthParameter;
+        private System.Windows.Forms.TextBox BirthDayParameter;
+        private System.Windows.Forms.RadioButton AnyRadioButton;
+        private System.Windows.Forms.RadioButton WomanRadioButton;
+        private System.Windows.Forms.RadioButton ManRadioButton;
+        private System.Windows.Forms.Label GenderParameterLabel;
+        private System.Windows.Forms.Button SearchButton;
+        private System.Windows.Forms.Button ClearParametersButton;
+        private System.Windows.Forms.ToolStripMenuItem статистикаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem GenericStatistic;
+        private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem общаяИнформацияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem GenericStatisticToolStripMenuItem;
 
     }
 }

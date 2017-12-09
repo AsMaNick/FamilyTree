@@ -416,11 +416,11 @@ namespace Family_Tree
             this.allPhotos[id].delete();
         }
 
-        private List<int> distinct(List<int> a)
+        private List<T> distinct<T>(List<T> a)
         {
-            List<int> res = new List<int>();
-            IEnumerable<int> b = a.Distinct();
-            foreach (int x in b)
+            List<T> res = new List<T>();
+            IEnumerable<T> b = a.Distinct();
+            foreach (T x in b)
             {
                 res.Add(x);
             }

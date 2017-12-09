@@ -28,6 +28,7 @@ namespace Family_Tree
             InitializeComponent();
             parent = mainPage;
             id = Id;
+            SortComboBox.SelectedIndex = 0;
             if (id == -2)
             {
                 mainInfoToolStripMenuItem.Visible = false;
@@ -38,9 +39,10 @@ namespace Family_Tree
                     p.allPhotosIds.Add(i);
                 }
                 photoPanel.BringToFront();
-                photoPanel.Visible = true;
                 placeAllPhotos(p, parent.data.allPhotos);
                 photoPanel.Focus();
+                photoPanel.Visible = true;
+                UpdateSize(true);
                 return;
             } 
             else if (id != -1)
@@ -55,6 +57,7 @@ namespace Family_Tree
                 fillDeadMenu(false);
             }
             manRadioButton.TabStop = false;
+            UpdateSize();
         }
 
         private void updateDate(int y, int m, int d, TextBox Year, ComboBox Month, TextBox Day)
@@ -146,67 +149,6 @@ namespace Family_Tree
             fillDeadMenu(!p.alive);
         }
 
-        private int getMonth(string month)
-        {
-            if (month == "")
-            {
-                return 0;
-            }
-            for (int i = 0; i < BirthMonth.Items.Count; ++i)
-            {
-                if (BirthMonth.Items[i].ToString() == month)
-                {
-                    return i + 1;
-                }
-            }
-            return -1;
-        }
-
-        private bool MyTryParse(string s, out int x) 
-        {
-            if (s == "")
-            {
-                x = 0;
-                return true;
-            }
-            return int.TryParse(s, out x);
-        }
-
-        private bool dateExists(int y, int m, int d)
-        {
-            if (d == 0)
-            {
-                return true;
-            }
-            if (m == 0)
-            {
-                return 1 <= d && d <= 31;
-            }
-            --m;
-            int[] days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-            if (Date.leapYear(y))
-            {
-                ++days[1];
-            }
-            return d >= 1 && d <= days[m];
-        }
-
-        private Date getDate(TextBox Year, ComboBox Month, TextBox Day)
-        {
-            int d, m, y;
-            bool okDay = MyTryParse(Day.Text, out d);
-            m = getMonth(Month.Text);
-            bool okYear = MyTryParse(Year.Text, out y);
-            if (okDay && m != -1 && okYear)
-            {
-                if (y >= 0 && y < 3000 && dateExists(y, m, d))
-                {
-                    return new Date(y, m, d);
-                }
-            }
-            throw new System.ArgumentException("Wrong field");
-        }
-
         private void addButton_Click(object sender, EventArgs e)
         {
             string fileAvatar = "";
@@ -222,7 +164,7 @@ namespace Family_Tree
             Date BirthDate, DeathDate;
             try
             {
-                BirthDate = getDate(BirthYear, BirthMonth, BirthDay);
+                BirthDate = Utilites.GetDate(BirthYear, BirthMonth, BirthDay);
             }
             catch (ArgumentException exc)
             {
@@ -232,7 +174,7 @@ namespace Family_Tree
             }
             try
             {
-                DeathDate = getDate(DeathYear, DeathMonth, DeathDay);
+                DeathDate = Utilites.GetDate(DeathYear, DeathMonth, DeathDay);
             }
             catch (ArgumentException exc)
             {
@@ -425,6 +367,7 @@ namespace Family_Tree
         private void основнаяИнформацияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             photoPanel.Visible = false;
+            UpdateSize();
         }
 
         private void Dispose()
@@ -436,16 +379,121 @@ namespace Family_Tree
             }
         }
 
+        private void FillLabeledPerson(ComboBox c)
+        {
+            c.Items.Clear();
+            for (int i = 0; i < parent.data.allPeople.Count; ++i)
+            {
+                c.Items.Add(parent.data.allPeople[i].FullNameYears);
+            }
+        }
+
+        private void FillLabeledPeople()
+        {
+            FillLabeledPerson(LabeledPersonComboBox1);
+            FillLabeledPerson(LabeledPersonComboBox2);
+            FillLabeledPerson(LabeledPersonComboBox3);
+            FillLabeledPerson(LabeledPersonComboBox4);
+            FillLabeledPerson(LabeledPersonComboBox5);
+        }
+
+        private Date fromDate, toDate;
+
+        private bool isLabeled(Photo p, string fullNameYears)
+        {
+            if (fullNameYears == "")
+            {
+                return true;
+            }
+            foreach (int personId in p.peopleIds)
+            {
+                if (Utilites.Contains(parent.data.allPeople[personId].FullNameYears, fullNameYears))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool isSatisfied(Photo p)
+        {
+            if (!(fromDate <= Date.dateMinimize(p.dateOfCreation) && Date.dateMaximize(p.dateOfCreation) <= toDate)) {
+                return false;
+            }
+            if (!Utilites.Contains(p.placeOfCreation, PlaceOfPhotoTextBox.Text))
+            {
+                return false;
+            }
+            if (!isLabeled(p, LabeledPersonComboBox1.Text) ||
+                !isLabeled(p, LabeledPersonComboBox2.Text) ||
+                !isLabeled(p, LabeledPersonComboBox3.Text) ||
+                !isLabeled(p, LabeledPersonComboBox4.Text) ||
+                !isLabeled(p, LabeledPersonComboBox5.Text))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool checkDataInterval()
+        {
+            try
+            {
+                fromDate = Utilites.GetDate(CreationDayL, CreationMonthL, CreationYearL);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Нижняя граница даты введна неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            try
+            {
+                toDate = Utilites.GetDate(CreationDayR, CreationMonthR, CreationYearR);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Верхняя граница даты введна неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            fromDate = Date.dateMinimize(fromDate);
+            toDate = Date.dateMaximize(toDate);
+            if (fromDate <= toDate)
+            {
+                return true;
+            }
+            MessageBox.Show("Нижняя граница даты не может быть больше верхней", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
+        }
+
         private void placeAllPhotos(Person p, List<Photo> allPhotos)
         {
+            if (!checkDataInterval())
+            {
+                return;
+            }
+            FillLabeledPeople();
             Cursor = Cursors.WaitCursor;
             List<int> allIds = new List<int> ();
-            for (int i = 0; i < p.allPhotosIds.Count; ++i)
+            foreach (int photoId in p.allPhotosIds)
             {
-                if (!allPhotos[p.allPhotosIds[i]].deleted)
+                if (!allPhotos[photoId].deleted)
                 {
-                    allIds.Add(p.allPhotosIds[i]);
+                    if (isSatisfied(allPhotos[photoId]))
+                    {
+                        allIds.Add(photoId);
+                    }
                 }
+            }
+            // Sorting by specified comparator
+            if (SortComboBox.SelectedIndex == 1) // by date
+            {
+                PhotoComparerByDate cmp = new PhotoComparerByDate(parent.data);
+                allIds.Sort(cmp);
+            }
+            else if (SortComboBox.SelectedIndex == 2) // by people count
+            {
+                PhotoComparerByPeopleCount cmp = new PhotoComparerByPeopleCount(parent.data);
+                allIds.Sort(cmp);
             }
             int h = distanceBetweenPhotos;
             List<PictureBox> allPb = new List<PictureBox>();
@@ -629,6 +677,23 @@ namespace Family_Tree
             }
         }
 
+        private void placePhotos() 
+        {
+            if (id == -2)
+            {
+                Person p = new Person();
+                for (int i = 0; i < parent.data.allPhotos.Count; ++i)
+                {
+                    p.allPhotosIds.Add(i);
+                }
+                placeAllPhotos(p, parent.data.allPhotos);
+            }
+            else
+            {
+                placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+            }
+        }
+
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PictureBox pb = choosenPhoto;
@@ -637,19 +702,7 @@ namespace Family_Tree
             if (res == DialogResult.Yes)
             {
                 parent.data.deletePhoto(delId);
-                if (id == -2)
-                {
-                    Person p = new Person();
-                    for (int i = 0; i < parent.data.allPhotos.Count; ++i)
-                    {
-                        p.allPhotosIds.Add(i);
-                    }
-                    placeAllPhotos(p, parent.data.allPhotos);
-                }
-                else
-                {
-                    placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
-                }
+                placePhotos();
             }
         }
 
@@ -714,6 +767,7 @@ namespace Family_Tree
             }
             photoPanel.BringToFront();
             photoPanel.Visible = true;
+            UpdateSize();
             photoPanel.Focus();
             if (photoClick)
             {
@@ -721,6 +775,7 @@ namespace Family_Tree
             }
             photoClick = true;
             placeAllPhotos(parent.data.allPeople[id], parent.data.allPhotos);
+            UpdateSize();
         }
 
         private void показатьВПапкеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -745,6 +800,45 @@ namespace Family_Tree
         {
             Dispose();
             AbortThread();
+        }
+
+        private void UpdateSize(bool PhotoPanel = false)
+        {
+            if (photoPanel.Visible || PhotoPanel)
+            {
+                Size = new Size(716, 575);
+            }
+            else
+            {
+                Size = new Size(510, 575);
+            }
+        }
+
+        private void ApplyPhotoFilter_Click(object sender, EventArgs e)
+        {
+            placePhotos();
+        }
+
+        private void ClearPhotoFilter()
+        {
+            SortComboBox.SelectedIndex = 0;
+            CreationDayL.Text = "";
+            CreationMonthL.Text = "";
+            CreationYearL.Text = "";
+            CreationDayR.Text = "";
+            CreationMonthR.Text = "";
+            CreationYearR.Text = "";
+            PlaceOfPhotoTextBox.Text = "";
+            LabeledPersonComboBox1.Text = "";
+            LabeledPersonComboBox2.Text = "";
+            LabeledPersonComboBox3.Text = "";
+            LabeledPersonComboBox4.Text = "";
+            LabeledPersonComboBox5.Text = "";
+        }
+
+        private void ClearFilter_Click(object sender, EventArgs e)
+        {
+            ClearPhotoFilter();
         }
     }
 }

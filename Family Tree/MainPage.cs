@@ -45,6 +45,7 @@ namespace Family_Tree
             data = new DataBase();
             turnOffPanels();
             dataGridView.Visible = true;
+            UpdateBirthPlaceParameter();
             DrawGridView();
             enableSavingTree(false);
 
@@ -91,6 +92,7 @@ namespace Family_Tree
             treePanel.Visible = false;
             treeSettingsPanel.Visible = false;
             enableSavingTree(false);
+            SearchParameters.Visible = false;
             treePanel.Controls.Clear();
         }
 
@@ -99,6 +101,7 @@ namespace Family_Tree
         {
             if (dataGridView.Visible)
             {
+                UpdateBirthPlaceParameter();
                 DrawGridView();
             }
             else if (treePanel.Visible)
@@ -146,20 +149,108 @@ namespace Family_Tree
             return s;
         }
 
+        private List<string> GetAllBirthPlaces()
+        {
+            List<string> places = new List<string>();
+            for (int i = 0; i < data.allPeople.Count; ++i)
+            {
+                places.Add(data.allPeople[i].birthPlace);
+            }
+            return Utilites.distinct(places);
+        }
+
+        private void UpdateBirthPlaceParameter()
+        {
+            BirthPlaceParameter.Items.Clear();
+            foreach (string place in GetAllBirthPlaces())
+            {
+                if (place != "")
+                {
+                    BirthPlaceParameter.Items.Add(place);
+                }
+            }
+        }
+
+        private void ClearSearchParameters()
+        {
+            UpdateBirthPlaceParameter();
+            FullNameParameter.Text = "";
+            BirthPlaceParameter.Text = "";
+            BirthDayParameter.Text = "";
+            BirthMonthParameter.Text = "";
+            BirthYearParameter.Text = "";
+            AnyRadioButton.Checked = true;
+        }
+
+        private int GenderParameter()
+        {
+            if (WomanRadioButton.Checked)
+            {
+                return 0;
+            }
+            if (ManRadioButton.Checked)
+            {
+                return 1;
+            }
+            return 2; // any
+        }
+
+        private bool isSatisfied(Person p)
+        {
+            if (!Utilites.Contains(p.FullName, FullNameParameter.Text))
+            {
+                return false;
+            }
+            if (!Utilites.Contains(p.birthPlace, BirthPlaceParameter.Text))
+            {
+                return false;
+            }
+            try
+            {
+                Date d = Utilites.GetDate(BirthDayParameter, BirthMonthParameter, BirthYearParameter);
+                if (!Date.equalIgnoringD2(p.birthDate, d)) {
+                    return false;
+                }    
+            } catch (Exception e) 
+            {
+                return false;
+            }
+            int gender = GenderParameter();
+            if (gender != 2 && gender != Convert.ToInt32(p.man))
+            {
+                return false;
+            }
+            return true;
+        }
+
         //Метод, перерисовывающий список всех персон из базы
         private void DrawGridView()
         {
+            SearchParameters.Visible = true;
             updateSizeGridView();
             treePanel.Controls.Clear();
+            dataGridView.Visible = false;
             dataGridView.Rows.Clear();
+            Cursor = Cursors.WaitCursor;
             for (int i = 0; i < data.allPeople.Count; ++i)
             {
+                if (!isSatisfied(data.allPeople[i]))
+                {
+                    continue;
+                }
+                int num = dataGridView.Rows.Count;
                 dataGridView.Rows.Add(new DataGridViewRow());
-                dataGridView.Rows[i].Cells[0].Value = Number(i + 1, 4);
-                dataGridView.Rows[i].Cells[1].Value = data.allPeople[i].FullNameYears;
-                dataGridView.Rows[i].Cells[2].Value = data.allPeople[i].birthPlace;
-                dataGridView.Rows[i].Cells[0].Tag = new ID(i);
-                dataGridView.Rows[i].ReadOnly = true;
+                dataGridView.Rows[num].Cells[0].Value = Number(i + 1, 4);
+                dataGridView.Rows[num].Cells[1].Value = data.allPeople[i].FullNameYears;
+                dataGridView.Rows[num].Cells[2].Value = data.allPeople[i].birthPlace;
+                dataGridView.Rows[num].Cells[0].Tag = new ID(i);
+                dataGridView.Rows[num].ReadOnly = true;
+            }
+            dataGridView.Visible = true;
+            Cursor = Cursors.Default;
+            if (data.allPeople.Count > 0 && dataGridView.Rows.Count == 0)
+            {
+                MessageBox.Show("К сожалению, ни одной персоны, удовлетворяющей заданным критериям поиска, найдено не было", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -1544,6 +1635,34 @@ namespace Family_Tree
                 buildTree();
                 treePanel.AutoScrollPosition = new Point(-pos.X, -pos.Y);
             }
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            DrawGridView();
+        }
+
+        private void ClearParametersButton_Click(object sender, EventArgs e)
+        {
+            ClearSearchParameters();
+        }
+
+        private void ageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AgeStatistic a = new AgeStatistic(data);
+            a.ShowDialog();
+        }
+
+        private void общаяИнформацияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TotalReport r = new TotalReport(data);
+            r.ShowDialog();
+        }
+
+        private void GenericStatisticToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GenericStatistic g = new GenericStatistic(data);
+            g.ShowDialog();
         }
     }
 

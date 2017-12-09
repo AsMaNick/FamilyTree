@@ -166,15 +166,7 @@ namespace Family_Tree
             DateTime d = new DateTime(year, month, day);
             return d;
         }
-        private Date readDate(ref StreamReader input)
-        {
-            string[] s = input.ReadLine().Split(' ');
-            int day = Int32.Parse(s[0]);
-            int month = Int32.Parse(s[1]);
-            int year = Int32.Parse(s[2]);
-            Date d = new Date(year, month, day);
-            return d;
-        }
+        
         public void writeToFile(ref StreamWriter output) 
         {
             output.WriteLine(divorced);
@@ -231,10 +223,10 @@ namespace Family_Tree
             contacts = input.ReadLine();
             birthPlace = input.ReadLine();
             burialPlace = input.ReadLine();
-            birthDate = readDate(ref input);
+            birthDate = Utilites.readDate(ref input);
             if (!alive)
             {
-                deathDate = readDate(ref input);
+                deathDate = Utilites.readDate(ref input);
             }
             else
             {
@@ -282,5 +274,22 @@ namespace Family_Tree
             return p2 < p1;
         }
 
+        public int Age()
+        {
+            if (alive)
+            {
+                if (birthDate.Year == 0)
+                {
+                    return -1;
+                }
+                DateTime now = DateTime.Today;
+                return (now - Utilites.GetDateTime(birthDate)).Days / 365;
+            }
+            if (birthDate.Year == 0 || deathDate.Year == 0)
+            {
+                return -1;
+            }
+            return (Utilites.GetDateTime(deathDate) - Utilites.GetDateTime(birthDate)).Days / 365;
+        }
     }
 }

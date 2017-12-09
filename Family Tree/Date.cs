@@ -66,6 +66,13 @@ namespace Family_Tree
             return result;
         }
 
+        public static bool equalIgnoringD2(Date d1, Date d2)
+        {
+            return (d1.Year == d2.Year || d2.Year == 0) &&
+                   (d1.Month == d2.Month || d2.Month == 0) &&
+                   (d1.Day == d2.Day || d2.Day == 0);
+        }
+
         public static bool equal(Date d1, Date d2)
         {
             return d1.Year == d2.Year && d1.Month == d2.Month && d1.Day == d2.Day;
@@ -79,5 +86,16 @@ namespace Family_Tree
         public static bool operator > (Date d1, Date d2) {
             return d2 < d1;
         }
+
+        public static bool operator <= (Date d1, Date d2)
+        {
+            return d1 < d2 || equal(d1, d2);
+        }
+
+        public static bool operator >= (Date d1, Date d2)
+        {
+            return d2 <= d1;
+        }
+
     }
 }

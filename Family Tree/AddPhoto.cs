@@ -85,6 +85,8 @@ namespace Family_Tree
                 additionalInfo.Text += p.additionalInfo[i] + "\n";
                 //additionalInfo.Lines[i] = p.additionalInfo[i];
             }
+            Utilites.FillDate(CreationDay, CreationMonth, CreationYear, p.dateOfCreation);
+            PlaceOfCreationTextBox.Text = p.placeOfCreation;
             scale = Math.Min(9.99, 500.0 / original.Height);
             newPhoto = false;
             InitializeForm();
@@ -388,6 +390,16 @@ namespace Family_Tree
                     return;
                 }
             }
+            try
+            {
+                result.dateOfCreation = Utilites.GetDate(CreationDay, CreationMonth, CreationYear);
+            }
+            catch (Exception exc)
+            {
+                DialogResult res = MessageBox.Show("Поле \"Дата съемки\" было заполнено неверно", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            result.placeOfCreation = PlaceOfCreationTextBox.Text;
             result.additionalInfo = new List<string>();
             for (int i = 0; i < this.additionalInfo.Lines.Length; ++i)
             {

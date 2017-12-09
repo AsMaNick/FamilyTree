@@ -74,6 +74,32 @@
             this.deletePhotoMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.показатьВПапкеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SearcPhotoGroupBox = new System.Windows.Forms.GroupBox();
+            this.ApplyPhotoFilter = new System.Windows.Forms.Button();
+            this.LabeledPersonComboBox5 = new System.Windows.Forms.ComboBox();
+            this.LabeledPersonLabel5 = new System.Windows.Forms.Label();
+            this.LabeledPersonComboBox4 = new System.Windows.Forms.ComboBox();
+            this.LabeledPersonLabel4 = new System.Windows.Forms.Label();
+            this.LabeledPersonComboBox3 = new System.Windows.Forms.ComboBox();
+            this.LabeledPersonLabel3 = new System.Windows.Forms.Label();
+            this.LabeledPersonComboBox2 = new System.Windows.Forms.ComboBox();
+            this.LabeledPersonLabel2 = new System.Windows.Forms.Label();
+            this.LabeledPersonComboBox1 = new System.Windows.Forms.ComboBox();
+            this.LabeledPersonLabel1 = new System.Windows.Forms.Label();
+            this.PlaceOfPhotoTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.CreationYearR = new System.Windows.Forms.TextBox();
+            this.CreationMonthR = new System.Windows.Forms.ComboBox();
+            this.CreationDayR = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.CreationYearL = new System.Windows.Forms.TextBox();
+            this.CreationMonthL = new System.Windows.Forms.ComboBox();
+            this.CreationDayL = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.SortLabel = new System.Windows.Forms.Label();
+            this.SortComboBox = new System.Windows.Forms.ComboBox();
+            this.ClearFilter = new System.Windows.Forms.Button();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
@@ -81,6 +107,7 @@
             this.additionalInfoGroupBox.SuspendLayout();
             this.addPersonMenuStrip.SuspendLayout();
             this.deletePhotoMenuStrip.SuspendLayout();
+            this.SearcPhotoGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // surnameLabel
@@ -475,7 +502,7 @@
             this.documentsToolStripMenuItem});
             this.addPersonMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.addPersonMenuStrip.Name = "addPersonMenuStrip";
-            this.addPersonMenuStrip.Size = new System.Drawing.Size(497, 24);
+            this.addPersonMenuStrip.Size = new System.Drawing.Size(700, 24);
             this.addPersonMenuStrip.TabIndex = 5;
             this.addPersonMenuStrip.Text = "menuStrip1";
             // 
@@ -547,11 +574,314 @@
             this.показатьВПапкеToolStripMenuItem.Text = "Показать в папке";
             this.показатьВПапкеToolStripMenuItem.Click += new System.EventHandler(this.показатьВПапкеToolStripMenuItem_Click);
             // 
+            // SearcPhotoGroupBox
+            // 
+            this.SearcPhotoGroupBox.Controls.Add(this.ClearFilter);
+            this.SearcPhotoGroupBox.Controls.Add(this.ApplyPhotoFilter);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonComboBox5);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonLabel5);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonComboBox4);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonLabel4);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonComboBox3);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonLabel3);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonComboBox2);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonLabel2);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonComboBox1);
+            this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonLabel1);
+            this.SearcPhotoGroupBox.Controls.Add(this.PlaceOfPhotoTextBox);
+            this.SearcPhotoGroupBox.Controls.Add(this.label4);
+            this.SearcPhotoGroupBox.Controls.Add(this.CreationYearR);
+            this.SearcPhotoGroupBox.Controls.Add(this.CreationMonthR);
+            this.SearcPhotoGroupBox.Controls.Add(this.CreationDayR);
+            this.SearcPhotoGroupBox.Controls.Add(this.label3);
+            this.SearcPhotoGroupBox.Controls.Add(this.label2);
+            this.SearcPhotoGroupBox.Controls.Add(this.CreationYearL);
+            this.SearcPhotoGroupBox.Controls.Add(this.CreationMonthL);
+            this.SearcPhotoGroupBox.Controls.Add(this.CreationDayL);
+            this.SearcPhotoGroupBox.Controls.Add(this.label1);
+            this.SearcPhotoGroupBox.Controls.Add(this.SortLabel);
+            this.SearcPhotoGroupBox.Controls.Add(this.SortComboBox);
+            this.SearcPhotoGroupBox.Location = new System.Drawing.Point(493, 28);
+            this.SearcPhotoGroupBox.Name = "SearcPhotoGroupBox";
+            this.SearcPhotoGroupBox.Size = new System.Drawing.Size(200, 504);
+            this.SearcPhotoGroupBox.TabIndex = 7;
+            this.SearcPhotoGroupBox.TabStop = false;
+            this.SearcPhotoGroupBox.Text = "Параметры поиска";
+            // 
+            // ApplyPhotoFilter
+            // 
+            this.ApplyPhotoFilter.Location = new System.Drawing.Point(56, 474);
+            this.ApplyPhotoFilter.Name = "ApplyPhotoFilter";
+            this.ApplyPhotoFilter.Size = new System.Drawing.Size(88, 23);
+            this.ApplyPhotoFilter.TabIndex = 149;
+            this.ApplyPhotoFilter.Text = "Применить";
+            this.ApplyPhotoFilter.UseVisualStyleBackColor = true;
+            this.ApplyPhotoFilter.Click += new System.EventHandler(this.ApplyPhotoFilter_Click);
+            // 
+            // LabeledPersonComboBox5
+            // 
+            this.LabeledPersonComboBox5.DropDownHeight = 150;
+            this.LabeledPersonComboBox5.FormattingEnabled = true;
+            this.LabeledPersonComboBox5.IntegralHeight = false;
+            this.LabeledPersonComboBox5.Location = new System.Drawing.Point(8, 383);
+            this.LabeledPersonComboBox5.Name = "LabeledPersonComboBox5";
+            this.LabeledPersonComboBox5.Size = new System.Drawing.Size(184, 22);
+            this.LabeledPersonComboBox5.Sorted = true;
+            this.LabeledPersonComboBox5.TabIndex = 148;
+            // 
+            // LabeledPersonLabel5
+            // 
+            this.LabeledPersonLabel5.AutoSize = true;
+            this.LabeledPersonLabel5.Location = new System.Drawing.Point(11, 365);
+            this.LabeledPersonLabel5.Name = "LabeledPersonLabel5";
+            this.LabeledPersonLabel5.Size = new System.Drawing.Size(144, 14);
+            this.LabeledPersonLabel5.TabIndex = 147;
+            this.LabeledPersonLabel5.Text = "Отмеченная персона 5";
+            // 
+            // LabeledPersonComboBox4
+            // 
+            this.LabeledPersonComboBox4.DropDownHeight = 150;
+            this.LabeledPersonComboBox4.FormattingEnabled = true;
+            this.LabeledPersonComboBox4.IntegralHeight = false;
+            this.LabeledPersonComboBox4.Location = new System.Drawing.Point(8, 336);
+            this.LabeledPersonComboBox4.Name = "LabeledPersonComboBox4";
+            this.LabeledPersonComboBox4.Size = new System.Drawing.Size(184, 22);
+            this.LabeledPersonComboBox4.Sorted = true;
+            this.LabeledPersonComboBox4.TabIndex = 146;
+            // 
+            // LabeledPersonLabel4
+            // 
+            this.LabeledPersonLabel4.AutoSize = true;
+            this.LabeledPersonLabel4.Location = new System.Drawing.Point(11, 318);
+            this.LabeledPersonLabel4.Name = "LabeledPersonLabel4";
+            this.LabeledPersonLabel4.Size = new System.Drawing.Size(144, 14);
+            this.LabeledPersonLabel4.TabIndex = 145;
+            this.LabeledPersonLabel4.Text = "Отмеченная персона 4";
+            // 
+            // LabeledPersonComboBox3
+            // 
+            this.LabeledPersonComboBox3.DropDownHeight = 150;
+            this.LabeledPersonComboBox3.FormattingEnabled = true;
+            this.LabeledPersonComboBox3.IntegralHeight = false;
+            this.LabeledPersonComboBox3.Location = new System.Drawing.Point(8, 293);
+            this.LabeledPersonComboBox3.Name = "LabeledPersonComboBox3";
+            this.LabeledPersonComboBox3.Size = new System.Drawing.Size(184, 22);
+            this.LabeledPersonComboBox3.Sorted = true;
+            this.LabeledPersonComboBox3.TabIndex = 144;
+            // 
+            // LabeledPersonLabel3
+            // 
+            this.LabeledPersonLabel3.AutoSize = true;
+            this.LabeledPersonLabel3.Location = new System.Drawing.Point(11, 275);
+            this.LabeledPersonLabel3.Name = "LabeledPersonLabel3";
+            this.LabeledPersonLabel3.Size = new System.Drawing.Size(144, 14);
+            this.LabeledPersonLabel3.TabIndex = 143;
+            this.LabeledPersonLabel3.Text = "Отмеченная персона 3";
+            // 
+            // LabeledPersonComboBox2
+            // 
+            this.LabeledPersonComboBox2.DropDownHeight = 150;
+            this.LabeledPersonComboBox2.FormattingEnabled = true;
+            this.LabeledPersonComboBox2.IntegralHeight = false;
+            this.LabeledPersonComboBox2.Location = new System.Drawing.Point(8, 250);
+            this.LabeledPersonComboBox2.Name = "LabeledPersonComboBox2";
+            this.LabeledPersonComboBox2.Size = new System.Drawing.Size(184, 22);
+            this.LabeledPersonComboBox2.Sorted = true;
+            this.LabeledPersonComboBox2.TabIndex = 142;
+            // 
+            // LabeledPersonLabel2
+            // 
+            this.LabeledPersonLabel2.AutoSize = true;
+            this.LabeledPersonLabel2.Location = new System.Drawing.Point(11, 232);
+            this.LabeledPersonLabel2.Name = "LabeledPersonLabel2";
+            this.LabeledPersonLabel2.Size = new System.Drawing.Size(144, 14);
+            this.LabeledPersonLabel2.TabIndex = 141;
+            this.LabeledPersonLabel2.Text = "Отмеченная персона 2";
+            // 
+            // LabeledPersonComboBox1
+            // 
+            this.LabeledPersonComboBox1.DropDownHeight = 150;
+            this.LabeledPersonComboBox1.DropDownWidth = 184;
+            this.LabeledPersonComboBox1.FormattingEnabled = true;
+            this.LabeledPersonComboBox1.IntegralHeight = false;
+            this.LabeledPersonComboBox1.Location = new System.Drawing.Point(7, 209);
+            this.LabeledPersonComboBox1.Name = "LabeledPersonComboBox1";
+            this.LabeledPersonComboBox1.Size = new System.Drawing.Size(184, 22);
+            this.LabeledPersonComboBox1.Sorted = true;
+            this.LabeledPersonComboBox1.TabIndex = 140;
+            // 
+            // LabeledPersonLabel1
+            // 
+            this.LabeledPersonLabel1.AutoSize = true;
+            this.LabeledPersonLabel1.Location = new System.Drawing.Point(10, 191);
+            this.LabeledPersonLabel1.Name = "LabeledPersonLabel1";
+            this.LabeledPersonLabel1.Size = new System.Drawing.Size(143, 14);
+            this.LabeledPersonLabel1.TabIndex = 139;
+            this.LabeledPersonLabel1.Text = "Отмеченная персона 1";
+            // 
+            // PlaceOfPhotoTextBox
+            // 
+            this.PlaceOfPhotoTextBox.Location = new System.Drawing.Point(6, 164);
+            this.PlaceOfPhotoTextBox.Name = "PlaceOfPhotoTextBox";
+            this.PlaceOfPhotoTextBox.Size = new System.Drawing.Size(185, 20);
+            this.PlaceOfPhotoTextBox.TabIndex = 138;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 146);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 14);
+            this.label4.TabIndex = 137;
+            this.label4.Text = "Место съемки";
+            // 
+            // CreationYearR
+            // 
+            this.CreationYearR.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationYearR.Location = new System.Drawing.Point(152, 120);
+            this.CreationYearR.MaxLength = 4;
+            this.CreationYearR.Name = "CreationYearR";
+            this.CreationYearR.Size = new System.Drawing.Size(39, 22);
+            this.CreationYearR.TabIndex = 136;
+            // 
+            // CreationMonthR
+            // 
+            this.CreationMonthR.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationMonthR.FormattingEnabled = true;
+            this.CreationMonthR.Items.AddRange(new object[] {
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"});
+            this.CreationMonthR.Location = new System.Drawing.Point(65, 120);
+            this.CreationMonthR.MaxLength = 8;
+            this.CreationMonthR.Name = "CreationMonthR";
+            this.CreationMonthR.Size = new System.Drawing.Size(87, 23);
+            this.CreationMonthR.TabIndex = 135;
+            // 
+            // CreationDayR
+            // 
+            this.CreationDayR.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationDayR.Location = new System.Drawing.Point(38, 120);
+            this.CreationDayR.MaxLength = 2;
+            this.CreationDayR.Name = "CreationDayR";
+            this.CreationDayR.Size = new System.Drawing.Size(24, 22);
+            this.CreationDayR.TabIndex = 134;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 124);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(22, 14);
+            this.label3.TabIndex = 133;
+            this.label3.Text = "До";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 94);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(22, 14);
+            this.label2.TabIndex = 132;
+            this.label2.Text = "От";
+            // 
+            // CreationYearL
+            // 
+            this.CreationYearL.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationYearL.Location = new System.Drawing.Point(152, 90);
+            this.CreationYearL.MaxLength = 4;
+            this.CreationYearL.Name = "CreationYearL";
+            this.CreationYearL.Size = new System.Drawing.Size(39, 22);
+            this.CreationYearL.TabIndex = 131;
+            // 
+            // CreationMonthL
+            // 
+            this.CreationMonthL.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationMonthL.FormattingEnabled = true;
+            this.CreationMonthL.Items.AddRange(new object[] {
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"});
+            this.CreationMonthL.Location = new System.Drawing.Point(65, 90);
+            this.CreationMonthL.MaxLength = 8;
+            this.CreationMonthL.Name = "CreationMonthL";
+            this.CreationMonthL.Size = new System.Drawing.Size(87, 23);
+            this.CreationMonthL.TabIndex = 130;
+            // 
+            // CreationDayL
+            // 
+            this.CreationDayL.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationDayL.Location = new System.Drawing.Point(38, 90);
+            this.CreationDayL.MaxLength = 2;
+            this.CreationDayL.Name = "CreationDayL";
+            this.CreationDayL.Size = new System.Drawing.Size(24, 22);
+            this.CreationDayL.TabIndex = 129;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 71);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(137, 14);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Диапазон дат съемки";
+            // 
+            // SortLabel
+            // 
+            this.SortLabel.AutoSize = true;
+            this.SortLabel.Location = new System.Drawing.Point(7, 20);
+            this.SortLabel.Name = "SortLabel";
+            this.SortLabel.Size = new System.Drawing.Size(76, 14);
+            this.SortLabel.TabIndex = 1;
+            this.SortLabel.Text = "Сортировка";
+            // 
+            // SortComboBox
+            // 
+            this.SortComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SortComboBox.FormattingEnabled = true;
+            this.SortComboBox.Items.AddRange(new object[] {
+            "Отсутствует",
+            "По дате съемки",
+            "По количеству персон"});
+            this.SortComboBox.Location = new System.Drawing.Point(6, 39);
+            this.SortComboBox.Name = "SortComboBox";
+            this.SortComboBox.Size = new System.Drawing.Size(185, 22);
+            this.SortComboBox.TabIndex = 0;
+            // 
+            // ClearFilter
+            // 
+            this.ClearFilter.Location = new System.Drawing.Point(7, 412);
+            this.ClearFilter.Name = "ClearFilter";
+            this.ClearFilter.Size = new System.Drawing.Size(75, 22);
+            this.ClearFilter.TabIndex = 150;
+            this.ClearFilter.Text = "Сбросить";
+            this.ClearFilter.UseVisualStyleBackColor = true;
+            this.ClearFilter.Click += new System.EventHandler(this.ClearFilter_Click);
+            // 
             // AddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 537);
+            this.ClientSize = new System.Drawing.Size(700, 537);
+            this.Controls.Add(this.SearcPhotoGroupBox);
             this.Controls.Add(this.additionalInfoGroupBox);
             this.Controls.Add(this.avaterGroupBox);
             this.Controls.Add(this.aliveInfo);
@@ -578,6 +908,8 @@
             this.addPersonMenuStrip.ResumeLayout(false);
             this.addPersonMenuStrip.PerformLayout();
             this.deletePhotoMenuStrip.ResumeLayout(false);
+            this.SearcPhotoGroupBox.ResumeLayout(false);
+            this.SearcPhotoGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -629,6 +961,32 @@
         private System.Windows.Forms.ToolStripMenuItem добавитьФотографиюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem просмотрФотографийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem показатьВПапкеToolStripMenuItem;
+        private System.Windows.Forms.GroupBox SearcPhotoGroupBox;
+        private System.Windows.Forms.Label SortLabel;
+        private System.Windows.Forms.ComboBox SortComboBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox PlaceOfPhotoTextBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox CreationYearR;
+        private System.Windows.Forms.ComboBox CreationMonthR;
+        private System.Windows.Forms.TextBox CreationDayR;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox CreationYearL;
+        private System.Windows.Forms.ComboBox CreationMonthL;
+        private System.Windows.Forms.TextBox CreationDayL;
+        private System.Windows.Forms.Label LabeledPersonLabel1;
+        private System.Windows.Forms.Button ApplyPhotoFilter;
+        private System.Windows.Forms.ComboBox LabeledPersonComboBox5;
+        private System.Windows.Forms.Label LabeledPersonLabel5;
+        private System.Windows.Forms.ComboBox LabeledPersonComboBox4;
+        private System.Windows.Forms.Label LabeledPersonLabel4;
+        private System.Windows.Forms.ComboBox LabeledPersonComboBox3;
+        private System.Windows.Forms.Label LabeledPersonLabel3;
+        private System.Windows.Forms.ComboBox LabeledPersonComboBox2;
+        private System.Windows.Forms.Label LabeledPersonLabel2;
+        private System.Windows.Forms.ComboBox LabeledPersonComboBox1;
+        private System.Windows.Forms.Button ClearFilter;
 
 
     }

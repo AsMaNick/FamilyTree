@@ -20,6 +20,8 @@ namespace Family_Tree
         public List<int> peopleIds;
         public string pathToFile, pathToLightFile;
         public List<string> additionalInfo;
+        public Date dateOfCreation;
+        public string placeOfCreation;
         public int id;
         public bool deleted;
         public int width, height;
@@ -84,6 +86,8 @@ namespace Family_Tree
             {
                 additionalInfo.Add(file.ReadLine());
             }
+            dateOfCreation = Utilites.readDate(ref file);
+            placeOfCreation = file.ReadLine();
             deleted = Convert.ToBoolean(file.ReadLine());
             n = int.Parse(file.ReadLine());
             for (int i = 0; i < n; ++i)
@@ -118,6 +122,8 @@ namespace Family_Tree
             {
                 file.WriteLine(additionalInfo[i]);
             }
+            file.WriteLine(string.Format("{0} {1} {2}", dateOfCreation.Day, dateOfCreation.Month, dateOfCreation.Year));
+            file.WriteLine(placeOfCreation);
             file.WriteLine(deleted);
             int n = zones.Count;
             file.WriteLine(n);
