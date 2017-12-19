@@ -34,6 +34,7 @@ namespace Family_Tree
 
         public void InitializeForm()
         {
+            Utilites.FillComboBox(PlaceOfCreationComboBox, Utilites.GetAllBirthPlaces(data));
             newPersonComboBox = new ComboBox();
             newPersonComboBox.Visible = false;
             newPersonComboBox.Size = new Size(238, 22);
@@ -86,7 +87,7 @@ namespace Family_Tree
                 //additionalInfo.Lines[i] = p.additionalInfo[i];
             }
             Utilites.FillDate(CreationDay, CreationMonth, CreationYear, p.dateOfCreation);
-            PlaceOfCreationTextBox.Text = p.placeOfCreation;
+            PlaceOfCreationComboBox.Text = p.placeOfCreation;
             scale = Math.Min(9.99, 500.0 / original.Height);
             newPhoto = false;
             InitializeForm();
@@ -399,7 +400,7 @@ namespace Family_Tree
                 DialogResult res = MessageBox.Show("Поле \"Дата съемки\" было заполнено неверно", "Отмена операции", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            result.placeOfCreation = PlaceOfCreationTextBox.Text;
+            result.placeOfCreation = PlaceOfCreationComboBox.Text;
             result.additionalInfo = new List<string>();
             for (int i = 0; i < this.additionalInfo.Lines.Length; ++i)
             {

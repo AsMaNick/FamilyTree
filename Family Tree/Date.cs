@@ -73,9 +73,30 @@ namespace Family_Tree
                    (d1.Day == d2.Day || d2.Day == 0);
         }
 
-        public static bool equal(Date d1, Date d2)
+        public static bool operator == (Date d1, Date d2)
         {
             return d1.Year == d2.Year && d1.Month == d2.Month && d1.Day == d2.Day;
+        }
+
+        public static bool operator != (Date d1, Date d2)
+        {
+            return !(d1 == d2);
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Date d = (Date) obj;
+            return this == d;
+        }
+
+        public override int GetHashCode()
+        {
+            return Year ^ Month ^ Day;
         }
 
         public static bool operator < (Date d1, Date d2)
@@ -89,7 +110,7 @@ namespace Family_Tree
 
         public static bool operator <= (Date d1, Date d2)
         {
-            return d1 < d2 || equal(d1, d2);
+            return d1 < d2 || (d1 == d2);
         }
 
         public static bool operator >= (Date d1, Date d2)

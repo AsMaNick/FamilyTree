@@ -37,10 +37,10 @@
             this.startPersonComboBox = new System.Windows.Forms.ComboBox();
             this.CalculateButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ManCount = new System.Windows.Forms.Label();
-            this.WomanCount = new System.Windows.Forms.Label();
-            this.MaxChildrenCount = new System.Windows.Forms.Label();
             this.DivorcedConunt = new System.Windows.Forms.Label();
+            this.MaxChildrenCount = new System.Windows.Forms.Label();
+            this.WomanCount = new System.Windows.Forms.Label();
+            this.ManCount = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PeopleByGeneration)).BeginInit();
             this.startPersonGroupBox.SuspendLayout();
@@ -109,6 +109,7 @@
             this.groupBox1.Controls.Add(this.MaxChildrenCount);
             this.groupBox1.Controls.Add(this.WomanCount);
             this.groupBox1.Controls.Add(this.ManCount);
+            this.groupBox1.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.groupBox1.Location = new System.Drawing.Point(16, 347);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(446, 122);
@@ -116,41 +117,45 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Родовая статистика";
             // 
-            // ManCount
+            // DivorcedConunt
             // 
-            this.ManCount.AutoSize = true;
-            this.ManCount.Location = new System.Drawing.Point(7, 22);
-            this.ManCount.Name = "ManCount";
-            this.ManCount.Size = new System.Drawing.Size(196, 16);
-            this.ManCount.TabIndex = 0;
-            this.ManCount.Text = "Количество мужчин в роду: ";
-            // 
-            // WomanCount
-            // 
-            this.WomanCount.AutoSize = true;
-            this.WomanCount.Location = new System.Drawing.Point(7, 47);
-            this.WomanCount.Name = "WomanCount";
-            this.WomanCount.Size = new System.Drawing.Size(197, 16);
-            this.WomanCount.TabIndex = 1;
-            this.WomanCount.Text = "Количество женщин в роду: ";
+            this.DivorcedConunt.AutoSize = true;
+            this.DivorcedConunt.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.DivorcedConunt.Location = new System.Drawing.Point(7, 99);
+            this.DivorcedConunt.Name = "DivorcedConunt";
+            this.DivorcedConunt.Size = new System.Drawing.Size(201, 16);
+            this.DivorcedConunt.TabIndex = 3;
+            this.DivorcedConunt.Text = "Количество разводов в роду: ";
             // 
             // MaxChildrenCount
             // 
             this.MaxChildrenCount.AutoSize = true;
+            this.MaxChildrenCount.Font = new System.Drawing.Font("Georgia", 9.25F);
             this.MaxChildrenCount.Location = new System.Drawing.Point(7, 73);
             this.MaxChildrenCount.Name = "MaxChildrenCount";
             this.MaxChildrenCount.Size = new System.Drawing.Size(283, 16);
             this.MaxChildrenCount.TabIndex = 2;
             this.MaxChildrenCount.Text = "Максимальное количество детей в семье:";
             // 
-            // DivorcedConunt
+            // WomanCount
             // 
-            this.DivorcedConunt.AutoSize = true;
-            this.DivorcedConunt.Location = new System.Drawing.Point(7, 99);
-            this.DivorcedConunt.Name = "DivorcedConunt";
-            this.DivorcedConunt.Size = new System.Drawing.Size(201, 16);
-            this.DivorcedConunt.TabIndex = 3;
-            this.DivorcedConunt.Text = "Количество разводов в роду: ";
+            this.WomanCount.AutoSize = true;
+            this.WomanCount.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.WomanCount.Location = new System.Drawing.Point(7, 47);
+            this.WomanCount.Name = "WomanCount";
+            this.WomanCount.Size = new System.Drawing.Size(197, 16);
+            this.WomanCount.TabIndex = 1;
+            this.WomanCount.Text = "Количество женщин в роду: ";
+            // 
+            // ManCount
+            // 
+            this.ManCount.AutoSize = true;
+            this.ManCount.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.ManCount.Location = new System.Drawing.Point(7, 22);
+            this.ManCount.Name = "ManCount";
+            this.ManCount.Size = new System.Drawing.Size(196, 16);
+            this.ManCount.TabIndex = 0;
+            this.ManCount.Text = "Количество мужчин в роду: ";
             // 
             // okButton
             // 

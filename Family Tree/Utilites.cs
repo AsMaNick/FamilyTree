@@ -72,6 +72,7 @@ namespace Family_Tree
                 x = 0;
                 return true;
             }
+            int.TryParse(s, out x);
             return int.TryParse(s, out x);
         }
 
@@ -100,6 +101,7 @@ namespace Family_Tree
             bool okDay = MyTryParse(Day.Text, out d);
             m = GetMonth(Month.Text, Month);
             bool okYear = MyTryParse(Year.Text, out y);
+            Debug.WriteLine("{0} {1} {2} {3}", okDay, d, okYear, y);
             if (okDay && m != -1 && okYear)
             {
                 if (y >= 0 && y < 3000 && dateExists(y, m, d))
@@ -151,6 +153,36 @@ namespace Family_Tree
                 day = d.Day;
             }
             return new DateTime(year, month, day);
+        }
+
+        static public List<string> GetAllBirthPlaces(DataBase data)
+        {
+            List<string> places = new List<string>();
+            for (int i = 0; i < data.allPeople.Count; ++i)
+            {
+                places.Add(data.allPeople[i].birthPlace);
+                if (!data.allPeople[i].alive)
+                {
+                    places.Add(data.allPeople[i].birthPlace);
+                }
+            }
+            for (int i = 0; i < data.allPhotos.Count; ++i)
+            {
+                places.Add(data.allPhotos[i].placeOfCreation);
+            }
+            return Utilites.distinct(places);
+        }
+
+        static public void FillComboBox(ComboBox cb, List<string> values)
+        {
+            cb.Items.Clear();
+            foreach (string place in values)
+            {
+                if (place != "")
+                {
+                    cb.Items.Add(place);
+                }
+            }
         }
     }
 }

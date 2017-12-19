@@ -34,6 +34,12 @@
             this.photo = new System.Windows.Forms.PictureBox();
             this.additionalInfo = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CreationYear = new System.Windows.Forms.TextBox();
+            this.CreationMonth = new System.Windows.Forms.ComboBox();
+            this.CreationDay = new System.Windows.Forms.TextBox();
+            this.AdditionalInfoLabel = new System.Windows.Forms.Label();
+            this.PlaceCreationLabel = new System.Windows.Forms.Label();
+            this.YearCreationLabel = new System.Windows.Forms.Label();
             this.okButton = new System.Windows.Forms.Button();
             this.plusButton = new System.Windows.Forms.Button();
             this.minusButton = new System.Windows.Forms.Button();
@@ -43,13 +49,7 @@
             this.photoGroupBox = new System.Windows.Forms.GroupBox();
             this.deleteLabelMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.YearCreationLabel = new System.Windows.Forms.Label();
-            this.PlaceOfCreationTextBox = new System.Windows.Forms.TextBox();
-            this.PlaceCreationLabel = new System.Windows.Forms.Label();
-            this.AdditionalInfoLabel = new System.Windows.Forms.Label();
-            this.CreationYear = new System.Windows.Forms.TextBox();
-            this.CreationMonth = new System.Windows.Forms.ComboBox();
-            this.CreationDay = new System.Windows.Forms.TextBox();
+            this.PlaceOfCreationComboBox = new System.Windows.Forms.ComboBox();
             this.photoPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.photo)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -96,12 +96,12 @@
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.PlaceOfCreationComboBox);
             this.groupBox1.Controls.Add(this.CreationYear);
             this.groupBox1.Controls.Add(this.CreationMonth);
             this.groupBox1.Controls.Add(this.CreationDay);
             this.groupBox1.Controls.Add(this.AdditionalInfoLabel);
             this.groupBox1.Controls.Add(this.PlaceCreationLabel);
-            this.groupBox1.Controls.Add(this.PlaceOfCreationTextBox);
             this.groupBox1.Controls.Add(this.YearCreationLabel);
             this.groupBox1.Controls.Add(this.additionalInfo);
             this.groupBox1.Font = new System.Drawing.Font("Georgia", 9.75F);
@@ -111,6 +111,77 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Информация о фотографии";
+            // 
+            // CreationYear
+            // 
+            this.CreationYear.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationYear.Location = new System.Drawing.Point(121, 40);
+            this.CreationYear.MaxLength = 4;
+            this.CreationYear.Name = "CreationYear";
+            this.CreationYear.Size = new System.Drawing.Size(39, 22);
+            this.CreationYear.TabIndex = 128;
+            // 
+            // CreationMonth
+            // 
+            this.CreationMonth.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationMonth.FormattingEnabled = true;
+            this.CreationMonth.Items.AddRange(new object[] {
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"});
+            this.CreationMonth.Location = new System.Drawing.Point(34, 40);
+            this.CreationMonth.MaxLength = 8;
+            this.CreationMonth.Name = "CreationMonth";
+            this.CreationMonth.Size = new System.Drawing.Size(87, 23);
+            this.CreationMonth.TabIndex = 127;
+            // 
+            // CreationDay
+            // 
+            this.CreationDay.Font = new System.Drawing.Font("Georgia", 9.25F);
+            this.CreationDay.Location = new System.Drawing.Point(7, 40);
+            this.CreationDay.MaxLength = 2;
+            this.CreationDay.Name = "CreationDay";
+            this.CreationDay.Size = new System.Drawing.Size(24, 22);
+            this.CreationDay.TabIndex = 126;
+            // 
+            // AdditionalInfoLabel
+            // 
+            this.AdditionalInfoLabel.AutoSize = true;
+            this.AdditionalInfoLabel.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.AdditionalInfoLabel.Location = new System.Drawing.Point(7, 111);
+            this.AdditionalInfoLabel.Name = "AdditionalInfoLabel";
+            this.AdditionalInfoLabel.Size = new System.Drawing.Size(188, 14);
+            this.AdditionalInfoLabel.TabIndex = 7;
+            this.AdditionalInfoLabel.Text = "Дополнительная информация";
+            // 
+            // PlaceCreationLabel
+            // 
+            this.PlaceCreationLabel.AutoSize = true;
+            this.PlaceCreationLabel.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.PlaceCreationLabel.Location = new System.Drawing.Point(7, 65);
+            this.PlaceCreationLabel.Name = "PlaceCreationLabel";
+            this.PlaceCreationLabel.Size = new System.Drawing.Size(89, 14);
+            this.PlaceCreationLabel.TabIndex = 6;
+            this.PlaceCreationLabel.Text = "Место съемки";
+            // 
+            // YearCreationLabel
+            // 
+            this.YearCreationLabel.AutoSize = true;
+            this.YearCreationLabel.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.YearCreationLabel.Location = new System.Drawing.Point(7, 23);
+            this.YearCreationLabel.Name = "YearCreationLabel";
+            this.YearCreationLabel.Size = new System.Drawing.Size(84, 14);
+            this.YearCreationLabel.TabIndex = 3;
+            this.YearCreationLabel.Text = "Дата съемки";
             // 
             // okButton
             // 
@@ -210,84 +281,13 @@
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
-            // YearCreationLabel
+            // PlaceOfCreationComboBox
             // 
-            this.YearCreationLabel.AutoSize = true;
-            this.YearCreationLabel.Font = new System.Drawing.Font("Georgia", 8.25F);
-            this.YearCreationLabel.Location = new System.Drawing.Point(7, 23);
-            this.YearCreationLabel.Name = "YearCreationLabel";
-            this.YearCreationLabel.Size = new System.Drawing.Size(84, 14);
-            this.YearCreationLabel.TabIndex = 3;
-            this.YearCreationLabel.Text = "Дата съемки";
-            // 
-            // PlaceOfCreationTextBox
-            // 
-            this.PlaceOfCreationTextBox.Font = new System.Drawing.Font("Georgia", 9.25F);
-            this.PlaceOfCreationTextBox.Location = new System.Drawing.Point(6, 82);
-            this.PlaceOfCreationTextBox.Name = "PlaceOfCreationTextBox";
-            this.PlaceOfCreationTextBox.Size = new System.Drawing.Size(317, 22);
-            this.PlaceOfCreationTextBox.TabIndex = 5;
-            // 
-            // PlaceCreationLabel
-            // 
-            this.PlaceCreationLabel.AutoSize = true;
-            this.PlaceCreationLabel.Font = new System.Drawing.Font("Georgia", 8.25F);
-            this.PlaceCreationLabel.Location = new System.Drawing.Point(7, 65);
-            this.PlaceCreationLabel.Name = "PlaceCreationLabel";
-            this.PlaceCreationLabel.Size = new System.Drawing.Size(89, 14);
-            this.PlaceCreationLabel.TabIndex = 6;
-            this.PlaceCreationLabel.Text = "Место съемки";
-            // 
-            // AdditionalInfoLabel
-            // 
-            this.AdditionalInfoLabel.AutoSize = true;
-            this.AdditionalInfoLabel.Font = new System.Drawing.Font("Georgia", 8.25F);
-            this.AdditionalInfoLabel.Location = new System.Drawing.Point(7, 111);
-            this.AdditionalInfoLabel.Name = "AdditionalInfoLabel";
-            this.AdditionalInfoLabel.Size = new System.Drawing.Size(188, 14);
-            this.AdditionalInfoLabel.TabIndex = 7;
-            this.AdditionalInfoLabel.Text = "Дополнительная информация";
-            // 
-            // CreationYear
-            // 
-            this.CreationYear.Font = new System.Drawing.Font("Georgia", 9.25F);
-            this.CreationYear.Location = new System.Drawing.Point(121, 40);
-            this.CreationYear.MaxLength = 4;
-            this.CreationYear.Name = "CreationYear";
-            this.CreationYear.Size = new System.Drawing.Size(39, 22);
-            this.CreationYear.TabIndex = 128;
-            // 
-            // CreationMonth
-            // 
-            this.CreationMonth.Font = new System.Drawing.Font("Georgia", 9.25F);
-            this.CreationMonth.FormattingEnabled = true;
-            this.CreationMonth.Items.AddRange(new object[] {
-            "января",
-            "февраля",
-            "марта",
-            "апреля",
-            "мая",
-            "июня",
-            "июля",
-            "августа",
-            "сентября",
-            "октября",
-            "ноября",
-            "декабря"});
-            this.CreationMonth.Location = new System.Drawing.Point(34, 40);
-            this.CreationMonth.MaxLength = 8;
-            this.CreationMonth.Name = "CreationMonth";
-            this.CreationMonth.Size = new System.Drawing.Size(87, 23);
-            this.CreationMonth.TabIndex = 127;
-            // 
-            // CreationDay
-            // 
-            this.CreationDay.Font = new System.Drawing.Font("Georgia", 9.25F);
-            this.CreationDay.Location = new System.Drawing.Point(7, 40);
-            this.CreationDay.MaxLength = 2;
-            this.CreationDay.Name = "CreationDay";
-            this.CreationDay.Size = new System.Drawing.Size(24, 22);
-            this.CreationDay.TabIndex = 126;
+            this.PlaceOfCreationComboBox.FormattingEnabled = true;
+            this.PlaceOfCreationComboBox.Location = new System.Drawing.Point(7, 83);
+            this.PlaceOfCreationComboBox.Name = "PlaceOfCreationComboBox";
+            this.PlaceOfCreationComboBox.Size = new System.Drawing.Size(316, 24);
+            this.PlaceOfCreationComboBox.TabIndex = 129;
             // 
             // AddPhoto
             // 
@@ -337,10 +337,10 @@
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.Label AdditionalInfoLabel;
         private System.Windows.Forms.Label PlaceCreationLabel;
-        private System.Windows.Forms.TextBox PlaceOfCreationTextBox;
         private System.Windows.Forms.Label YearCreationLabel;
         private System.Windows.Forms.TextBox CreationYear;
         private System.Windows.Forms.ComboBox CreationMonth;
         private System.Windows.Forms.TextBox CreationDay;
+        private System.Windows.Forms.ComboBox PlaceOfCreationComboBox;
     }
 }

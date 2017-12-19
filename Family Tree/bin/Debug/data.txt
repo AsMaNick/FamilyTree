@@ -1,4 +1,4 @@
-61
+54
 False
 58kzy1KN2dKAz06
 Матвей
@@ -166,7 +166,7 @@ bU43an40fQ35yoU
 False
 False
 
-
+г. Полтава
 
 25 5 2017
 25 5 2017
@@ -1041,12 +1041,12 @@ False
 1
 44
 False
-fzc9BL362Kh17fe
+PXR85cu3rF3k2o0
 
 0
 
 
-False
+True
 True
 
 
@@ -1056,48 +1056,18 @@ True
 
 -1
 -1
-47
-0
-7
-59
-54
-53
-52
-49
-48
-51
-2
-47
 50
-False
-aWO5w4kEw532r8b
-
-husb
-
-
-True
-True
-
-
-
-0 0 0
 0
-
--1
--1
-46
-0
-6
+4
+47
 48
 49
 52
-53
-54
-59
-1
-46
+2
+50
+51
 False
-juBPkHh68h8hm5z
+g2ir19MDbV1bnG4
 
 1
 
@@ -1110,14 +1080,14 @@ True
 0 0 0
 0
 
+50
 46
-47
 -1
 0
 0
 0
 False
-EKwJ10EBkW6Q84A
+dCDtlBL6I5v4hBI
 
 2
 
@@ -1130,37 +1100,14 @@ True
 0 0 0
 0
 
+50
 46
-47
-55
+-1
 0
 0
-1
-55
+0
 False
-ev5QeZPa7ej0y0q
-
-old_husb
-
-
-True
-True
-
-
-
-0 0 0
-0
-
--1
--1
--1
-0
-1
-51
-1
-46
-False
-s7t33u2NGEe00gv
+1146Q52avxn6AMx
 
 3
 
@@ -1173,19 +1120,19 @@ True
 0 0 0
 0
 
-46
 50
+46
 -1
 0
 0
 0
 False
-796AaY0DLCgq14P
+dZOq5A0k9VI9I23
 
 4
 
 
-True
+False
 True
 
 
@@ -1193,20 +1140,23 @@ True
 0 0 0
 0
 
+-1
+-1
 46
+0
+3
 47
-56
-0
-0
+48
+49
 1
-56
+46
 False
-WhSgP9ox3NN9142
+5awTdZd4D97g69E
 
 5
 
 
-True
+False
 True
 
 
@@ -1214,20 +1164,21 @@ True
 0 0 0
 0
 
-46
-47
-57
-0
+-1
+-1
+-1
 0
 1
-57
+52
+1
+46
 False
-X567AHOHS0oy0h5
+x3N8ZSu9uJ4539i
 
-6
+7
 
 
-True
+False
 True
 
 
@@ -1235,20 +1186,20 @@ True
 0 0 0
 0
 
+51
 46
-47
-58
+-1
 0
 0
 1
-58
+53
 False
-op5tdfcJ1Gw2g37
+rH5kUEh6XAGTp2p
 
 8
 
 
-False
+True
 True
 
 
@@ -1258,116 +1209,11 @@ True
 
 -1
 -1
-49
-0
-0
-1
-49
-False
-4h18UQGJbnCSDJ0
-
-9
-
-
-False
-True
-
-
-
-0 0 0
-0
-
 -1
--1
-52
 0
 0
 1
 52
-False
-aelQND9Z3UH9s0S
-
-11
-
-
-False
-True
-
-
-
-0 0 0
-0
-
--1
--1
-53
-0
-0
-1
-53
-False
-p4lFrmKq7Khy4q2
-
-12
-
-
-False
-True
-
-
-
-0 0 0
-0
-
--1
--1
-54
-0
-0
-1
-54
-False
-E4i4TxY56SmKQ3P
-
-33
-
-
-True
-True
-
-
-
-0 0 0
-0
-
-46
-47
-60
-0
-0
-1
-60
-False
-sG3138m5Fc4f9qs
-
-44
-
-
-False
-True
-
-
-
-0 0 0
-0
-
--1
--1
-59
-0
-0
-1
-59
 48
 0.jpg
 1.jpg

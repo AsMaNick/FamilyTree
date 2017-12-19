@@ -29,6 +29,7 @@ namespace Family_Tree
             parent = mainPage;
             id = Id;
             SortComboBox.SelectedIndex = 0;
+            Utilites.FillComboBox(this.PlaceOfPhotocomboBox, Utilites.GetAllBirthPlaces(parent.data));
             if (id == -2)
             {
                 mainInfoToolStripMenuItem.Visible = false;
@@ -81,6 +82,7 @@ namespace Family_Tree
 
         public void InitializeForm()
         {
+            Utilites.FillComboBox(this.birthPlaceComboBox, Utilites.GetAllBirthPlaces(parent.data));
             Person p = parent.data.allPeople[id];
             this.nameTextBox.Text = p.name;
             this.surnameTextBox.Text = p.surname;
@@ -107,7 +109,7 @@ namespace Family_Tree
                 this.deadRadioButton.Checked = true;
             }
             this.contactsTextBox.Text = p.contacts;
-            this.birthPlaceTextBox.Text = p.birthPlace;
+            this.birthPlaceComboBox.Text = p.birthPlace;
             this.burialPlaceTextBox.Text = p.burialPlace;
             updateDate(p.birthDate.Year, p.birthDate.Month, p.birthDate.Day, this.BirthYear, this.BirthMonth, this.BirthDay);
             updateDate(p.deathDate.Year, p.deathDate.Month, p.deathDate.Day, this.DeathYear, this.DeathMonth, this.DeathDay);
@@ -151,6 +153,10 @@ namespace Family_Tree
 
         private void addButton_Click(object sender, EventArgs e)
         {
+            if (id == -2)
+            {
+                return;
+            }
             string fileAvatar = "";
             if (avatarPictureBox.Tag != null)
             {
@@ -164,7 +170,7 @@ namespace Family_Tree
             Date BirthDate, DeathDate;
             try
             {
-                BirthDate = Utilites.GetDate(BirthYear, BirthMonth, BirthDay);
+                BirthDate = Utilites.GetDate(BirthDay, BirthMonth, BirthYear);
             }
             catch (ArgumentException exc)
             {
@@ -174,7 +180,7 @@ namespace Family_Tree
             }
             try
             {
-                DeathDate = Utilites.GetDate(DeathYear, DeathMonth, DeathDay);
+                DeathDate = Utilites.GetDate(DeathDay, DeathMonth, DeathYear);
             }
             catch (ArgumentException exc)
             {
@@ -187,7 +193,7 @@ namespace Family_Tree
                 DialogResult res = MessageBox.Show("Дата рождения должна быть раньше даты смерти.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceTextBox.Text, burialPlaceTextBox.Text, BirthDate, DeathDate, additionalInfoRichTextBox.Lines, fileAvatar, nid);
+            Person p = new Person(nameTextBox.Text, surnameTextBox.Text, patronomicTextBox.Text, maidenNameTextBox.Text, manRadioButton.Checked, aliveRadioButton.Checked, contactsTextBox.Text, birthPlaceComboBox.Text, burialPlaceTextBox.Text, BirthDate, DeathDate, additionalInfoRichTextBox.Lines, fileAvatar, nid);
             if (addedPerson != null)
             {
                 p.mother = addedPerson.mother;
@@ -420,7 +426,7 @@ namespace Family_Tree
             if (!(fromDate <= Date.dateMinimize(p.dateOfCreation) && Date.dateMaximize(p.dateOfCreation) <= toDate)) {
                 return false;
             }
-            if (!Utilites.Contains(p.placeOfCreation, PlaceOfPhotoTextBox.Text))
+            if (!Utilites.Contains(p.placeOfCreation, PlaceOfPhotocomboBox.Text))
             {
                 return false;
             }
@@ -828,7 +834,7 @@ namespace Family_Tree
             CreationDayR.Text = "";
             CreationMonthR.Text = "";
             CreationYearR.Text = "";
-            PlaceOfPhotoTextBox.Text = "";
+            PlaceOfPhotocomboBox.Text = "";
             LabeledPersonComboBox1.Text = "";
             LabeledPersonComboBox2.Text = "";
             LabeledPersonComboBox3.Text = "";

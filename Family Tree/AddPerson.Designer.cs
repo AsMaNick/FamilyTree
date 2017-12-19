@@ -39,13 +39,13 @@
             this.surnameTextBox = new System.Windows.Forms.TextBox();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.patronomicTextBox = new System.Windows.Forms.TextBox();
-            this.birthPlaceTextBox = new System.Windows.Forms.TextBox();
             this.addButton = new System.Windows.Forms.Button();
             this.manRadioButton = new System.Windows.Forms.RadioButton();
             this.womanRadioButton = new System.Windows.Forms.RadioButton();
             this.aliveRadioButton = new System.Windows.Forms.RadioButton();
             this.deadRadioButton = new System.Windows.Forms.RadioButton();
             this.mainInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.birthPlaceComboBox = new System.Windows.Forms.ComboBox();
             this.BirthYear = new System.Windows.Forms.TextBox();
             this.BirthMonth = new System.Windows.Forms.ComboBox();
             this.BirthDay = new System.Windows.Forms.TextBox();
@@ -75,6 +75,8 @@
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.показатьВПапкеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearcPhotoGroupBox = new System.Windows.Forms.GroupBox();
+            this.PlaceOfPhotocomboBox = new System.Windows.Forms.ComboBox();
+            this.ClearFilter = new System.Windows.Forms.Button();
             this.ApplyPhotoFilter = new System.Windows.Forms.Button();
             this.LabeledPersonComboBox5 = new System.Windows.Forms.ComboBox();
             this.LabeledPersonLabel5 = new System.Windows.Forms.Label();
@@ -86,7 +88,6 @@
             this.LabeledPersonLabel2 = new System.Windows.Forms.Label();
             this.LabeledPersonComboBox1 = new System.Windows.Forms.ComboBox();
             this.LabeledPersonLabel1 = new System.Windows.Forms.Label();
-            this.PlaceOfPhotoTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.CreationYearR = new System.Windows.Forms.TextBox();
             this.CreationMonthR = new System.Windows.Forms.ComboBox();
@@ -99,7 +100,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.SortLabel = new System.Windows.Forms.Label();
             this.SortComboBox = new System.Windows.Forms.ComboBox();
-            this.ClearFilter = new System.Windows.Forms.Button();
             this.mainInfoGroupBox.SuspendLayout();
             this.aliveInfo.SuspendLayout();
             this.avaterGroupBox.SuspendLayout();
@@ -195,14 +195,6 @@
             this.patronomicTextBox.Size = new System.Drawing.Size(116, 20);
             this.patronomicTextBox.TabIndex = 4;
             // 
-            // birthPlaceTextBox
-            // 
-            this.birthPlaceTextBox.Location = new System.Drawing.Point(198, 184);
-            this.birthPlaceTextBox.MaxLength = 100;
-            this.birthPlaceTextBox.Name = "birthPlaceTextBox";
-            this.birthPlaceTextBox.Size = new System.Drawing.Size(135, 20);
-            this.birthPlaceTextBox.TabIndex = 7;
-            // 
             // addButton
             // 
             this.addButton.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -268,6 +260,7 @@
             // 
             // mainInfoGroupBox
             // 
+            this.mainInfoGroupBox.Controls.Add(this.birthPlaceComboBox);
             this.mainInfoGroupBox.Controls.Add(this.BirthYear);
             this.mainInfoGroupBox.Controls.Add(this.BirthMonth);
             this.mainInfoGroupBox.Controls.Add(this.BirthDay);
@@ -276,7 +269,6 @@
             this.mainInfoGroupBox.Controls.Add(this.manRadioButton);
             this.mainInfoGroupBox.Controls.Add(this.womanRadioButton);
             this.mainInfoGroupBox.Controls.Add(this.surnameLabel);
-            this.mainInfoGroupBox.Controls.Add(this.birthPlaceTextBox);
             this.mainInfoGroupBox.Controls.Add(this.surnameTextBox);
             this.mainInfoGroupBox.Controls.Add(this.birthPlaceLabel);
             this.mainInfoGroupBox.Controls.Add(this.nameLabel);
@@ -289,6 +281,14 @@
             this.mainInfoGroupBox.Size = new System.Drawing.Size(341, 225);
             this.mainInfoGroupBox.TabIndex = 0;
             this.mainInfoGroupBox.TabStop = false;
+            // 
+            // birthPlaceComboBox
+            // 
+            this.birthPlaceComboBox.FormattingEnabled = true;
+            this.birthPlaceComboBox.Location = new System.Drawing.Point(198, 182);
+            this.birthPlaceComboBox.Name = "birthPlaceComboBox";
+            this.birthPlaceComboBox.Size = new System.Drawing.Size(135, 22);
+            this.birthPlaceComboBox.TabIndex = 126;
             // 
             // BirthYear
             // 
@@ -576,6 +576,7 @@
             // 
             // SearcPhotoGroupBox
             // 
+            this.SearcPhotoGroupBox.Controls.Add(this.PlaceOfPhotocomboBox);
             this.SearcPhotoGroupBox.Controls.Add(this.ClearFilter);
             this.SearcPhotoGroupBox.Controls.Add(this.ApplyPhotoFilter);
             this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonComboBox5);
@@ -588,7 +589,6 @@
             this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonLabel2);
             this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonComboBox1);
             this.SearcPhotoGroupBox.Controls.Add(this.LabeledPersonLabel1);
-            this.SearcPhotoGroupBox.Controls.Add(this.PlaceOfPhotoTextBox);
             this.SearcPhotoGroupBox.Controls.Add(this.label4);
             this.SearcPhotoGroupBox.Controls.Add(this.CreationYearR);
             this.SearcPhotoGroupBox.Controls.Add(this.CreationMonthR);
@@ -607,6 +607,24 @@
             this.SearcPhotoGroupBox.TabIndex = 7;
             this.SearcPhotoGroupBox.TabStop = false;
             this.SearcPhotoGroupBox.Text = "Параметры поиска";
+            // 
+            // PlaceOfPhotocomboBox
+            // 
+            this.PlaceOfPhotocomboBox.FormattingEnabled = true;
+            this.PlaceOfPhotocomboBox.Location = new System.Drawing.Point(8, 164);
+            this.PlaceOfPhotocomboBox.Name = "PlaceOfPhotocomboBox";
+            this.PlaceOfPhotocomboBox.Size = new System.Drawing.Size(183, 22);
+            this.PlaceOfPhotocomboBox.TabIndex = 151;
+            // 
+            // ClearFilter
+            // 
+            this.ClearFilter.Location = new System.Drawing.Point(7, 412);
+            this.ClearFilter.Name = "ClearFilter";
+            this.ClearFilter.Size = new System.Drawing.Size(75, 22);
+            this.ClearFilter.TabIndex = 150;
+            this.ClearFilter.Text = "Сбросить";
+            this.ClearFilter.UseVisualStyleBackColor = true;
+            this.ClearFilter.Click += new System.EventHandler(this.ClearFilter_Click);
             // 
             // ApplyPhotoFilter
             // 
@@ -719,13 +737,6 @@
             this.LabeledPersonLabel1.TabIndex = 139;
             this.LabeledPersonLabel1.Text = "Отмеченная персона 1";
             // 
-            // PlaceOfPhotoTextBox
-            // 
-            this.PlaceOfPhotoTextBox.Location = new System.Drawing.Point(6, 164);
-            this.PlaceOfPhotoTextBox.Name = "PlaceOfPhotoTextBox";
-            this.PlaceOfPhotoTextBox.Size = new System.Drawing.Size(185, 20);
-            this.PlaceOfPhotoTextBox.TabIndex = 138;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -781,18 +792,18 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(7, 124);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(22, 14);
+            this.label3.Size = new System.Drawing.Size(26, 14);
             this.label3.TabIndex = 133;
-            this.label3.Text = "До";
+            this.label3.Text = "До:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(7, 94);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(22, 14);
+            this.label2.Size = new System.Drawing.Size(26, 14);
             this.label2.TabIndex = 132;
-            this.label2.Text = "От";
+            this.label2.Text = "От:";
             // 
             // CreationYearL
             // 
@@ -866,16 +877,6 @@
             this.SortComboBox.Size = new System.Drawing.Size(185, 22);
             this.SortComboBox.TabIndex = 0;
             // 
-            // ClearFilter
-            // 
-            this.ClearFilter.Location = new System.Drawing.Point(7, 412);
-            this.ClearFilter.Name = "ClearFilter";
-            this.ClearFilter.Size = new System.Drawing.Size(75, 22);
-            this.ClearFilter.TabIndex = 150;
-            this.ClearFilter.Text = "Сбросить";
-            this.ClearFilter.UseVisualStyleBackColor = true;
-            this.ClearFilter.Click += new System.EventHandler(this.ClearFilter_Click);
-            // 
             // AddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -926,7 +927,6 @@
         private System.Windows.Forms.TextBox surnameTextBox;
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.TextBox patronomicTextBox;
-        private System.Windows.Forms.TextBox birthPlaceTextBox;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.RadioButton manRadioButton;
         private System.Windows.Forms.RadioButton womanRadioButton;
@@ -965,7 +965,6 @@
         private System.Windows.Forms.Label SortLabel;
         private System.Windows.Forms.ComboBox SortComboBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox PlaceOfPhotoTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox CreationYearR;
         private System.Windows.Forms.ComboBox CreationMonthR;
@@ -987,6 +986,8 @@
         private System.Windows.Forms.Label LabeledPersonLabel2;
         private System.Windows.Forms.ComboBox LabeledPersonComboBox1;
         private System.Windows.Forms.Button ClearFilter;
+        private System.Windows.Forms.ComboBox birthPlaceComboBox;
+        private System.Windows.Forms.ComboBox PlaceOfPhotocomboBox;
 
 
     }

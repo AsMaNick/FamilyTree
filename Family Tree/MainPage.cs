@@ -149,20 +149,10 @@ namespace Family_Tree
             return s;
         }
 
-        private List<string> GetAllBirthPlaces()
-        {
-            List<string> places = new List<string>();
-            for (int i = 0; i < data.allPeople.Count; ++i)
-            {
-                places.Add(data.allPeople[i].birthPlace);
-            }
-            return Utilites.distinct(places);
-        }
-
         private void UpdateBirthPlaceParameter()
         {
             BirthPlaceParameter.Items.Clear();
-            foreach (string place in GetAllBirthPlaces())
+            foreach (string place in Utilites.GetAllBirthPlaces(data))
             {
                 if (place != "")
                 {
@@ -173,12 +163,16 @@ namespace Family_Tree
 
         private void ClearSearchParameters()
         {
+            posSearch = 0;
             UpdateBirthPlaceParameter();
             FullNameParameter.Text = "";
             BirthPlaceParameter.Text = "";
-            BirthDayParameter.Text = "";
-            BirthMonthParameter.Text = "";
-            BirthYearParameter.Text = "";
+            BirthDayParameterL.Text = "";
+            BirthMonthParameterL.Text = "";
+            BirthYearParameterL.Text = "";
+            BirthDayParameterR.Text = "";
+            BirthMonthParameterR.Text = "";
+            BirthYearParameterR.Text = "";
             AnyRadioButton.Checked = true;
         }
 
@@ -207,8 +201,11 @@ namespace Family_Tree
             }
             try
             {
-                Date d = Utilites.GetDate(BirthDayParameter, BirthMonthParameter, BirthYearParameter);
-                if (!Date.equalIgnoringD2(p.birthDate, d)) {
+                Date from = Utilites.GetDate(BirthDayParameterL, BirthMonthParameterL, BirthYearParameterL);
+                Date to = Utilites.GetDate(BirthDayParameterR, BirthMonthParameterR, BirthYearParameterR);
+                from = Date.dateMinimize(from);
+                to = Date.dateMaximize(to);
+                if (!(from <= p.birthDate && p.birthDate <= to)) {
                     return false;
                 }    
             } catch (Exception e) 
@@ -221,6 +218,40 @@ namespace Family_Tree
                 return false;
             }
             return true;
+        }
+
+        private string lastName = "", lastBirthPlace = "";
+        private Date lastDateL = new Date(0, 0, 0), lastDateR = new Date(0, 0, 0);
+        private int lastGender = -1;
+
+        private bool changedSearchParameters()
+        {
+            string nlastName, nlastBirthPlace;
+            Date nlastDateL, nlastDateR;
+            int nlastGender;
+            nlastName = FullNameParameter.Text;
+            nlastBirthPlace = BirthPlaceParameter.Text;
+            try
+            {
+                nlastDateL = Utilites.GetDate(BirthDayParameterL, BirthMonthParameterL, BirthYearParameterL);
+                nlastDateR = Utilites.GetDate(BirthDayParameterR, BirthMonthParameterR, BirthYearParameterR);
+            }
+            catch (Exception e)
+            {
+                return true;
+            }
+            nlastGender = GenderParameter();
+            bool res = (lastName == nlastName) && 
+                (lastBirthPlace == nlastBirthPlace) && 
+                (lastDateL == nlastDateL) &&
+                (lastDateR == nlastDateR) && 
+                (lastGender == nlastGender);
+            lastName = nlastName;
+            lastBirthPlace = nlastBirthPlace;
+            lastDateL = nlastDateL;
+            lastDateR = nlastDateR;
+            lastGender = nlastGender;
+            return !res;
         }
 
         //Метод, перерисовывающий список всех персон из базы
@@ -247,11 +278,13 @@ namespace Family_Tree
                 dataGridView.Rows[num].ReadOnly = true;
             }
             dataGridView.Visible = true;
+            posSearch = dataGridView.Rows.Count;
             Cursor = Cursors.Default;
             if (data.allPeople.Count > 0 && dataGridView.Rows.Count == 0)
             {
                 MessageBox.Show("К сожалению, ни одной персоны, удовлетворяющей заданным критериям поиска, найдено не было", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            dataGridView.Focus();
         }
 
         //Метод, срабатывающий при выборе пункта База - Поиск; отображает таблицу всех персон
@@ -1533,15 +1566,18 @@ namespace Family_Tree
         //Метод, генерирующий изображение дерева
         private Bitmap generateTreeImage()
         {
+            int scX = -treePanel.AutoScrollPosition.X;
+            int scY = -treePanel.AutoScrollPosition.Y;
             Bitmap header = writeText(TextRenderer.MeasureText(treeGroupBox.Text, treeGroupBox.Font), treeGroupBox.Font, treeGroupBox.Text);
             int width = 0, height = 0;
             for (int i = 0; i < treePanel.Controls.Count; ++i)
             {
                 Control control = treePanel.Controls[i];
-                width = Math.Max(width, control.Right);
-                height = Math.Max(height, control.Bottom);
+                width = Math.Max(width, control.Right + scX);
+                height = Math.Max(height, control.Bottom + scY);
                 //Debug.WriteLine(string.Format("{0} {1}", control.GetType(), control.Name));
             }
+            width += 20;
             int plY = header.Height * 2;
             height += plY;
             Bitmap bitmap = new Bitmap(width, height + header.Height / 2);
@@ -1556,13 +1592,13 @@ namespace Family_Tree
                     if (control.GetType() == new PictureBox().GetType())
                     {
                         PictureBox p = (PictureBox)control;
-                        g.DrawImage(p.Image, new Point(p.Left, p.Top + plY));
+                        g.DrawImage(p.Image, new Point(p.Left + scX, p.Top + scY + plY));
                     }
                     else if (control.GetType() == new Label().GetType())
                     {
                         Label l = (Label) control;
                         Bitmap b = writeText(l.Size, l.Font, l.Text);
-                        g.DrawImage(b, new Point(l.Left, l.Top + plY));
+                        g.DrawImage(b, new Point(l.Left + scX, l.Top + scY + plY));
                     }
                 }
             }
@@ -1637,6 +1673,8 @@ namespace Family_Tree
             }
         }
 
+        private int posSearch;
+
         private void SearchButton_Click(object sender, EventArgs e)
         {
             DrawGridView();
@@ -1645,6 +1683,7 @@ namespace Family_Tree
         private void ClearParametersButton_Click(object sender, EventArgs e)
         {
             ClearSearchParameters();
+            DrawGridView();
         }
 
         private void ageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1663,6 +1702,56 @@ namespace Family_Tree
         {
             GenericStatistic g = new GenericStatistic(data);
             g.ShowDialog();
+        }
+
+        private void FilterButton_Click(object sender, EventArgs e)
+        {
+            DrawGridView();
+            posSearch = 0;
+        }
+
+        private int findNextPosSearch()
+        {
+            int res = posSearch;
+            while (true)
+            {
+                res += 1;
+                if (res >= dataGridView.Rows.Count)
+                {
+                    res = 0;
+                }
+                if (res == posSearch)
+                {
+                    break;
+                }
+                if (isSatisfied(data.allPeople[getId(res)]))
+                {
+                    return res;
+                }
+            }
+            return -1;
+        }
+
+        private void SearchButton_Click_1(object sender, EventArgs e)
+        {
+            if (changedSearchParameters())
+            {
+                posSearch = 0;
+            }
+            else
+            {
+                posSearch = findNextPosSearch();
+                if (posSearch == -1)
+                {
+                    MessageBox.Show("Персоны, удовлетворяющей критериям поиска не найдено", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    posSearch = 0;
+                    return;
+                }
+            }
+            if (posSearch < dataGridView.Rows.Count)
+            {
+                dataGridView.CurrentCell = dataGridView[0, posSearch];
+            }
         }
     }
 

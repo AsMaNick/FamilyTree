@@ -24,3 +24,5 @@ d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой 
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.AgeStatistic.resources
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.TotalReport.resources
 d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\obj\Debug\Family_Tree.GenericStatistic.resources
+d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\bin\Debug\Database1.mdf
+d:\User\Desktop\Универ\2016-2017\2 семестр\ООП\Курсовой проект\Family Tree\bin\Debug\Database1_log.ldf

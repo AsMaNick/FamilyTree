@@ -43,8 +43,8 @@
             this.деревоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.статистикаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.общаяИнформацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GenericStatisticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.общаяИнформацияToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,22 +88,27 @@
             this.descendantsRadioButton = new System.Windows.Forms.RadioButton();
             this.hourglassRadioButton = new System.Windows.Forms.RadioButton();
             this.SearchParameters = new System.Windows.Forms.GroupBox();
-            this.ClearParametersButton = new System.Windows.Forms.Button();
             this.SearchButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BirthYearParameterR = new System.Windows.Forms.TextBox();
+            this.BirthMonthParameterR = new System.Windows.Forms.ComboBox();
+            this.BirthDayParameterR = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ClearParametersButton = new System.Windows.Forms.Button();
+            this.FilterButton = new System.Windows.Forms.Button();
             this.AnyRadioButton = new System.Windows.Forms.RadioButton();
             this.WomanRadioButton = new System.Windows.Forms.RadioButton();
             this.ManRadioButton = new System.Windows.Forms.RadioButton();
             this.GenderParameterLabel = new System.Windows.Forms.Label();
-            this.BirthYearParameter = new System.Windows.Forms.TextBox();
-            this.BirthMonthParameter = new System.Windows.Forms.ComboBox();
-            this.BirthDayParameter = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.BirthYearParameterL = new System.Windows.Forms.TextBox();
+            this.BirthMonthParameterL = new System.Windows.Forms.ComboBox();
+            this.BirthDayParameterL = new System.Windows.Forms.TextBox();
+            this.BirthDateIntervalLabel = new System.Windows.Forms.Label();
             this.BirthPlaceParameter = new System.Windows.Forms.ComboBox();
             this.BirthPlaceParameterLabel = new System.Windows.Forms.Label();
             this.FullNameParameter = new System.Windows.Forms.TextBox();
             this.FullNameParameterLabel = new System.Windows.Forms.Label();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.GenericStatisticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.treeGroupBox.SuspendLayout();
@@ -121,8 +126,7 @@
             this.файлToolStripMenuItem,
             this.базаToolStripMenuItem,
             this.деревоToolStripMenuItem,
-            this.статистикаToolStripMenuItem,
-            this.отчетыToolStripMenuItem});
+            this.статистикаToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
@@ -211,7 +215,8 @@
             // 
             this.статистикаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ageToolStripMenuItem,
-            this.GenericStatisticToolStripMenuItem});
+            this.GenericStatisticToolStripMenuItem,
+            this.общаяИнформацияToolStripMenuItem1});
             this.статистикаToolStripMenuItem.Name = "статистикаToolStripMenuItem";
             this.статистикаToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.статистикаToolStripMenuItem.Text = "Статистика";
@@ -219,24 +224,23 @@
             // ageToolStripMenuItem
             // 
             this.ageToolStripMenuItem.Name = "ageToolStripMenuItem";
-            this.ageToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.ageToolStripMenuItem.Text = "Возраст";
+            this.ageToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.ageToolStripMenuItem.Text = "Возрастная статистика";
             this.ageToolStripMenuItem.Click += new System.EventHandler(this.ageToolStripMenuItem_Click);
             // 
-            // отчетыToolStripMenuItem
+            // GenericStatisticToolStripMenuItem
             // 
-            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.общаяИнформацияToolStripMenuItem});
-            this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
-            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.отчетыToolStripMenuItem.Text = "Отчеты";
+            this.GenericStatisticToolStripMenuItem.Name = "GenericStatisticToolStripMenuItem";
+            this.GenericStatisticToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.GenericStatisticToolStripMenuItem.Text = "Родовая статистика";
+            this.GenericStatisticToolStripMenuItem.Click += new System.EventHandler(this.GenericStatisticToolStripMenuItem_Click);
             // 
-            // общаяИнформацияToolStripMenuItem
+            // общаяИнформацияToolStripMenuItem1
             // 
-            this.общаяИнформацияToolStripMenuItem.Name = "общаяИнформацияToolStripMenuItem";
-            this.общаяИнформацияToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.общаяИнформацияToolStripMenuItem.Text = "Общая информация";
-            this.общаяИнформацияToolStripMenuItem.Click += new System.EventHandler(this.общаяИнформацияToolStripMenuItem_Click);
+            this.общаяИнформацияToolStripMenuItem1.Name = "общаяИнформацияToolStripMenuItem1";
+            this.общаяИнформацияToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
+            this.общаяИнформацияToolStripMenuItem1.Text = "Общая информация";
+            this.общаяИнформацияToolStripMenuItem1.Click += new System.EventHandler(this.общаяИнформацияToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
@@ -651,16 +655,22 @@
             // 
             this.SearchParameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SearchParameters.Controls.Add(this.ClearParametersButton);
             this.SearchParameters.Controls.Add(this.SearchButton);
+            this.SearchParameters.Controls.Add(this.label2);
+            this.SearchParameters.Controls.Add(this.BirthYearParameterR);
+            this.SearchParameters.Controls.Add(this.BirthMonthParameterR);
+            this.SearchParameters.Controls.Add(this.BirthDayParameterR);
+            this.SearchParameters.Controls.Add(this.label1);
+            this.SearchParameters.Controls.Add(this.ClearParametersButton);
+            this.SearchParameters.Controls.Add(this.FilterButton);
             this.SearchParameters.Controls.Add(this.AnyRadioButton);
             this.SearchParameters.Controls.Add(this.WomanRadioButton);
             this.SearchParameters.Controls.Add(this.ManRadioButton);
             this.SearchParameters.Controls.Add(this.GenderParameterLabel);
-            this.SearchParameters.Controls.Add(this.BirthYearParameter);
-            this.SearchParameters.Controls.Add(this.BirthMonthParameter);
-            this.SearchParameters.Controls.Add(this.BirthDayParameter);
-            this.SearchParameters.Controls.Add(this.label1);
+            this.SearchParameters.Controls.Add(this.BirthYearParameterL);
+            this.SearchParameters.Controls.Add(this.BirthMonthParameterL);
+            this.SearchParameters.Controls.Add(this.BirthDayParameterL);
+            this.SearchParameters.Controls.Add(this.BirthDateIntervalLabel);
             this.SearchParameters.Controls.Add(this.BirthPlaceParameter);
             this.SearchParameters.Controls.Add(this.BirthPlaceParameterLabel);
             this.SearchParameters.Controls.Add(this.FullNameParameter);
@@ -672,80 +682,37 @@
             this.SearchParameters.TabStop = false;
             this.SearchParameters.Text = "Параметры поиска";
             // 
-            // ClearParametersButton
-            // 
-            this.ClearParametersButton.Location = new System.Drawing.Point(7, 249);
-            this.ClearParametersButton.Name = "ClearParametersButton";
-            this.ClearParametersButton.Size = new System.Drawing.Size(80, 23);
-            this.ClearParametersButton.TabIndex = 134;
-            this.ClearParametersButton.Text = "Сбросить";
-            this.ClearParametersButton.UseVisualStyleBackColor = true;
-            this.ClearParametersButton.Click += new System.EventHandler(this.ClearParametersButton_Click);
-            // 
             // SearchButton
             // 
-            this.SearchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SearchButton.Location = new System.Drawing.Point(61, 338);
+            this.SearchButton.Location = new System.Drawing.Point(22, 338);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(75, 23);
-            this.SearchButton.TabIndex = 133;
+            this.SearchButton.TabIndex = 140;
             this.SearchButton.Text = "Поиск";
             this.SearchButton.UseVisualStyleBackColor = true;
-            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click_1);
             // 
-            // AnyRadioButton
+            // label2
             // 
-            this.AnyRadioButton.AutoSize = true;
-            this.AnyRadioButton.Checked = true;
-            this.AnyRadioButton.Location = new System.Drawing.Point(7, 224);
-            this.AnyRadioButton.Name = "AnyRadioButton";
-            this.AnyRadioButton.Size = new System.Drawing.Size(64, 18);
-            this.AnyRadioButton.TabIndex = 132;
-            this.AnyRadioButton.TabStop = true;
-            this.AnyRadioButton.Text = "Любой";
-            this.AnyRadioButton.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 162);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(26, 14);
+            this.label2.TabIndex = 139;
+            this.label2.Text = "До:";
             // 
-            // WomanRadioButton
+            // BirthYearParameterR
             // 
-            this.WomanRadioButton.AutoSize = true;
-            this.WomanRadioButton.Location = new System.Drawing.Point(7, 199);
-            this.WomanRadioButton.Name = "WomanRadioButton";
-            this.WomanRadioButton.Size = new System.Drawing.Size(80, 18);
-            this.WomanRadioButton.TabIndex = 131;
-            this.WomanRadioButton.Text = "Женский";
-            this.WomanRadioButton.UseVisualStyleBackColor = true;
+            this.BirthYearParameterR.Location = new System.Drawing.Point(141, 159);
+            this.BirthYearParameterR.MaxLength = 4;
+            this.BirthYearParameterR.Name = "BirthYearParameterR";
+            this.BirthYearParameterR.Size = new System.Drawing.Size(52, 20);
+            this.BirthYearParameterR.TabIndex = 138;
             // 
-            // ManRadioButton
+            // BirthMonthParameterR
             // 
-            this.ManRadioButton.AutoSize = true;
-            this.ManRadioButton.Location = new System.Drawing.Point(7, 176);
-            this.ManRadioButton.Name = "ManRadioButton";
-            this.ManRadioButton.Size = new System.Drawing.Size(80, 18);
-            this.ManRadioButton.TabIndex = 130;
-            this.ManRadioButton.Text = "Мужской";
-            this.ManRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // GenderParameterLabel
-            // 
-            this.GenderParameterLabel.AutoSize = true;
-            this.GenderParameterLabel.Location = new System.Drawing.Point(7, 158);
-            this.GenderParameterLabel.Name = "GenderParameterLabel";
-            this.GenderParameterLabel.Size = new System.Drawing.Size(31, 14);
-            this.GenderParameterLabel.TabIndex = 129;
-            this.GenderParameterLabel.Text = "Пол";
-            // 
-            // BirthYearParameter
-            // 
-            this.BirthYearParameter.Location = new System.Drawing.Point(142, 131);
-            this.BirthYearParameter.MaxLength = 4;
-            this.BirthYearParameter.Name = "BirthYearParameter";
-            this.BirthYearParameter.Size = new System.Drawing.Size(52, 20);
-            this.BirthYearParameter.TabIndex = 128;
-            // 
-            // BirthMonthParameter
-            // 
-            this.BirthMonthParameter.FormattingEnabled = true;
-            this.BirthMonthParameter.Items.AddRange(new object[] {
+            this.BirthMonthParameterR.FormattingEnabled = true;
+            this.BirthMonthParameterR.Items.AddRange(new object[] {
             "января",
             "февраля",
             "марта",
@@ -758,36 +725,146 @@
             "октября",
             "ноября",
             "декабря"});
-            this.BirthMonthParameter.Location = new System.Drawing.Point(37, 131);
-            this.BirthMonthParameter.MaxLength = 8;
-            this.BirthMonthParameter.Name = "BirthMonthParameter";
-            this.BirthMonthParameter.Size = new System.Drawing.Size(99, 22);
-            this.BirthMonthParameter.TabIndex = 127;
+            this.BirthMonthParameterR.Location = new System.Drawing.Point(65, 159);
+            this.BirthMonthParameterR.MaxLength = 8;
+            this.BirthMonthParameterR.Name = "BirthMonthParameterR";
+            this.BirthMonthParameterR.Size = new System.Drawing.Size(75, 22);
+            this.BirthMonthParameterR.TabIndex = 137;
             // 
-            // BirthDayParameter
+            // BirthDayParameterR
             // 
-            this.BirthDayParameter.Font = new System.Drawing.Font("Georgia", 8.25F);
-            this.BirthDayParameter.Location = new System.Drawing.Point(7, 131);
-            this.BirthDayParameter.MaxLength = 2;
-            this.BirthDayParameter.Name = "BirthDayParameter";
-            this.BirthDayParameter.Size = new System.Drawing.Size(24, 20);
-            this.BirthDayParameter.TabIndex = 126;
+            this.BirthDayParameterR.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.BirthDayParameterR.Location = new System.Drawing.Point(33, 159);
+            this.BirthDayParameterR.MaxLength = 2;
+            this.BirthDayParameterR.Name = "BirthDayParameterR";
+            this.BirthDayParameterR.Size = new System.Drawing.Size(30, 20);
+            this.BirthDayParameterR.TabIndex = 136;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 114);
+            this.label1.Location = new System.Drawing.Point(7, 134);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 14);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Дата рождения";
+            this.label1.Size = new System.Drawing.Size(26, 14);
+            this.label1.TabIndex = 135;
+            this.label1.Text = "От:";
+            // 
+            // ClearParametersButton
+            // 
+            this.ClearParametersButton.Location = new System.Drawing.Point(7, 276);
+            this.ClearParametersButton.Name = "ClearParametersButton";
+            this.ClearParametersButton.Size = new System.Drawing.Size(80, 23);
+            this.ClearParametersButton.TabIndex = 134;
+            this.ClearParametersButton.Text = "Сбросить";
+            this.ClearParametersButton.UseVisualStyleBackColor = true;
+            this.ClearParametersButton.Click += new System.EventHandler(this.ClearParametersButton_Click);
+            // 
+            // FilterButton
+            // 
+            this.FilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.FilterButton.Location = new System.Drawing.Point(103, 338);
+            this.FilterButton.Name = "FilterButton";
+            this.FilterButton.Size = new System.Drawing.Size(75, 23);
+            this.FilterButton.TabIndex = 133;
+            this.FilterButton.Text = "Фильтр";
+            this.FilterButton.UseVisualStyleBackColor = true;
+            this.FilterButton.Click += new System.EventHandler(this.FilterButton_Click);
+            // 
+            // AnyRadioButton
+            // 
+            this.AnyRadioButton.AutoSize = true;
+            this.AnyRadioButton.Checked = true;
+            this.AnyRadioButton.Location = new System.Drawing.Point(7, 251);
+            this.AnyRadioButton.Name = "AnyRadioButton";
+            this.AnyRadioButton.Size = new System.Drawing.Size(64, 18);
+            this.AnyRadioButton.TabIndex = 132;
+            this.AnyRadioButton.TabStop = true;
+            this.AnyRadioButton.Text = "Любой";
+            this.AnyRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // WomanRadioButton
+            // 
+            this.WomanRadioButton.AutoSize = true;
+            this.WomanRadioButton.Location = new System.Drawing.Point(7, 226);
+            this.WomanRadioButton.Name = "WomanRadioButton";
+            this.WomanRadioButton.Size = new System.Drawing.Size(80, 18);
+            this.WomanRadioButton.TabIndex = 131;
+            this.WomanRadioButton.Text = "Женский";
+            this.WomanRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // ManRadioButton
+            // 
+            this.ManRadioButton.AutoSize = true;
+            this.ManRadioButton.Location = new System.Drawing.Point(7, 203);
+            this.ManRadioButton.Name = "ManRadioButton";
+            this.ManRadioButton.Size = new System.Drawing.Size(80, 18);
+            this.ManRadioButton.TabIndex = 130;
+            this.ManRadioButton.Text = "Мужской";
+            this.ManRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // GenderParameterLabel
+            // 
+            this.GenderParameterLabel.AutoSize = true;
+            this.GenderParameterLabel.Location = new System.Drawing.Point(7, 185);
+            this.GenderParameterLabel.Name = "GenderParameterLabel";
+            this.GenderParameterLabel.Size = new System.Drawing.Size(31, 14);
+            this.GenderParameterLabel.TabIndex = 129;
+            this.GenderParameterLabel.Text = "Пол";
+            // 
+            // BirthYearParameterL
+            // 
+            this.BirthYearParameterL.Location = new System.Drawing.Point(141, 131);
+            this.BirthYearParameterL.MaxLength = 4;
+            this.BirthYearParameterL.Name = "BirthYearParameterL";
+            this.BirthYearParameterL.Size = new System.Drawing.Size(52, 20);
+            this.BirthYearParameterL.TabIndex = 128;
+            // 
+            // BirthMonthParameterL
+            // 
+            this.BirthMonthParameterL.FormattingEnabled = true;
+            this.BirthMonthParameterL.Items.AddRange(new object[] {
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"});
+            this.BirthMonthParameterL.Location = new System.Drawing.Point(65, 131);
+            this.BirthMonthParameterL.MaxLength = 8;
+            this.BirthMonthParameterL.Name = "BirthMonthParameterL";
+            this.BirthMonthParameterL.Size = new System.Drawing.Size(75, 22);
+            this.BirthMonthParameterL.TabIndex = 127;
+            // 
+            // BirthDayParameterL
+            // 
+            this.BirthDayParameterL.Font = new System.Drawing.Font("Georgia", 8.25F);
+            this.BirthDayParameterL.Location = new System.Drawing.Point(33, 131);
+            this.BirthDayParameterL.MaxLength = 2;
+            this.BirthDayParameterL.Name = "BirthDayParameterL";
+            this.BirthDayParameterL.Size = new System.Drawing.Size(30, 20);
+            this.BirthDayParameterL.TabIndex = 126;
+            // 
+            // BirthDateIntervalLabel
+            // 
+            this.BirthDateIntervalLabel.AutoSize = true;
+            this.BirthDateIntervalLabel.Location = new System.Drawing.Point(7, 114);
+            this.BirthDateIntervalLabel.Name = "BirthDateIntervalLabel";
+            this.BirthDateIntervalLabel.Size = new System.Drawing.Size(151, 14);
+            this.BirthDateIntervalLabel.TabIndex = 4;
+            this.BirthDateIntervalLabel.Text = "Диапазон дат рождения";
             // 
             // BirthPlaceParameter
             // 
             this.BirthPlaceParameter.FormattingEnabled = true;
             this.BirthPlaceParameter.Location = new System.Drawing.Point(7, 85);
             this.BirthPlaceParameter.Name = "BirthPlaceParameter";
-            this.BirthPlaceParameter.Size = new System.Drawing.Size(187, 22);
+            this.BirthPlaceParameter.Size = new System.Drawing.Size(186, 22);
             this.BirthPlaceParameter.Sorted = true;
             this.BirthPlaceParameter.TabIndex = 3;
             // 
@@ -804,7 +881,7 @@
             // 
             this.FullNameParameter.Location = new System.Drawing.Point(7, 40);
             this.FullNameParameter.Name = "FullNameParameter";
-            this.FullNameParameter.Size = new System.Drawing.Size(187, 20);
+            this.FullNameParameter.Size = new System.Drawing.Size(186, 20);
             this.FullNameParameter.TabIndex = 1;
             // 
             // FullNameParameterLabel
@@ -824,13 +901,6 @@
             this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewImageColumn1.Width = 23;
-            // 
-            // GenericStatisticToolStripMenuItem
-            // 
-            this.GenericStatisticToolStripMenuItem.Name = "GenericStatisticToolStripMenuItem";
-            this.GenericStatisticToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.GenericStatisticToolStripMenuItem.Text = "Родовая статистика";
-            this.GenericStatisticToolStripMenuItem.Click += new System.EventHandler(this.GenericStatisticToolStripMenuItem_Click);
             // 
             // MainPage
             // 
@@ -928,24 +998,29 @@
         private System.Windows.Forms.GroupBox SearchParameters;
         private System.Windows.Forms.TextBox FullNameParameter;
         private System.Windows.Forms.Label FullNameParameterLabel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label BirthDateIntervalLabel;
         private System.Windows.Forms.ComboBox BirthPlaceParameter;
         private System.Windows.Forms.Label BirthPlaceParameterLabel;
-        private System.Windows.Forms.TextBox BirthYearParameter;
-        private System.Windows.Forms.ComboBox BirthMonthParameter;
-        private System.Windows.Forms.TextBox BirthDayParameter;
+        private System.Windows.Forms.TextBox BirthYearParameterL;
+        private System.Windows.Forms.ComboBox BirthMonthParameterL;
+        private System.Windows.Forms.TextBox BirthDayParameterL;
         private System.Windows.Forms.RadioButton AnyRadioButton;
         private System.Windows.Forms.RadioButton WomanRadioButton;
         private System.Windows.Forms.RadioButton ManRadioButton;
         private System.Windows.Forms.Label GenderParameterLabel;
-        private System.Windows.Forms.Button SearchButton;
+        private System.Windows.Forms.Button FilterButton;
         private System.Windows.Forms.Button ClearParametersButton;
         private System.Windows.Forms.ToolStripMenuItem статистикаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem GenericStatistic;
-        private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem общаяИнформацияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem GenericStatisticToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem общаяИнформацияToolStripMenuItem1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox BirthYearParameterR;
+        private System.Windows.Forms.ComboBox BirthMonthParameterR;
+        private System.Windows.Forms.TextBox BirthDayParameterR;
+        private System.Windows.Forms.Button SearchButton;
 
     }
 }

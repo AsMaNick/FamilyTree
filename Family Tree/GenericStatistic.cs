@@ -119,7 +119,7 @@ namespace Family_Tree
                 if (p.allPartners.Count > 0)
                 {
                     cnt[3] += p.allPartners.Count - 1;
-                    if (p.divorced)
+                    if (p.divorced || p.partner == -1)
                     {
                         cnt[3] += 1;
                     }
