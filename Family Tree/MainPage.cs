@@ -1713,6 +1713,7 @@ namespace Family_Tree
         private int findNextPosSearch()
         {
             int res = posSearch;
+            bool was_min = false, was_max = false;
             while (true)
             {
                 res += 1;
@@ -1720,13 +1721,22 @@ namespace Family_Tree
                 {
                     res = 0;
                 }
-                if (res == posSearch)
-                {
-                    break;
-                }
                 if (isSatisfied(data.allPeople[getId(res)]))
                 {
                     return res;
+                }
+                Debug.WriteLine(posSearch);
+                if (res == 0)
+                {
+                    was_min = true;
+                }
+                if (res + 1 == dataGridView.Rows.Count)
+                {
+                    was_max = true;
+                }
+                if (was_min && was_max)
+                {
+                    break;
                 }
             }
             return -1;
@@ -1738,15 +1748,15 @@ namespace Family_Tree
             {
                 posSearch = 0;
             }
-            else
+            posSearch = findNextPosSearch();
+            if (posSearch == -1 || posSearch >= dataGridView.Rows.Count)
             {
-                posSearch = findNextPosSearch();
+                MessageBox.Show("Не было найдено ни одной персоны, удовлетворяющей критериям поиска", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (posSearch == -1)
                 {
-                    MessageBox.Show("Персоны, удовлетворяющей критериям поиска не найдено", "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     posSearch = 0;
-                    return;
                 }
+                return;
             }
             if (posSearch < dataGridView.Rows.Count)
             {

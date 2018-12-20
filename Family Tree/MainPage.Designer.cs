@@ -506,14 +506,14 @@
             this.treeSettingsPanel.Font = new System.Drawing.Font("Georgia", 9.75F);
             this.treeSettingsPanel.Location = new System.Drawing.Point(14, 29);
             this.treeSettingsPanel.Name = "treeSettingsPanel";
-            this.treeSettingsPanel.Size = new System.Drawing.Size(255, 343);
+            this.treeSettingsPanel.Size = new System.Drawing.Size(286, 343);
             this.treeSettingsPanel.TabIndex = 3;
             this.treeSettingsPanel.Visible = false;
             // 
             // buildButton
             // 
             this.buildButton.Font = new System.Drawing.Font("Georgia", 8.25F);
-            this.buildButton.Location = new System.Drawing.Point(73, 237);
+            this.buildButton.Location = new System.Drawing.Point(99, 238);
             this.buildButton.Name = "buildButton";
             this.buildButton.Size = new System.Drawing.Size(80, 21);
             this.buildButton.TabIndex = 13;
@@ -529,7 +529,7 @@
             this.numberOfGenerationsGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.numberOfGenerationsGroupBox.Location = new System.Drawing.Point(3, 161);
             this.numberOfGenerationsGroupBox.Name = "numberOfGenerationsGroupBox";
-            this.numberOfGenerationsGroupBox.Size = new System.Drawing.Size(249, 71);
+            this.numberOfGenerationsGroupBox.Size = new System.Drawing.Size(274, 71);
             this.numberOfGenerationsGroupBox.TabIndex = 12;
             this.numberOfGenerationsGroupBox.TabStop = false;
             this.numberOfGenerationsGroupBox.Text = "Количество поколений";
@@ -588,7 +588,7 @@
             this.startPersonGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.startPersonGroupBox.Location = new System.Drawing.Point(3, 104);
             this.startPersonGroupBox.Name = "startPersonGroupBox";
-            this.startPersonGroupBox.Size = new System.Drawing.Size(249, 52);
+            this.startPersonGroupBox.Size = new System.Drawing.Size(280, 52);
             this.startPersonGroupBox.TabIndex = 11;
             this.startPersonGroupBox.TabStop = false;
             this.startPersonGroupBox.Text = "Исходное лицо";
@@ -601,7 +601,7 @@
             this.startPersonComboBox.IntegralHeight = false;
             this.startPersonComboBox.Location = new System.Drawing.Point(5, 18);
             this.startPersonComboBox.Name = "startPersonComboBox";
-            this.startPersonComboBox.Size = new System.Drawing.Size(238, 22);
+            this.startPersonComboBox.Size = new System.Drawing.Size(269, 22);
             this.startPersonComboBox.Sorted = true;
             this.startPersonComboBox.TabIndex = 5;
             // 
@@ -613,7 +613,7 @@
             this.typeOfTreeGroupBox.Font = new System.Drawing.Font("Georgia", 8.25F);
             this.typeOfTreeGroupBox.Location = new System.Drawing.Point(3, 4);
             this.typeOfTreeGroupBox.Name = "typeOfTreeGroupBox";
-            this.typeOfTreeGroupBox.Size = new System.Drawing.Size(249, 95);
+            this.typeOfTreeGroupBox.Size = new System.Drawing.Size(280, 95);
             this.typeOfTreeGroupBox.TabIndex = 10;
             this.typeOfTreeGroupBox.TabStop = false;
             this.typeOfTreeGroupBox.Text = "Тип дерева";
@@ -684,6 +684,7 @@
             // 
             // SearchButton
             // 
+            this.SearchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SearchButton.Location = new System.Drawing.Point(22, 338);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(75, 23);

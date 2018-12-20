@@ -101,7 +101,7 @@ namespace Family_Tree
             bool okDay = MyTryParse(Day.Text, out d);
             m = GetMonth(Month.Text, Month);
             bool okYear = MyTryParse(Year.Text, out y);
-            Debug.WriteLine("{0} {1} {2} {3}", okDay, d, okYear, y);
+            //Debug.WriteLine("{0} {1} {2} {3}", okDay, d, okYear, y);
             if (okDay && m != -1 && okYear)
             {
                 if (y >= 0 && y < 3000 && dateExists(y, m, d))

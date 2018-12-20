@@ -30,6 +30,7 @@ namespace Family_Tree
             id = Id;
             SortComboBox.SelectedIndex = 0;
             Utilites.FillComboBox(this.PlaceOfPhotocomboBox, Utilites.GetAllBirthPlaces(parent.data));
+            Utilites.FillComboBox(this.birthPlaceComboBox, Utilites.GetAllBirthPlaces(parent.data));
             if (id == -2)
             {
                 mainInfoToolStripMenuItem.Visible = false;
@@ -82,7 +83,6 @@ namespace Family_Tree
 
         public void InitializeForm()
         {
-            Utilites.FillComboBox(this.birthPlaceComboBox, Utilites.GetAllBirthPlaces(parent.data));
             Person p = parent.data.allPeople[id];
             this.nameTextBox.Text = p.name;
             this.surnameTextBox.Text = p.surname;
